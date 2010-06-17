@@ -15,7 +15,7 @@ public class GerenciadorConexaoBDR implements IBancoDeDados {
 	private static final String HOST_PADRAO = "localhost"; 
 	private static final String BD_NAME_PADRAO = "svp"; 
 	private static final String USUARIO_CONEXAO = "root"; 
-	private static final String SENHA_CONEXAO = "java8080"; 
+	private static final String SENHA_CONEXAO = ""; 
 	private static final String URL_CONEXAO = 
 		"jdbc:mysql://" + HOST_PADRAO + "/" + BD_NAME_PADRAO + "?user=" + USUARIO_CONEXAO + "&password=" + SENHA_CONEXAO;
 	private static final String IND_CONECTA_COM_USUARIO = "IND_CONECTA_COM_USUARIO";
