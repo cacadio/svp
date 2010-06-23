@@ -23,7 +23,7 @@ public class GerenciadorConexaoBDR implements IBancoDeDados {
 	private static final String NOME_PROP = "ConexaoJDBC";
 	private static GerenciadorConexaoBDR myInstance;
 	
-	// Variï¿½veis
+	// Variáveis
 	private String nomeDriver;
 	private String urlConexao;
 	private String usuarioConexao;
