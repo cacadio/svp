@@ -2,10 +2,10 @@ package fbv.com.negocio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;
 import fbv.com.excecoes.ExcecaoRegistroNaoExistente;
+import fbv.com.util.TipoEleicao;
 
 public class Fachada {
  
@@ -30,33 +30,33 @@ public class Fachada {
 	}
 	
 	/*
-	 * EleicaoEscolhaUnica
+	 * Eleicao
 	 * **/
 	
-	public void incluirEleicaoEscolhaUnica(EleicaoEscolhaUnica pEleicaoEscolhaUnica) throws SQLException, ExcecaoRegistroJaExistente{
-		controladorEleicao.incluirEleicaoEscolhaUnica(pEleicaoEscolhaUnica);
+	public void incluirEleicao(Eleicao pEleicao) throws SQLException, ExcecaoRegistroJaExistente{
+		controladorEleicao.incluirEleicao(pEleicao);
 	}
 	
-	public void alterarEleicaoEscolhaUnica(EleicaoEscolhaUnica pEleicaoEscolhaUnica) throws SQLException, ExcecaoAcessoRepositorio{
-		controladorEleicao.alterarEleicaoEscolhaUnica(pEleicaoEscolhaUnica);
+	public void alterarEleicao(Eleicao pEleicao) throws SQLException, ExcecaoAcessoRepositorio{
+		controladorEleicao.alterarEleicao(pEleicao);
 	}
 	
-	public void excluirEleicaoEscolhaUnica(EleicaoEscolhaUnica pEleicaoEscolhaUnica) throws SQLException, ExcecaoAcessoRepositorio{
-		controladorEleicao.excluirEleicaoEscolhaUnica(pEleicaoEscolhaUnica);
+	public void excluirEleicao(Eleicao pEleicao) throws SQLException, ExcecaoAcessoRepositorio{
+		controladorEleicao.excluirEleicao(pEleicao);
 	}
 	
-	public EleicaoEscolhaUnica consultarEleicaoPelaChave(EleicaoEscolhaUnica pEleicaoEscolhaUnica) throws SQLException, ExcecaoRegistroNaoExistente{
-		return controladorEleicao.consultarEleicaoPelaChave(pEleicaoEscolhaUnica);
+	public Eleicao consultarEleicaoPelaChave(Eleicao eleicao) throws SQLException, ExcecaoRegistroNaoExistente{
+		return controladorEleicao.consultarEleicaoPelaChave(eleicao);
 	}
 	
-	public ArrayList<EleicaoEscolhaUnica> consultarTodosEleicaoEscolhaUnicas() throws SQLException, ExcecaoRegistroNaoExistente{
-		return controladorEleicao.consultarTodosEleicaoEscolhaUnicas();
+	public <T> ArrayList<T> consultarTodasEleicoes(TipoEleicao tipo) throws SQLException, ExcecaoRegistroNaoExistente{
+		return controladorEleicao.consultarTodasEleicoes(tipo);
 	}
 	
 	/*
 	 * EleicaoPontuacao
 	 * **/
-	
+	/*
 	public void incluirEleicaoPontuacao(EleicaoPontuacao pEleicaoPontuacao) throws SQLException, ExcecaoRegistroJaExistente{
 		controladorEleicao.incluirEleicaoPontuacao(pEleicaoPontuacao);
 	}
@@ -76,7 +76,7 @@ public class Fachada {
 	public ArrayList<EleicaoPontuacao> consultarTodosEleicaoPontuacaos() throws SQLException, ExcecaoRegistroNaoExistente{
 		return controladorEleicao.consultarTodosEleicaoPontuacao();
 	}
-	
+	*/
 	/*
 	 * Opcao de voto
 	 * **/
