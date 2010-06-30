@@ -3,7 +3,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@page import="fbv.com.servlets.ServletEleicao"%>
-<%@page import="fbv.com.util.TipoEleicao"%><html>
+<%@page import="fbv.com.util.TipoEleicao"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="fbv.com.negocio.EleicaoEscolhaUnica"%><html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Inclusão Perfil Usuário</title>
@@ -58,7 +60,7 @@
 	
 	</script>
 <body>
-	<form action="/ProjetoEleicaoWeb/Eleicao" method="post" id="form_principal">
+	<form action="/ProjetoEleicaoWeb/<%= request.getAttribute(ServletEleicao.ID_REQ_NOME_SERVLET) %>" method="post" id="form_principal">
 	<table width="100%">
 		<tr>
 			<td align="center" colspan="2">
@@ -129,6 +131,25 @@
 			</td>
 		</tr>
 		<tbody id="trEscolhaUnica">
+			<tr>
+				<td>
+					Eleição Associada:
+				</td>
+				<td>
+					<select id="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" name="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>">
+						<option value="0"></option>
+					<%
+					@SuppressWarnings("unchecked")
+					ArrayList<EleicaoEscolhaUnica> eleicoes = (ArrayList<EleicaoEscolhaUnica>)request.getAttribute(ServletEleicao.ID_REQ_ARRAY_LIST_ELEICAO);
+					for(EleicaoEscolhaUnica eleicao : eleicoes){
+					%>
+						<option value="<%= eleicao.getId() %>"><%= eleicao.getDescricao() %></option>
+					<%
+					}
+					%>
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<td>
 					Existe Voto Nulo/Branco?
