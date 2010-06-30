@@ -1,7 +1,6 @@
 package fbv.com.dados;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -108,18 +107,6 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
 				   				 "WHERE ID_ELEICAO = " + ";";
    	
                 	statement.executeUpdate(sql);
-				   /*	java.sql.PreparedStatement update = conexao.prepareStatement(sql);
-				   	update.setInt(1, eleicao.getEstado());
-				   	update.setString(2, eleicao.getDescricao());
-				   	update.setBoolean(3, eleicao.isPublica());
-				   	update.setBoolean(4, eleicao.isVisibilidadeVoto());
-				   	update.setBoolean(5, eleicao.isMultiplosVotos());
-				   	update.setDate(6, (Date) eleicao.getDataAbertura());
-				   	update.setDate(7, (Date) eleicao.getDataEncerramento());
-				   	update.setInt(8, codigo);
-				   	
-				   	update.execute();
-				   	update.close();*/
 				   	
 	            	sql = "UPDATE INTO escolha_unica SET " +
 	   				 		"ID_ELEICAO_PAI = " + (eleicao.getEleicaoPai() != null? eleicao.getEleicaoPai().getId(): "null") + ", " +
@@ -127,15 +114,7 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
 	   				 		"PERCENT_VITORIA = " + "" +
 	   				 	  "WHERE ID_ELEICAO_ESCOLHA_UNICA = " + ";";
            	
-	            	/*update = conexao.prepareStatement(sql);
-	            	update.setInt(1, eleicao.getIdEleicaoPai());
-	            	update.setBoolean(2, eleicao.isCampoNulo());
-	            	update.setDouble(3, eleicao.getPercentualVitoria());
-	            	update.setInt(4, codigo);
-		           	
-	            	update.executeUpdate();
-	            	update.close();*/
-				   	
+	            	statement.executeUpdate(sql);
                 }
                 catch (Exception e)
                 {
@@ -163,7 +142,8 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
             {
                 try
                 {
-                   	statement.executeUpdate("DELETE FROM Eleicao WHERE ID_ELEICAO = " + codigo + ";");
+                   	statement.executeUpdate("DELETE FROM escolha_unica WHERE ID_ELEICAO_ESCOLHA_UNICA = " + codigo + ";");
+                   	statement.executeUpdate("DELETE FROM eleicao WHERE ID_ELEICAO = " + codigo + ";");                 	
                 }
                 catch (Exception e)
                 {
