@@ -1,11 +1,10 @@
 package fbv.com.dados;
 
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
@@ -36,49 +35,39 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
 	
 	public void incluir(Object pEleicao) throws ExcecaoRegistroJaExistente {
 		EleicaoPontuacao eleicao = (EleicaoPontuacao)pEleicao;
+		SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
         try
         {
             try
             {
-            	String sql = "INSERT INTO eleicao " +
-            				 "(ID_ESTADO, DESCRICAO, IN_PUBLICA, IN_VISIBILIDADE_ABERTA, " +
-            				  "IN_MAIS_DE_UM_VOTO, DT_INICIO, DT_FIM)" +
-            				 "VALUES(?, ?, ?, ?, ?, ?, ?);";
-            	
-            	
-            	PreparedStatement insert = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            	
-            	insert.setInt(1, eleicao.getEstado());
-            	insert.setString(2, eleicao.getDescricao());
-            	insert.setBoolean(3, eleicao.isPublica());
-            	insert.setBoolean(4, eleicao.isVisibilidadeVoto());
-            	insert.setBoolean(5, eleicao.isMultiplosVotos());
-            	insert.setDate(6, (Date) eleicao.getDataAbertura());
-            	insert.setDate(7, (Date) eleicao.getDataEncerramento());
-            	
-            	int codigo = -1;
-            	
-            	ResultSet rs = insert.getGeneratedKeys();
-            	
-            	if (rs.next())
-            		codigo = rs.getInt(1);
-            	
-            	insert.executeUpdate();
-            	insert.close();
+             	String sql = "INSERT INTO eleicao " +
+				 "(ID_ESTADO, DESCRICAO, IN_PUBLICA, IN_VISIBILIDADE_ABERTA, " +
+				  "IN_MAIS_DE_UM_VOTO, DT_INICIO, DT_FIM)" +
+				 "VALUES(" + eleicao.getEstado() + ", '" + eleicao.getDescricao() + "', " + 
+				 (eleicao.isPublica()? "1": "0") + ", " + 
+				 (eleicao.isVisibilidadeVoto()? "1": "0") + ", " + 
+				 (eleicao.isMultiplosVotos()? "1": "0") + ", '" + 
+				 sdt.format(eleicao.getDataAbertura())  + "', '" + 
+				 sdt.format(eleicao.getDataEncerramento()) + "');";
+	
+				statement.executeUpdate(sql);
+				
+				int codigo = -1;
+				
+				ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID()");
+				
+				if (rs.next())
+					codigo = rs.getInt(1);
             	
             	sql = "INSERT INTO pontuacao " +
 	   				 "(ID_ELEICAO_PONTUACAO, PONTUACAO_MINIMA, " +
 	   				  "PONTUACAO_MAXIMA, GRAU_INTERVALOS)" +
-	   				 "VALUES(?, ?, ?, ?);";
+	   				 "VALUES(" + codigo + 
+	   				 		 ", " + eleicao.getPontuacaoMinima() +  
+	   				 		 ", " + eleicao.getPontuacaoMaxima() + 
+	   				 		 ", " + eleicao.getIntervaloPontuacao() + ");";
             	
-            	insert = conexao.prepareStatement(sql);
-            	insert.setInt(1, codigo);
-            	insert.setInt(2, eleicao.getPontuacaoMinima());
-            	insert.setInt(3, eleicao.getPontuacaoMaxima());
-            	insert.setDouble(4, eleicao.getIntervaloPontuacao());
-            	
-            	insert.executeUpdate();
-            	insert.close();
+            	statement.executeUpdate(sql);
             	
             	eleicao.setId(codigo);
             }
@@ -103,40 +92,27 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
             {
                 try
                 {
+                	SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
+                	
                 	String sql = "UPDATE Eleicao SET " +
-					   				 "ID_ESTADO = ?, DESCRICAO = ?, " + 
-					   				 "IN_PUBLICA = ?, IN_VISIBILIDADE_ABERTA = ?, " +
-					   				 "IN_MAIS_DE_UM_VOTO = ?, " +
-					   				 "DT_INICIO = ?, DT_FIM = ?) " +
-				   				 "WHERE ID_ELEICAO = ?;";
+					   				 "ID_ESTADO = " + eleicao.getEstado() + ", "+ 
+					   				 "DESCRICAO = '" + eleicao.getDescricao() + "', " + 
+					   				 "IN_PUBLICA = " + (eleicao.isPublica()? "1": "0") + ", " + 
+					   				 "IN_VISIBILIDADE_ABERTA = " + (eleicao.isVisibilidadeVoto()? "1": "0") + ", " +
+					   				 "IN_MAIS_DE_UM_VOTO = " + (eleicao.isMultiplosVotos()? "1": "0") + ", " +
+					   				 "DT_INICIO = '" + sdt.format(eleicao.getDataAbertura()) + "', " + 
+					   				 "DT_FIM = '" + sdt.format(eleicao.getDataEncerramento()) + "' " +
+				   				 "WHERE ID_ELEICAO = " + ";";
    	
-				   	java.sql.PreparedStatement update = conexao.prepareStatement(sql);
-				   	update.setInt(1, eleicao.getEstado());
-				   	update.setString(2, eleicao.getDescricao());
-				   	update.setBoolean(3, eleicao.isPublica());
-				   	update.setBoolean(4, eleicao.isVisibilidadeVoto());
-				   	update.setBoolean(5, eleicao.isMultiplosVotos());
-				   	update.setDate(6, (Date) eleicao.getDataAbertura());
-				   	update.setDate(7, (Date) eleicao.getDataEncerramento());
-				   	update.setInt(8, codigo);
-				   	
-				   	update.execute();
-				   	update.close();
+                	statement.executeUpdate(sql);
 				   	
 	            	sql = "UPDATE INTO pontuacao SET " +
-	   				 		"PONTUACAO_MINIMA = ?, " +
-	   				 		"PONTUACAO_MAXIMA = ?, " +
-	   				 		"GRAU_INTERVALOS = ?" +
-	   				 	  "WHERE ID_ELEICAO_PONTUACAO = ?;";
+	   				 		"PONTUACAO_MINIMA = " + eleicao.getPontuacaoMinima() + ", " +
+	   				 		"PONTUACAO_MAXIMA = " + eleicao.getPontuacaoMaxima() + ", " +
+	   				 		"GRAU_INTERVALOS = " + eleicao.getIntervaloPontuacao() + "" +
+	   				 	  "WHERE ID_ELEICAO_PONTUACAO = " + codigo + ";";
            	
-	            	update = conexao.prepareStatement(sql);
-	            	update.setInt(1, eleicao.getPontuacaoMinima());
-	            	update.setInt(2, eleicao.getPontuacaoMaxima());
-	            	update.setDouble(3, eleicao.getIntervaloPontuacao());
-	            	update.setInt(4, codigo);
-		           	
-	            	update.executeUpdate();
-	            	update.close();
+	            	statement.executeUpdate(sql);
 				   	
                 }
                 catch (Exception e)
@@ -160,12 +136,12 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
 		int codigo = eleicao.getId();
         try
         {
-			
             if (consultarPelaChave(codigo) != null)
             {
                 try
                 {
-                   	statement.executeUpdate("DELETE FROM Eleicao WHERE ID_ELEICAO = " + codigo + ";");
+                   	statement.executeUpdate("DELETE FROM pontuacao WHERE ID_ELEICAO_PONTUACAO = " + codigo + ";");
+                   	statement.executeUpdate("DELETE FROM eleicao WHERE ID_ELEICAO = " + codigo + ";");                 	
                 }
                 catch (Exception e)
                 {
@@ -196,9 +172,9 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
 	            try
 	            {
 	            	EleicaoPontuacao retorno = null;
-	            	rs = statement.executeQuery("SELECT E.*, EU.* from eleicao E " + 
-	            								"INNER JOIN pontuacao EU " +
-	            										"ON EU.ID_ELEICAO_ESCOLHA_UNICA = E.ID_ELEICAO " +
+	            	rs = statement.executeQuery("SELECT E.*, P.* from eleicao E " + 
+	            								"INNER JOIN pontuacao P " +
+	            										"ON P.ID_ELEICAO_PONTUACAO = E.ID_ELEICAO " +
 	            								"WHERE E.ID_ELEICAO = " + codigo + ";");
 	                while (rs.next())
 	                {
