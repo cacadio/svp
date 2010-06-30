@@ -7,7 +7,8 @@
 <%@page import="fbv.com.negocio.Eleicao"%>
 <%@page import="fbv.com.negocio.EleicaoEscolhaUnica"%>
 <%@page import="fbv.com.negocio.EleicaoPontuacao"%>
-<%@page import="java.text.SimpleDateFormat"%><html>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.ArrayList"%><html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Inclusão Perfil Usuário</title>
@@ -46,7 +47,7 @@
 	
 	</script>
 <body>
-	<form action="/ProjetoEleicaoWeb/Eleicao" method="post" id="form_principal">
+	<form action="/ProjetoEleicaoWeb/<%= request.getAttribute(ServletEleicao.ID_REQ_NOME_SERVLET) %>" method="post" id="form_principal">
 	<table width="100%">
 		<tr>
 			<td align="center" colspan="2">
@@ -119,16 +120,37 @@
 		</tr>
 		<%
 		if (tipo == TipoEleicao.ESCOLHA_UNICA){
-			EleicaoEscolhaUnica eleicaoEscUnica = (EleicaoEscolhaUnica)eleicao;
+			EleicaoEscolhaUnica eleicaoEU = (EleicaoEscolhaUnica)eleicao;
 		%>
 		<tbody id="trEscolhaUnica">
+			<tr>
+				<td>
+					Eleição Associada:
+				</td>
+				<td>
+					<select id="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" name="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>">
+						<option value="0"></option>
+					<%
+					@SuppressWarnings("unchecked")
+					ArrayList<EleicaoEscolhaUnica> eleicoes = (ArrayList<EleicaoEscolhaUnica>)request.getAttribute(ServletEleicao.ID_REQ_ARRAY_LIST_ELEICAO);
+					for(EleicaoEscolhaUnica eleicaoEscolhaUnica : eleicoes){
+						if (eleicaoEscolhaUnica.getId() != eleicao.getId()){
+					%>
+						<option value="<%= eleicaoEscolhaUnica.getId() %>" <%= (eleicaoEU.getEleicaoPai() == null? "": (eleicaoEU.getEleicaoPai().getId() == eleicaoEscolhaUnica.getId()? "selected": "")) %>><%= eleicaoEscolhaUnica.getDescricao() %></option>
+					<%
+						}
+					}
+					%>
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<td>
 					Existe Voto Nulo/Branco?
 				</td>
 				<td>
-					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="1" title="Voto Nulo/Branco" obrigatorio="1" <%= eleicaoEscUnica.isCampoNulo()? "checked=\"checked\"": ""  %>>Sim&nbsp;
-					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="0" title="Voto Nulo/Branco" obrigatorio="1" <%= eleicaoEscUnica.isCampoNulo()? "checked=\"checked\"": ""  %>>Não
+					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="1" title="Voto Nulo/Branco" obrigatorio="1" <%= eleicaoEU.isCampoNulo()? "checked=\"checked\"": ""  %>>Sim&nbsp;
+					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="0" title="Voto Nulo/Branco" obrigatorio="1" <%= eleicaoEU.isCampoNulo()? "checked=\"checked\"": ""  %>>Não
 				</td>
 			</tr>
 			<tr>
@@ -136,7 +158,7 @@
 					Percentual para Vitória:
 				</td>
 				<td>
-					<input type="text" id="<%= ServletEleicao.ID_REQ_PERCENTUAL_VITORIA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PERCENTUAL_VITORIA_ELEICAO %>" value="<%= eleicaoEscUnica.getPercentualVitoria() %>" title="Percentual para Vitória" obrigatorio="1">
+					<input type="text" id="<%= ServletEleicao.ID_REQ_PERCENTUAL_VITORIA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PERCENTUAL_VITORIA_ELEICAO %>" value="<%= eleicaoEU.getPercentualVitoria() %>" title="Percentual para Vitória" obrigatorio="1">
 				</td>
 			</tr>
 		</tbody>
