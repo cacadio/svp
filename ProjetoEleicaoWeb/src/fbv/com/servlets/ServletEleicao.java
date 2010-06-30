@@ -33,6 +33,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 	/*
 	 * Escolha Única
 	 */
+	public static final String ID_REQ_CODIGO_ELEICAO_PAI = "codigoEleicaoPai"; 
 	public static final String ID_REQ_IN_CAMPO_NULO_ELEICAO = "inCampoNuloEleicao";
 	public static final String ID_REQ_PERCENTUAL_VITORIA_ELEICAO = "percentualVitoriaEleicao";
 	/*
@@ -158,6 +159,9 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 	private void exibirInclusao(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+
+		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
+		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 		
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("jsp/inclusaoEleicao.jsp");
@@ -188,6 +192,8 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		
 		if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA){
 			EleicaoEscolhaUnica eleicaoEU = new EleicaoEscolhaUnica();
+			if ((request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI) != null) && (!request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI).equals("0")))
+				eleicaoEU.setEleicaoPai(new EleicaoEscolhaUnica(Integer.parseInt(request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI))));
 			eleicaoEU.setCampoNulo(request.getParameter(ID_REQ_IN_CAMPO_NULO_ELEICAO) != null);
 			eleicaoEU.setPercentualVitoria(Double.valueOf(request.getParameter(ID_REQ_PERCENTUAL_VITORIA_ELEICAO)));
 			
@@ -247,6 +253,9 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 					eleicao);
 
 		}
+		
+		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
+		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("jsp/alteracaoeleicao.jsp");
@@ -302,7 +311,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 		fachada.alterarEleicao(eleicao);
 
-		mensagem = "Eleição Alterado com Sucesso";		
+		mensagem = "Eleição Alterada com Sucesso";		
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
@@ -334,6 +343,9 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 		}
 
+		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
+		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
+
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("jsp/exclusaoeleicao.jsp");
 		requestDispatcher.forward(request, response);
@@ -362,7 +374,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 		fachada.excluirEleicao(eleicao);
 
-		mensagem = "Eleição Excluido com Sucesso";		
+		mensagem = "Eleição Excluida com Sucesso";		
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
