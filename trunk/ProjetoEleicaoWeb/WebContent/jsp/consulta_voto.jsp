@@ -89,23 +89,23 @@ function eventoIncluir(){
 		<%
 			}
 		}else{
-		%>
-		<tr>
-			<td colspan="4">Nenhum Registro Encontrado</td>
-		</tr>	
+			%>
+			<tr>
+				<td colspan="4">Nenhum Registro Encontrado</td>
+			</tr>	
 		
-		<%
+			<%
 		}
 		%>		
 	</table>
-	<table width="100%">
-		<tr>
-			<th class="footer" colspan="3">&nbsp;</th>
-		</tr>
-		<tr>
-			<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
-		</tr>
-	</table>
+		<table width="100%">
+			<tr>
+				<th class="footer" colspan="3">&nbsp;</th>
+			</tr>
+			<tr>
+				<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
+			</tr>
+		</table>
 
 </form>
 
