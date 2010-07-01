@@ -22,12 +22,39 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_NOME_SERVLET_PERFIL_USUARIO = "ServletPerfilUsuario";
 	public static final String ID_REQ_OBJETO_PERFIL_USUARIO = "objetoPerfilUsuario";
 	
-	// Identificadores de request do UC Manter Opção de Voto
-	public static final String ID_REQ_NOME_SERVLET_OPCAO_VOTO = "ServletOpcaoVoto";
+	//identificadores caso de uso Voto
+	public static final String ID_REQ_ARRAY_LIST_VOTO = "arrayListVoto";
+	public static final String ID_REQ_ID_VOTO = "idVoto";
+	public static final String ID_REQ_ID_ELEICAO = "idEleicao";
+	public static final String ID_REQ_ID_USUARIO = "idUsuario";
+	public static final String ID_REQ_DATA_HORA = "dtHora";
+	public static final String ID_REQ_VALOR_VOTO = "valorVoto";
+	public static final String ID_REQ_OPCAO_VOTO = "opcaoVoto";
+	public static final String ID_REQ_NOME_SERVLET_VOTO = "ServletVoto";
+	public static final String ID_REQ_OBJETO_VOTO = "objetoVoto";
+
+	
+	//identificadores caso de uso usu‡rio
+	public static final String ID_REQ_ARRAY_LIST_USUARIO = "arrayListUsuario";
+	public static final String ID_REQ_LOGIN_USUARIO = "loginUsuario";
+	public static final String ID_REQ_SENHA_USUARIO = "senhaUsuario";
+	public static final String ID_REQ_CPF_USUARIO = "cpfUsuario";
+	public static final String ID_REQ_NOME_USUARIO = "nomeUsuario";
+	public static final String ID_REQ_ID_PERFIL_USUARIO = "idPerfilUsuario";
+	public static final String ID_REQ_OBJETO_USUARIO = "objetoUsuario";
+	public static final String ID_REQ_NOME_SERVLET_USUARIO = "ServletUsuario";
+	
+	//identificadores caso de uso opcao voto
 	public static final String ID_REQ_CODIGO_OPCAO_VOTO = "codigoOpcaoVoto";
-	public static final String ID_REQ_DESCRICAO_OPCAO_VOTO = "descricaosOpcaoVoto";
-	public static final String ID_REQ_CODIGO_ELEICAO = "codigoEleicao"; // Quando intergrar pode ser que tenha que retirar
-	public static final String ID_REQ_PATH_FOTO = "pathFoto";
-	public static final String ID_REQ_ARRAY_LIST_OPCAO_VOTO = "arrayListOpcaoVoto";
-	public static final String ID_REQ_OBJETO_OPCAO_VOTO = "objetoOpcaoVoto";
+	public static final String ID_REQ_CODIGO_ELEICAO = "codigoEleicao";
+	public static final String ID_REQ_DESCRICAO_OPCAO_VOTO = "descricaoOpcaoVoto";
+	public static final String ID_REQ_PATH_FOTO= "pathFoto";
+	
+	public static final String  ID_REQ_TIPO_DE_ELEICAO = "tipoDeEleicao";
+	
+	
+	
+	
+	
+
 }
