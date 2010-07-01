@@ -45,7 +45,7 @@ public class RepositorioVoto implements IRepositorioBD {
 			int idOpcaoVoto = voto.getIdOpcaoVoto();
 			double vlVoto = voto.getValorVoto();
 			Timestamp dhHora = voto.getDataHora();
-			
+
             try
             {
             	ResultSet rs = statement.executeQuery("select max(ID_VOTO) as maximo from Voto;");
@@ -56,7 +56,7 @@ public class RepositorioVoto implements IRepositorioBD {
             		codigo = 1;
             	}
 
-            	statement.executeUpdate("INSERT INTO Voto VALUES(null, " + idUsuario + "," + idEleicao + ","+ idOpcaoVoto +","+ vlVoto +","+dhHora+");");
+            	statement.executeUpdate("INSERT INTO Voto VALUES("+ codigo + ","  + idUsuario + "," + idEleicao + ","+ idOpcaoVoto + "," + vlVoto + "," + dhHora + ");");
             }
             catch (Exception e)
             {
