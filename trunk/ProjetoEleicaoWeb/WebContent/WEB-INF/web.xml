@@ -15,28 +15,38 @@
     <servlet-name>ServletPerfilUsuario</servlet-name>
     <servlet-class>fbv.com.servlets.ServletPerfilUsuario</servlet-class>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletPerfilUsuario</servlet-name>
+    <url-pattern>/ServletPerfilUsuario</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletVoto</display-name>
+    <servlet-name>ServletVoto</servlet-name>
+    <servlet-class>fbv.com.servlets.ServletVoto</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletVoto</servlet-name>
+    <url-pattern>/ServletVoto</url-pattern>
+  </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>ServletOpcaoVoto</display-name>
     <servlet-name>ServletOpcaoVoto</servlet-name>
     <servlet-class>fbv.com.servlets.ServletOpcaoVoto</servlet-class>
   </servlet>
-  <servlet>
-    <description></description>
-    <display-name>ServletEleicao</display-name>
-    <servlet-name>ServletEleicao</servlet-name>
-    <servlet-class>fbv.com.servlets.ServletEleicao</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ServletEleicao</servlet-name>
-    <url-pattern>/Eleicao</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>ServletPerfilUsuario</servlet-name>
-    <url-pattern>/ServletPerfilUsuario</url-pattern>
-  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ServletOpcaoVoto</servlet-name>
     <url-pattern>/ServletOpcaoVoto</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletUsuario</display-name>
+    <servlet-name>ServletUsuario</servlet-name>
+    <servlet-class>fbv.com.servlets.ServletUsuario</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletUsuario</servlet-name>
+    <url-pattern>/ServletUsuario</url-pattern>
   </servlet-mapping>
 </web-app>
