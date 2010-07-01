@@ -14,6 +14,11 @@ public class Voto {
 	
 	private double valorVoto;
 	
+	//@Rodrigo
+	private String nomeUsuario;
+	
+	private String descricaoOpcaoVoto;
+	
 	private Timestamp dataHora;
 	
 	public Voto(){
@@ -78,4 +83,22 @@ public class Voto {
 	public void setDataHora(Timestamp dataHora) {
 		this.dataHora = dataHora;
 	}
+	
+	//@Rodrigo
+	public String getNomeUsuario() {
+		return nomeUsuario;
+	}
+
+	public void setNomeUsuario(String nomeUsuario) {
+		this.nomeUsuario = nomeUsuario;
+	}
+	
+	public String getDescricaoOpcaoVoto() {
+		return descricaoOpcaoVoto;
+	}
+
+	public void setDescricaoOpcaoVoto(String descricaoOpcaoVoto) {
+		this.descricaoOpcaoVoto = descricaoOpcaoVoto;
+	}
+	
 }
