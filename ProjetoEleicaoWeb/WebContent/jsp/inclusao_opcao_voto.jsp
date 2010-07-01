@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 <title>Inclusão de Opção de Voto</title>
 </head>
 <%
@@ -31,46 +32,37 @@ function eventoProcessarInclusao() {
 
 </script>
 <body>
-	<form action="/ProjetoEleicaoWeb/ServletOpcaoVoto" method="post" id="form_principal">
+<form action="/ProjetoEleicaoWeb/ServletOpcaoVoto" method="post" id="form_principal">
+	<input type="hidden" id="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" name="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" value="">
 	<table width="100%">
 		<tr>
-			<td>
-				<input type="hidden" id="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" name="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" value="">
-				Inclusão de Opção de Voto
-			</td>
-		</tr>
-		<tr>
-			<td width="25%">
-				Descrição da Opção de Voto:
-			</td>
-			<td>
-				<input type="text" id="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value="" ></input>
-			</td>
-		</tr>
-		<tr>
-			<td width="25%">
-				Código da Eleição:
-			</td>
-			<td>
-				<input type="text" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO%>" value="" ></input>
-			</td>
-		</tr>
-		<tr>
-			<td width="25%">
-				Pasta da Foto:
-			</td>
-			<td>
-				<input type="file" accept="image/gif,image/jpeg" id="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" value="" ></input>
-			</td>
+			<th class="titulopagina">Inclusão de Opção de Voto</th>
 		</tr>
 	</table>
 	<table width="100%">
 		<tr>
-			<td align="center"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
-			<td align="center"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarInclusao()" value="Confirmar"> </td>
+			<th class="rotulodado" width="12%">Descrição:</th>
+			<td class="valordado"><input type="text" id="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value="" size="50" maxlength="45"></td>
+		</tr>
+		<tr>
+			<th class="rotulodado" width="12%">Código da Eleição:</th>
+			<td class="valordado"><input type="text" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO%>" value="" size="8" maxlength="10"></td>
+		</tr>
+		<tr>
+			<th class="rotulodado" width="12%">Foto:</th>
+			<td class="valordado"><input type="file" id="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" value="" size="40" maxlength="45"></td>
 		</tr>
 	</table>
-	</form>
+	<table width="100%">
+		<tr>
+			<th class="footer" colspan="2">&nbsp;</th>
+		</tr>
+		<tr>
+			<td class="linhabotao"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
+			<td class="linhabotao"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarInclusao()" value="Confirmar"> </td>
+		</tr>
+	</table>
+</form>
 <% 
 } catch(Exception e) {
 	e.printStackTrace();
