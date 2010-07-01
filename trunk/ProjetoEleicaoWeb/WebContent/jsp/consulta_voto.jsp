@@ -8,6 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 <title>Consulta Voto</title>
 </head>
 <%
@@ -34,29 +35,33 @@ function eventoIncluir(){
 </script>
 <body>
 <form action="/ProjetoEleicaoWeb/ServletVoto" method="post" id="form_principal">
-	<table width="100%" border="1">
-		
-		<tr>
-			<td>
-				<input type="hidden" id="<%=ServletVoto.ID_REQ_EVENTO%>" name="<%=ServletVoto.ID_REQ_EVENTO%>" value="">
-				Consulta Voto
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Código do Voto:
-			</td>
-			<td>
-				<input type="text" id="<%=ServletVoto.ID_REQ_ID_VOTO%>" name="<%=ServletVoto.ID_REQ_ID_VOTO%>" value="" ></input>
-			</td>
-			<td align="center"><input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
-		</tr>
-	</table>
+<input type="hidden" id="<%=ServletVoto.ID_REQ_EVENTO%>" name="<%=ServletVoto.ID_REQ_EVENTO%>" value="">
+					
 	<table width="100%">
+	  <tr>
+		<th class="titulopagina">Consulta Voto</th>
+	  </tr>
+	  </table>
+	 <table width="100%">	
+		<tr>
+			<th class="rotulodado">Código do Voto:</th>	
+			<td class="valordado"><input type="text" id="<%=ServletVoto.ID_REQ_ID_VOTO%>" name="<%=ServletVoto.ID_REQ_ID_VOTO%>" value="" size="8" maxlength="10">
+								  <input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"></td>
+		</tr>
+		</table>
+	
+	<table width="100%">
+		<th class="rotulodado" width="3%">&nbsp;&nbsp;&nbsp;#</th>
+		<th class="rotulodado">Usuário: </td>
+		<th class="rotulodado" >Código Eleição: </td>
+		<th class="rotulodado">Opção de Voto: </td>
+		<th class="rotulodado">Valor Voto: </td>
+		<th class="rotulodado">Data: </td>
 		<%
 		//Exibindo dados
 		if(arrayListVoto != null && !arrayListVoto.isEmpty()){
 			String checked = null;
+			String classeLinha = "";
 			for(int i = 0 ; i < arrayListVoto.size() ; i++){
 				
 				checked = "";
@@ -65,20 +70,20 @@ function eventoIncluir(){
 				if(i == 0){
 					checked="checked";
 				}
+				if (i % 2 == 0) {
+					classeLinha = "linhaimpar";
+				} else {
+					classeLinha = "linhapar";
+				}
 				
 		%>
 			<tr>
-				<td><input type="radio" id="<%=ServletVoto.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletVoto.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=voto.getIdVoto()%>"> </td>
-				<td>Usuário: </td>
-				<td align="left"><%=voto.getNomeUsuario()%></td>
-				<td>Código Eleição: </td>
-				<td align="left"><%=voto.getIdEleicao()%></td>
-				<td>Opção de Voto: </td>
-				<td align="left"><%=voto.getDescricaoOpcaoVoto()%></td>
-				<td>Valor Voto: </td>
-				<td align="left"><%=voto.getValorVoto()%></td>
-				<td>Data: </td>
-				<td align="left"><%=voto.getDataHora()%></td>
+				<td class="<%=classeLinha%>"><input type="radio" id="<%=ServletVoto.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletVoto.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=voto.getIdVoto()%>"> </td>
+				<td class="<%=classeLinha%>"><%=voto.getNomeUsuario()%></td>
+				<td class="<%=classeLinha%>"><%=voto.getIdEleicao()%></td>
+				<td class="<%=classeLinha%>"><%=voto.getDescricaoOpcaoVoto()%></td>
+				<td class="<%=classeLinha%>"><%=voto.getValorVoto()%></td>
+				<td class="<%=classeLinha%>"><%=voto.getDataHora()%></td>
 				
 			</tr>
 		<%
@@ -95,9 +100,11 @@ function eventoIncluir(){
 	</table>
 	<table width="100%">
 		<tr>
-			<td align="center"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
+			<th class="footer" colspan="3">&nbsp;</th>
 		</tr>
-	
+		<tr>
+			<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
+		</tr>
 	</table>
 
 </form>
