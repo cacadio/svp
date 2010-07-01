@@ -1,0 +1,62 @@
+body, th, td
+{
+background-color: #ffffff;
+}
+
+th, td
+{
+font-family: "Arial";
+font-size: 12px;
+}
+
+th
+{
+padding-left: 3px;
+}
+
+th.rotulodado, th.titulopagina, th.header, th.footer
+{
+background-color: #80ab7d;
+}
+
+th.titulopagina
+{
+font-size: 18px;
+text-align: left;
+padding: 10px;
+}
+
+th.rotulodado
+{
+text-align: left;
+}
+
+td.valordado, td.linhapar
+{
+background-color: #cccccc;
+padding-left: 3px;
+}
+
+td.linhaimpar
+{
+background-color: #ffffff;
+padding-left: 3px;
+}
+
+td.linhabotao
+{
+text-align: center;
+}
+
+.camporeadonly
+{
+background-color: #cccccc;
+}
+
+td.mensagem
+{
+text-align: center;
+font-size: 18px;
+font-weight: bold;
+background-color: #cccccc;
+}

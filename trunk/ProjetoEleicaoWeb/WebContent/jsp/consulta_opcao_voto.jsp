@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 <title>Consulta Opção de Voto</title>
 </head>
 <%
@@ -66,28 +67,32 @@ function eventoExcluir() {
 </script>
 <body>
 <form action="/ProjetoEleicaoWeb/ServletOpcaoVoto" method="post" id="form_principal">
-	<table width="100%" border="1">
+	<input type="hidden" id="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" name="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" value="">
+	<table width="100%">
 		<tr>
-			<td>
-				<input type="hidden" id="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" name="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" value="">
-				Consulta Opção de Voto
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Código da Opção de Voto:
-			</td>
-			<td>
-				<input type="text" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" value="" ></input>
-			</td>
-			<td align="center"><input type="button" id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
+			<th class="titulopagina">Consulta Opção de Voto</th>
 		</tr>
 	</table>
 	<table width="100%">
+		<tr>
+			<th class="rotulodado" width="12%">Código:</th>
+			<td class="valordado"><input type="text" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" value="" size="8" maxlength="10">
+								  <input type="button" id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
+		</tr>
+	</table>
+	<table width="100%">
+		<tr>
+			<th class="rotulodado" width="3%">&nbsp;&nbsp;&nbsp;#</th>
+			<th class="rotulodado" width="12%">Código</th>
+			<th class="rotulodado" width="40%">Descrição</th>
+			<th class="rotulodado" width="10">Eleição</th>
+			<th class="rotulodado" width="35%">Foto</th>
+		</tr>
 	<%
 		//Exibindo dados
 		if ((arrayListOpcaoVoto != null) && (!arrayListOpcaoVoto.isEmpty())) {
 			String checked = null;
+			String classeLinha = "";
 			
 			for(int i = 0 ; i < arrayListOpcaoVoto.size() ; i++) {
 				checked = "";
@@ -96,16 +101,18 @@ function eventoExcluir() {
 				if (i == 0) {
 					checked="checked";
 				}
+				
+				if (i % 2 == 0) {
+					classeLinha = "linhaimpar";
+				} else {
+					classeLinha = "linhapar";
+				}
 	%>
 				<tr>
-					<td width="3%"><input type="radio" id="<%=ServletOpcaoVoto.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletOpcaoVoto.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=opcaoVoto.getId()%>"> </td>
-					<td width="14%">Código da Opção de Voto:</td>
-					<td width="10%"><%=opcaoVoto.getId()%></td>
-					<td width="18%">Descrição da Opção de Voto:</td>
-					<td width="13%"><%=opcaoVoto.getDescricao()%></td>
-					<td width="10%">Código da Eleição:</td>
-					<td width="8%"><%=opcaoVoto.getIdEleicao()%></td>
-					<td width="8%">Foto:</td>
+					<td class="<%=classeLinha%>"><input type="radio" id="<%=ServletOpcaoVoto.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletOpcaoVoto.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=opcaoVoto.getId()%>"> </td>
+					<td class="<%=classeLinha%>"><%=opcaoVoto.getId()%></td>
+					<td class="<%=classeLinha%>"><%=opcaoVoto.getDescricao()%></td>
+					<td class="<%=classeLinha%>"><%=opcaoVoto.getIdEleicao()%></td>
 				<% 
 					String pathFoto = "";
 				
@@ -113,7 +120,7 @@ function eventoExcluir() {
 				        pathFoto = opcaoVoto.getPath_foto();
 				    }
 				%>
-					<td width="16%"><%=pathFoto%></td>
+					<td class="<%=classeLinha%>"><%=pathFoto%></td>
 				</tr>
 	<%
 			}
@@ -128,9 +135,12 @@ function eventoExcluir() {
 	</table>
 	<table width="100%">
 		<tr>
-			<td align="center"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
-			<td align="center"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
-			<td align="center"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
+			<th class="footer" colspan="3">&nbsp;</th>
+		</tr>
+		<tr>
+			<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
+			<td class="linhabotao"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
+			<td class="linhabotao"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
 		</tr>
 	</table>
 </form>
