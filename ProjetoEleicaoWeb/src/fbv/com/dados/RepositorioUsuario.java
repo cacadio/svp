@@ -125,8 +125,8 @@ public class RepositorioUsuario implements IRepositorioBD {
                 			+ nome +"'"
                 			+ ","
                 			+ " PERFIL_USUARIO_ID_PERFIL_USUARIO = "
-                			+ idPerfilUsuario +""
-                			+ "WHERE id_usuario = " + codigo + ";");
+                			+ idPerfilUsuario 
+                			+ " WHERE ID_USUARIO = " + codigo + ";");
                 }
                 catch (Exception e)
                 {
@@ -192,11 +192,23 @@ public class RepositorioUsuario implements IRepositorioBD {
                 	//Capturando os valores do result set
                 	int codUsuario = rs.getInt ("ID_USUARIO");
 					String dsUsuario = rs.getString ("NOME");
+                	String login = rs.getString("LOGIN");
+                	String senha = rs.getString("SENHA");
+                	String perfil = rs.getString("PERFIL_USUARIO_ID_PERFIL_USUARIO");
+                	PerfilUsuario perfilUsuario = new PerfilUsuario();
+                	
+                	perfilUsuario.setId(Integer.valueOf(perfil.trim()));
+                	//perfilUsuario.setDescricao(rs.getString ("DESCRICAO"));
 					//Criando uma nova instância de Usuario com os parâmetros capturados
                     //armanenando a instância em retorno
 					retorno = new Usuario();
 					retorno.setId(codUsuario);
 					retorno.setNome(dsUsuario);
+					retorno.setCpf(cpf);
+					retorno.setLogin(login);
+					retorno.setSenha(senha);
+					retorno.setPerfilUsuario(perfilUsuario);
+					
                 }
 
                 return retorno;                               
