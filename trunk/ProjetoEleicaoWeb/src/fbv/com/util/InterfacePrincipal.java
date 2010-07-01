@@ -45,11 +45,14 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_NOME_SERVLET_USUARIO = "ServletUsuario";
 	
 	//identificadores caso de uso opcao voto
+	public static final String ID_REQ_NOME_SERVLET_OPCAO_VOTO = "ServletOpcaoVoto";
 	public static final String ID_REQ_CODIGO_OPCAO_VOTO = "codigoOpcaoVoto";
-	public static final String ID_REQ_CODIGO_ELEICAO = "codigoEleicao";
-	public static final String ID_REQ_DESCRICAO_OPCAO_VOTO = "descricaoOpcaoVoto";
-	public static final String ID_REQ_PATH_FOTO= "pathFoto";
-	
+	public static final String ID_REQ_DESCRICAO_OPCAO_VOTO = "descricaosOpcaoVoto";
+	public static final String ID_REQ_CODIGO_ELEICAO = "codigoEleicao"; // Quando intergrar pode ser que tenha que retirar
+	public static final String ID_REQ_PATH_FOTO = "pathFoto";
+	public static final String ID_REQ_ARRAY_LIST_OPCAO_VOTO = "arrayListOpcaoVoto";
+	public static final String ID_REQ_OBJETO_OPCAO_VOTO = "objetoOpcaoVoto";
+
 	public static final String  ID_REQ_TIPO_DE_ELEICAO = "tipoDeEleicao";
 	
 	
