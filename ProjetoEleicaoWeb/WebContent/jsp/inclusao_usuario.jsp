@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 <title>Inclusão Usuário</title>
 </head>
 <%
@@ -79,52 +80,33 @@ function vercpf (cpf) {
 }
 </script>
 <body>
-	<form action="/ProjetoEleicaoWeb/ServletUsuario" method="post" id="form_principal">
+<form action="/ProjetoEleicaoWeb/ServletUsuario" method="post" id="form_principal">
+<input type="hidden" id="<%=ServletUsuario.ID_REQ_EVENTO%>" name="<%=ServletUsuario.ID_REQ_EVENTO%>" value="">	
 	<table width="100%">
 		<tr>
-			<td>
-				<input type="hidden" id="<%=ServletUsuario.ID_REQ_EVENTO%>" name="<%=ServletUsuario.ID_REQ_EVENTO%>" value="">
-				Inclusão de Usuário
-			</td>
+			<th class="titulopagina">Inclusão de Usuário</th>
+		</tr>
+	</table>
+	<table width="100%">
+		<tr>
+			<th class="rotulodado" with="12%">CPF do Usuário</th>
+			<td class="valordado"><input type="text" maxlength="11" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" value="" onchange="VerificaCPF();"> *</td>
 		</tr>
 		<tr>
-			<td width="25%">
-				CPF do Usuário:
-			</td>
-			<td>
-				<input type="text" maxlength="11" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" value="" onchange="VerificaCPF();"> *</input>
-			</td>
+			<th class="rotulodado"with="12%">Nome do Usuário:</th>
+			<td class="valordado"><input type="text" id="<%=ServletUsuario.ID_REQ_NOME_USUARIO%>" name="<%=ServletUsuario.ID_REQ_NOME_USUARIO%>" value="" > *</td>
 		</tr>
 		<tr>
-			<td width="25%">
-				Nome do Usuário:
-			</td>
-			<td>
-				<input type="text" id="<%=ServletUsuario.ID_REQ_NOME_USUARIO%>" name="<%=ServletUsuario.ID_REQ_NOME_USUARIO%>" value="" > *</input>
-			</td>
+			<th class="rotulodado" with="12%">Login do Usuário:</th>
+			<td class="valordado"><input type="text" id="<%=ServletUsuario.ID_REQ_LOGIN_USUARIO%>" name="<%=ServletUsuario.ID_REQ_LOGIN_USUARIO%>" value="" > *</td>
 		</tr>
 		<tr>
-			<td width="25%">
-				Login do Usuário:
-			</td>
-			<td>
-				<input type="text" id="<%=ServletUsuario.ID_REQ_LOGIN_USUARIO%>" name="<%=ServletUsuario.ID_REQ_LOGIN_USUARIO%>" value="" > *</input>
-			</td>
+			<th class="rotulodado" with="12%">Senha do Usuário:</th>
+			<td class="valordado"><input type="password" id="<%=ServletUsuario.ID_REQ_SENHA_USUARIO%>" name="<%=ServletUsuario.ID_REQ_SENHA_USUARIO%>" value="" > *</td>
 		</tr>
 		<tr>
-			<td width="25%">
-				Senha do Usuário:
-			</td>
-			<td>
-				<input type="password" id="<%=ServletUsuario.ID_REQ_SENHA_USUARIO%>" name="<%=ServletUsuario.ID_REQ_SENHA_USUARIO%>" value="" > *</input>
-			</td>
-		</tr>
-		<tr>
-			<td width="25%">
-				Perfil do Usuário:
-			</td>
-			<td> 
-				<select name="<%=ServletUsuario.ID_REQ_ID_PERFIL_USUARIO%>">  
+			<th class="rotulodado" with="12%">Perfil do Usuário:</th>
+			<td class="valordado"> <select name="<%=ServletUsuario.ID_REQ_ID_PERFIL_USUARIO%>">  
 				
 						<% 
 						Iterator iterator = null;
@@ -148,8 +130,11 @@ function vercpf (cpf) {
 	</table>
 	<table width="100%">
 		<tr>
-			<td align="center"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
-			<td align="center"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarInclusao()" value="Confirmar"> </td>
+			<th class="footer" colspan="2">&nbsp;</th>
+		</tr>
+		<tr>
+			<td class="linhabotao"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
+			<td class="linhabotao"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarInclusao()" value="Confirmar"> </td>
 		</tr>
 	
 	</table>
