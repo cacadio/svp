@@ -44,8 +44,8 @@ function eventoIncluir(){
 	  </table>
 	 <table width="100%">	
 		<tr>
-			<th class="rotulodado">Código do Voto:</th>	
-			<td class="valordado"><input type="text" id="<%=ServletVoto.ID_REQ_ID_VOTO%>" name="<%=ServletVoto.ID_REQ_ID_VOTO%>" value="" size="8" maxlength="10">
+			<th class="rotulodado" width="12%">Código do Voto:</th>	
+			<td class="valordado"><input type="text" id="<%=ServletVoto.ID_REQ_ID_VOTO%>" name="<%=ServletVoto.ID_REQ_ID_VOTO%>" value="" size="16" maxlength="10">
 								  <input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"></td>
 		</tr>
 		</table>
@@ -103,7 +103,7 @@ function eventoIncluir(){
 				<th class="footer" colspan="3">&nbsp;</th>
 			</tr>
 			<tr>
-				<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
+				<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Votar" onclick="eventoIncluir()"> </td>
 			</tr>
 		</table>
 
