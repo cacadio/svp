@@ -7,6 +7,8 @@
 <%@page import="fbv.com.servlets.ServletUsuario"%><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
+
 <title>Consulta Usuário</title>
 </head>
 <%
@@ -66,31 +68,27 @@ function eventoExcluir(){
 </script>
 <body>
 <form action="/ProjetoEleicaoWeb/ServletUsuario" method="post" id="form_principal">
-	<table width="100%" border="1">
-		
+<input type="hidden" id="<%=ServletUsuario.ID_REQ_EVENTO%>" name="<%=ServletUsuario.ID_REQ_EVENTO%>" value="">
+				
+	<table width="100%">
 		<tr>
-			<td>
-				<input type="hidden" id="<%=ServletUsuario.ID_REQ_EVENTO%>" name="<%=ServletUsuario.ID_REQ_EVENTO%>" value="">
-				Consulta Usuário
-			</td>
-		</tr>
-		<tr>
-			<td>
-				CPF do Usuário:
-			</td>
-			<td>
-				<input type="text" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" value="" ></input>
-			</td>
-			<td align="center"><input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
+			<th class="titulopagina">Consulta Usuário</th>
 		</tr>
 	</table>
+		<table>
+			<tr>
+				<th class="rotulodado" width="40%">CPF do Usuário:</th>
+				<td><input type="text" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" value="" size="16" maxlength="10">
+					<input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
+			</tr>
+		</table>
 	<table width="100%">
 	<tr>
-				<td></td>
-				<td>CPF:</td>
-				<td>Login:</td>
-				<td>Nome:</td>
-				<td>Perfil:</td>
+				<th class="rotulodado" width="3%">&nbsp;&nbsp;&nbsp;#</th>
+				<th class="rotulodado">CPF:</td>
+				<th class="rotulodado">Login:</td>
+				<th class="rotulodado">Nome:</td>
+				<th class="rotulodado">Perfil:</td>
 			</tr>
 		<%
 		//Exibindo dados
@@ -99,20 +97,26 @@ function eventoExcluir(){
 			for(int i = 0 ; i < arrayListUsuario.size() ; i++){
 				
 				checked = "";
+				String classeLinha = "";
 				Usuario Usuario = arrayListUsuario.get(i);
 				
 				if(i == 0){
 					checked="checked";
+				}
+				if (i % 2 == 0) {
+					classeLinha = "linhaimpar";
+				} else {
+					classeLinha = "linhapar";
 				}
 				
 		%>
 			
 			<tr>
 				<td><input type="radio" id="<%=ServletUsuario.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletUsuario.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=Usuario.getCpf()%>"> </td>
-				<td align="left"><%=Usuario.getCpf()%></td>
-				<td align="left"><%=Usuario.getLogin()%></td>
-				<td align="left"><%=Usuario.getNome()%></td>
-				<td align="left"><%=Usuario.getPerfilUsuario().getDescricao()%></td>
+				<td class="<%=classeLinha%>"><%=Usuario.getCpf()%></td>
+				<td class="<%=classeLinha%>"><%=Usuario.getLogin()%></td>
+				<td class="<%=classeLinha%>"><%=Usuario.getNome()%></td>
+				<td class="<%=classeLinha%>"><%=Usuario.getPerfilUsuario().getDescricao()%></td>
 			</tr>
 		<%
 			}
@@ -128,9 +132,12 @@ function eventoExcluir(){
 	</table>
 	<table width="100%">
 		<tr>
-			<td align="center"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
-			<td align="center"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
-			<td align="center"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
+			<th class="footer" colspan="3">&nbsp;</th>
+		</tr>
+		<tr>
+			<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
+			<td class="linhabotao"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
+			<td class="linhabotao"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
 		</tr>
 	
 	</table>
