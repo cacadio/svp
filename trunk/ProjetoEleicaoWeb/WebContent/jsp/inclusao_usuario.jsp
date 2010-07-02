@@ -89,23 +89,23 @@ function vercpf (cpf) {
 	</table>
 	<table width="100%">
 		<tr>
-			<th class="rotulodado" with="12%">CPF do Usuário</th>
+			<th class="rotulodado" width="12%">CPF do Usuário</th>
 			<td class="valordado"><input type="text" maxlength="11" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" value="" onchange="VerificaCPF();"> *</td>
 		</tr>
 		<tr>
-			<th class="rotulodado"with="12%">Nome do Usuário:</th>
+			<th class="rotulodado"width="12%">Nome do Usuário:</th>
 			<td class="valordado"><input type="text" id="<%=ServletUsuario.ID_REQ_NOME_USUARIO%>" name="<%=ServletUsuario.ID_REQ_NOME_USUARIO%>" value="" > *</td>
 		</tr>
 		<tr>
-			<th class="rotulodado" with="12%">Login do Usuário:</th>
+			<th class="rotulodado" width="12%">Login do Usuário:</th>
 			<td class="valordado"><input type="text" id="<%=ServletUsuario.ID_REQ_LOGIN_USUARIO%>" name="<%=ServletUsuario.ID_REQ_LOGIN_USUARIO%>" value="" > *</td>
 		</tr>
 		<tr>
-			<th class="rotulodado" with="12%">Senha do Usuário:</th>
+			<th class="rotulodado" width="12%">Senha do Usuário:</th>
 			<td class="valordado"><input type="password" id="<%=ServletUsuario.ID_REQ_SENHA_USUARIO%>" name="<%=ServletUsuario.ID_REQ_SENHA_USUARIO%>" value="" > *</td>
 		</tr>
 		<tr>
-			<th class="rotulodado" with="12%">Perfil do Usuário:</th>
+			<th class="rotulodado" width="12%">Perfil do Usuário:</th>
 			<td class="valordado"> <select name="<%=ServletUsuario.ID_REQ_ID_PERFIL_USUARIO%>">  
 				
 						<% 
