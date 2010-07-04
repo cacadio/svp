@@ -4,9 +4,12 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="fbv.com.negocio.PerfilUsuario"%>
-<%@page import="fbv.com.servlets.ServletPerfilUsuario"%><html>
+<%@page import="fbv.com.servlets.ServletPerfilUsuario"%>
+
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 <title>Consulta Perfil de Usuário</title>
 </head>
 <%
@@ -66,74 +69,78 @@ function eventoExcluir(){
 </script>
 <body>
 <form action="/ProjetoEleicaoWeb/ServletPerfilUsuario" method="post" id="form_principal">
-	<table width="100%" border="1">
-		
+	<input type="hidden" id="<%=ServletPerfilUsuario.ID_REQ_EVENTO%>" name="<%=ServletPerfilUsuario.ID_REQ_EVENTO%>" value="">
+	<table width="100%">
 		<tr>
-			<td>
-				<input type="hidden" id="<%=ServletPerfilUsuario.ID_REQ_EVENTO%>" name="<%=ServletPerfilUsuario.ID_REQ_EVENTO%>" value="">
-				Consulta Perfil de Usuário
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Código do Perfil:
-			</td>
-			<td>
-				<input type="text" id="<%=ServletPerfilUsuario.ID_REQ_CODIGO_PERFIL_USUARIO%>" name="<%=ServletPerfilUsuario.ID_REQ_CODIGO_PERFIL_USUARIO%>" value="" ></input>
-			</td>
-			<td align="center"><input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
+			<th class="titulopagina">Consulta Perfil de Usuário</th>
 		</tr>
 	</table>
 	<table width="100%">
+		<tr>
+			<th class="rotulodado" width="12%">Código:</th>
+			<td class="valordado"><input type="text" id="<%=ServletPerfilUsuario.ID_REQ_CODIGO_PERFIL_USUARIO%>" name="<%=ServletPerfilUsuario.ID_REQ_CODIGO_PERFIL_USUARIO%>" value="" size="8" maxlength="10">
+								  <input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
+		</tr>
+	</table>
+	<table width="100%">
+		<tr>
+			<th class="rotulodado" width="3%">&nbsp;&nbsp;#</th>
+			<th class="rotulodado" width="27%">Código</th>
+			<th class="rotulodado" width="70%">Descrição</th>
+		</tr>
 		<%
 		//Exibindo dados
 		if(arrayListPerfilUsuario != null && !arrayListPerfilUsuario.isEmpty()){
 			String checked = null;
+			String classeLinha = "";
+			
 			for(int i = 0 ; i < arrayListPerfilUsuario.size() ; i++){
 				
 				checked = "";
+				
 				PerfilUsuario perfilUsuario = arrayListPerfilUsuario.get(i);
 				
-				if(i == 0){
+				if (i == 0) {
 					checked="checked";
 				}
 				
+				if (i % 2 == 0) {
+					classeLinha = "linhaimpar";
+				} else {
+					classeLinha = "linhapar";
+				}
 		%>
 			<tr>
 				<td><input type="radio" id="<%=ServletPerfilUsuario.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletPerfilUsuario.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=perfilUsuario.getId()%>"> </td>
-				<td>Código Perfil:</td>
-				<td align="left"><%=perfilUsuario.getId()%></td>
-				<td>Descrição do Perfil</td>
-				<td align="left"><%=perfilUsuario.getDescricao()%></td>
+				<td class="<%=classeLinha%>"><%=perfilUsuario.getId()%></td>
+				<td class="<%=classeLinha%>"><%=perfilUsuario.getDescricao()%></td>
 			</tr>
 		<%
 			}
-		}else{
+		} else {
 		%>
 		<tr>
 			<td colspan="4">Nenhum Registro Encontrado</td>
 		</tr>	
-		
 		<%
 		}
 		%>		
 	</table>
 	<table width="100%">
 		<tr>
-			<td align="center"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
-			<td align="center"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
-			<td align="center"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
+			<th class="footer" colspan="3">&nbsp;</th>
 		</tr>
-	
+		<tr>
+			<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
+			<td class="linhabotao"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
+			<td class="linhabotao"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
+		</tr>
 	</table>
-
 </form>
-
 <%
 	}catch(Exception e){
 		e.printStackTrace();
 	}
-
 %>
 </body>
 </html>
