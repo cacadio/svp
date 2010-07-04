@@ -111,7 +111,7 @@ function eventoExcluir(){
 				}
 		%>
 			<tr>
-				<td><input type="radio" id="<%=ServletPerfilUsuario.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletPerfilUsuario.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=perfilUsuario.getId()%>"> </td>
+				<td class="<%=classeLinha%>"><input type="radio" id="<%=ServletPerfilUsuario.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletPerfilUsuario.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=perfilUsuario.getId()%>"> </td>
 				<td class="<%=classeLinha%>"><%=perfilUsuario.getId()%></td>
 				<td class="<%=classeLinha%>"><%=perfilUsuario.getDescricao()%></td>
 			</tr>
