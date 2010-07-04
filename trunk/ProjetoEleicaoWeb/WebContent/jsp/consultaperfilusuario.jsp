@@ -22,25 +22,25 @@
 
 <script type="text/javascript" >
 
-function eventoConsultar(){
+function eventoConsultar() {
 	document.forms.form_principal.<%=ServletPerfilUsuario.ID_REQ_EVENTO%>.value = "<%=ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA%>";
 	document.forms.form_principal.submit();
 }
 
-function eventoIncluir(){
+function eventoIncluir() {
 	document.forms.form_principal.<%=ServletPerfilUsuario.ID_REQ_EVENTO%>.value = "<%=ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_INCLUSAO%>";
 	document.forms.form_principal.submit();
 }
 
-function eventoAlterar(){
+function eventoAlterar() {
 	<%
-	if(arrayListPerfilUsuario != null && arrayListPerfilUsuario.size() > 0){
+	if (arrayListPerfilUsuario != null && arrayListPerfilUsuario.size() > 0) {
 	%>
 
 		document.forms.form_principal.<%=ServletPerfilUsuario.ID_REQ_EVENTO%>.value = "<%=ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_ALTERACAO%>";
 		document.forms.form_principal.submit();
 	<%
-	}else{	
+	} else {	
 	%>
 		alert("Nenhum Registro Selecionado!");
 		return false;
