@@ -49,4 +49,14 @@
     <servlet-name>ServletUsuario</servlet-name>
     <url-pattern>/ServletUsuario</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletEleicao</display-name>
+    <servlet-name>ServletEleicao</servlet-name>
+    <servlet-class>fbv.com.servlets.ServletEleicao</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletEleicao</servlet-name>
+    <url-pattern>/ServletEleicao</url-pattern>
+  </servlet-mapping>
 </web-app>
