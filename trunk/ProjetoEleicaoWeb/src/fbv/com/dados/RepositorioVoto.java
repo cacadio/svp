@@ -44,7 +44,6 @@ public class RepositorioVoto implements IRepositorioBD {
 			int idEleicao = voto.getIdEleicao();
 			int idOpcaoVoto = voto.getIdOpcaoVoto();
 			double vlVoto = voto.getValorVoto();
-			Timestamp dhHora = voto.getDataHora();
 
             try
             {
@@ -56,7 +55,9 @@ public class RepositorioVoto implements IRepositorioBD {
             		codigo = 1;
             	}
 
-            	statement.executeUpdate("INSERT INTO Voto VALUES("+ codigo + ","  + idUsuario + "," + idEleicao + ","+ idOpcaoVoto + "," + vlVoto + "," + dhHora + ");");
+            	statement.executeUpdate("INSERT INTO Voto (ID_VOTO,ID_USUARIO,ID_ELEICAO,ID_OPCAO_VOTO,VALOR_VOTO) VALUES("+ codigo + ","  + idUsuario + "," + idEleicao + ","+ idOpcaoVoto + "," + vlVoto +");");
+            
+            	
             }
             catch (Exception e)
             {
