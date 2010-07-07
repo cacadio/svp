@@ -5,10 +5,12 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="fbv.com.negocio.Eleicao"%>
 <%@page import="fbv.com.servlets.ServletEleicao"%>
-<%@page import="fbv.com.util.TipoEleicao"%><html>
+<%@page import="fbv.com.util.TipoEleicao"%>
+<%@page import="java.text.SimpleDateFormat"%><html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Consulta Perfil de Usuário</title>
+	<title>Consulta Eleição</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 </head>
 <%
 	try{
@@ -66,29 +68,29 @@ function eventoExcluir(){
 
 </script>
 <body>
-<form action="/ProjetoEleicaoWeb/Eleicao" method="post" id="form_principal">
+<form action="/ProjetoEleicaoWeb/ServletEleicao" method="post" id="form_principal">
 	<table width="100%" border="0">
 		
 		<tr>
-			<td colspan="3" align="center">
+			<th colspan="3" align="center" class="titulopagina">
 				<input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
-				<b>Consultar Eleição</b>
-			</td>
+				Consultar Eleição
+			</th>
 		</tr>
 		<tr>
-			<td width="80px">
+			<td class="rotulodado" width="80px">
 				Tipo:
 			</td>
-			<td width="100px">
+			<td class="valordado" width="100px">
 				<select id="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>" name="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>">
-					<option value="<%= TipoEleicao.ESCOLHA_UNICA.value() %>">Escolha Única</option>
-					<option value="<%= TipoEleicao.PONTUACAO.value() %>">Pontuação</option>
+					<option value="<%= TipoEleicao.ESCOLHA_UNICA.value() %>" <%= request.getAttribute(ServletEleicao.ID_REQ_TIPO_ELEICAO).equals(TipoEleicao.ESCOLHA_UNICA.value())? "selected": "" %>>Escolha Única</option>
+					<option value="<%= TipoEleicao.PONTUACAO.value() %>" <%= request.getAttribute(ServletEleicao.ID_REQ_TIPO_ELEICAO).equals(TipoEleicao.PONTUACAO.value())? "selected": "" %>>Pontuação</option>
 				</select>
 			</td>
 			<td></td>
 		</tr>
 		<tr>
-			<td>
+			<td class="rotulodado">
 				Código:
 			</td>
 			<td>
@@ -98,18 +100,19 @@ function eventoExcluir(){
 		</tr>
 	</table>
 	<br/>
-	<table width="100%" border="1">
+	<table width="100%" border="0">
 		<tr>
-			<td width="30px"></td>
-			<td width="80px" align="center">Código</td>
-			<td align="center">Descrição</td>
-			<td width="120px" align="center">Data Abertura</td>
-			<td width="120px" align="center">Data Encerramento</td>
+			<th class="rotulodado" width="30px"></th>
+			<th class="rotulodado" width="80px" align="center">Código</th>
+			<th class="rotulodado" align="center">Descrição</th>
+			<th class="rotulodado" width="120px" align="center">Data Abertura</th>
+			<th class="rotulodado" width="120px" align="center">Data Encerramento</th>
 		</tr>
 		<%
 		//Exibindo dados
 		if(arrayListEleicao != null && !arrayListEleicao.isEmpty()){
 			String checked = null;
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			for(int i = 0 ; i < arrayListEleicao.size() ; i++){
 				
 				checked = "";
@@ -119,13 +122,19 @@ function eventoExcluir(){
 					checked="checked";
 				}
 				
+				String classeLinha;
+				if (i % 2 == 0) {
+					classeLinha = "linhaimpar";
+				} else {
+					classeLinha = "linhapar";
+				}
 		%>
 		<tr>
-			<td><input type="radio" id="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=eleicao.getId()%>"> </td>
-			<td align="left"><%=eleicao.getId()%></td>
-			<td align="left"><%=eleicao.getDescricao()%></td>
-			<td align="center"><%= eleicao.getDataAbertura() %></td>
-			<td align="center"><%= eleicao.getDataEncerramento() %></td>
+			<td class="<%= classeLinha %>"><input type="radio" id="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=eleicao.getId()%>"> </td>
+			<td class="<%= classeLinha %>" align="left"><%=eleicao.getId()%></td>
+			<td class="<%= classeLinha %>" align="left"><%=eleicao.getDescricao()%></td>
+			<td class="<%= classeLinha %>" align="center"><%= sdf.format(eleicao.getDataAbertura()) %></td>
+			<td class="<%= classeLinha %>" align="center"><%= sdf.format(eleicao.getDataEncerramento()) %></td>
 		</tr>
 		<%
 			}
@@ -141,9 +150,12 @@ function eventoExcluir(){
 	</table>
 	<table width="100%">
 		<tr>
-			<td align="right"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
-			<td align="center"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
-			<td align="left"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
+			<th class="footer" colspan="3">&nbsp;</th>
+		</tr>
+		<tr>
+			<td class="linhabotao" align="right"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
+			<td class="linhabotao" align="center"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
+			<td class="linhabotao" align="left"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
 		</tr>
 	
 	</table>
