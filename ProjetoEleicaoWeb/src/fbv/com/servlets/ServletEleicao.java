@@ -246,7 +246,6 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		if (chavePrimaria != null) {
 			
 			Eleicao eleicao = null;
-
 			
 			if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1"))
 				tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
@@ -393,21 +392,26 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 				.getParameter(ID_REQ_CODIGO_ELEICAO);
 		String mensagem = "";
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
-		String descricaoEleicao = request
-				.getParameter(ID_REQ_DESCRICAO_ELEICAO);
 
-		Eleicao eleicao = new Eleicao();
+		TipoEleicao tipoEleicao;
+		if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1"))
+			tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
+		else
+			tipoEleicao = TipoEleicao.PONTUACAO;
+
+		Eleicao eleicao = null;
+		if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA)
+			eleicao = new EleicaoEscolhaUnica();
+		else
+			eleicao = new EleicaoPontuacao();
+
 		eleicao.setId(Integer.valueOf(idEleicao.trim()));
-
-		if (descricaoEleicao != null
-				&& !descricaoEleicao.equals("")) {
-			eleicao.setDescricao(descricaoEleicao);
-		}
 
 		fachada.excluirEleicao(eleicao);
 
 		mensagem = "Eleição Excluida com Sucesso";		
 
+		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 		RequestDispatcher requestDispatcher = request
