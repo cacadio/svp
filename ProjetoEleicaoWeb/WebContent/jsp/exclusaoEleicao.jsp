@@ -35,7 +35,7 @@
 	
 	</script>
 <body>
-	<form action="/ProjetoEleicaoWeb/<%= request.getAttribute(ServletEleicao.ID_REQ_NOME_SERVLET) %>" method="post" id="form_principal">
+	<form action="/ProjetoEleicaoWeb/ServletEleicao" method="post" id="form_principal">
 	<table width="100%">
 		<tr>
 			<td align="center" colspan="2">
