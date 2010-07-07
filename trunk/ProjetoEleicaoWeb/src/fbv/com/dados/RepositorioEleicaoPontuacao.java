@@ -88,7 +88,7 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
         {
 			int codigo = eleicao.getId();
 			
-            if (consultarPelaChave(codigo) != null)
+            if (consultarPelaChave(eleicao) != null)
             {
                 try
                 {
@@ -102,11 +102,11 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
 					   				 "IN_MAIS_DE_UM_VOTO = " + (eleicao.isMultiplosVotos()? "1": "0") + ", " +
 					   				 "DT_INICIO = '" + sdt.format(eleicao.getDataAbertura()) + "', " + 
 					   				 "DT_FIM = '" + sdt.format(eleicao.getDataEncerramento()) + "' " +
-				   				 "WHERE ID_ELEICAO = " + ";";
+				   				 "WHERE ID_ELEICAO = " + codigo + ";";
    	
                 	statement.executeUpdate(sql);
 				   	
-	            	sql = "UPDATE INTO pontuacao SET " +
+	            	sql = "UPDATE pontuacao SET " +
 	   				 		"PONTUACAO_MINIMA = " + eleicao.getPontuacaoMinima() + ", " +
 	   				 		"PONTUACAO_MAXIMA = " + eleicao.getPontuacaoMaxima() + ", " +
 	   				 		"GRAU_INTERVALOS = " + eleicao.getIntervaloPontuacao() + "" +
@@ -136,7 +136,7 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
 		int codigo = eleicao.getId();
         try
         {
-            if (consultarPelaChave(codigo) != null)
+            if (consultarPelaChave(eleicao) != null)
             {
                 try
                 {
