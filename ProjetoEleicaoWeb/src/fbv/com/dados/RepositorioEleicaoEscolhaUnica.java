@@ -90,7 +90,7 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
         {
 			int codigo = eleicao.getId();
 			
-            if (consultarPelaChave(codigo) != null)
+            if (consultarPelaChave(eleicao) != null)
             {
                 try
                 {
@@ -104,15 +104,15 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
 					   				 "IN_MAIS_DE_UM_VOTO = " + (eleicao.isMultiplosVotos()? "1": "0") + ", " +
 					   				 "DT_INICIO = '" + sdt.format(eleicao.getDataAbertura()) + "', " + 
 					   				 "DT_FIM = '" + sdt.format(eleicao.getDataEncerramento()) + "' " +
-				   				 "WHERE ID_ELEICAO = " + ";";
+				   				 "WHERE ID_ELEICAO = " + codigo + ";";
    	
                 	statement.executeUpdate(sql);
 				   	
-	            	sql = "UPDATE INTO escolha_unica SET " +
+	            	sql = "UPDATE escolha_unica SET " +
 	   				 		"ID_ELEICAO_PAI = " + (eleicao.getEleicaoPai() != null? eleicao.getEleicaoPai().getId(): "null") + ", " +
-	   				 		"BRANCO_NULO = " + ", " +
-	   				 		"PERCENT_VITORIA = " + "" +
-	   				 	  "WHERE ID_ELEICAO_ESCOLHA_UNICA = " + ";";
+	   				 		"BRANCO_NULO = " + (eleicao.isCampoNulo()? "1": "0") + ", " +
+	   				 		"PERCENT_VITORIA = " + eleicao.getPercentualVitoria() + " " +
+	   				 	  "WHERE ID_ELEICAO_ESCOLHA_UNICA = " + codigo + ";";
            	
 	            	statement.executeUpdate(sql);
                 }
@@ -138,7 +138,7 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
         try
         {
 			
-            if (consultarPelaChave(codigo) != null)
+            if (consultarPelaChave(eleicao) != null)
             {
                 try
                 {
