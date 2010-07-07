@@ -30,7 +30,7 @@ public class CadastroEleicaoEscolhaUnica {
 		repositorioBD.excluir(pEleicaoEscolhaUnica);
 	}
 	
-	public EleicaoEscolhaUnica consultarPelaChave(EleicaoEscolhaUnica pEleicaoEscolhaUnica) throws SQLException, ExcecaoRegistroNaoExistente{
+	public EleicaoEscolhaUnica consultarPelaChave(Eleicao pEleicaoEscolhaUnica) throws SQLException, ExcecaoRegistroNaoExistente{
 		return (EleicaoEscolhaUnica) repositorioBD.consultarPelaChave(pEleicaoEscolhaUnica);
 	}
 	
