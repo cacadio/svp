@@ -43,7 +43,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 	public static final String ID_REQ_PONTUACAO_MAXIMA_ELEICAO = "pontuacaoMaximaEleicao";
 	public static final String ID_REQ_INTERVALO_PONTUACAO_ELEICAO = "intervaloPontuacaoEleicao";
 	
-	public static final String ID_REQ_NOME_SERVLET_ELEICAO = "Eleicao";
+	public static final String ID_REQ_NOME_SERVLET_ELEICAO = "ServletEleicao";
 	public static final String ID_REQ_OBJETO_ELEICAO = "objetoEleicao";
 	
 	public ServletEleicao(){
@@ -141,6 +141,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		} else {
 			arrayEleicao = fachada.consultarTodasEleicoes(tipoEleicao);
 		}
+		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
 		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO,
 				arrayEleicao);
 
@@ -162,7 +163,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
-		
+		request.setAttribute(ID_REQ_TIPO_ELEICAO, Integer.parseInt(request.getParameter(ID_REQ_TIPO_ELEICAO)));
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("jsp/inclusaoEleicao.jsp");
 		requestDispatcher.forward(request, response);
@@ -224,6 +225,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		fachada.incluirEleicao(eleicao);
 		mensagem = "Eleição Cadastrada com Sucesso";
 
+		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 		RequestDispatcher requestDispatcher = request
@@ -240,9 +242,22 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		String chavePrimaria = request
 				.getParameter(ServletEleicao.ID_REQ_CHAVE_PRIMARIA);
 
+		TipoEleicao tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
 		if (chavePrimaria != null) {
+			
+			Eleicao eleicao = null;
 
-			Eleicao eleicao = new Eleicao();
+			
+			if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1"))
+				tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
+			else
+				tipoEleicao = TipoEleicao.PONTUACAO;
+
+			if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA)
+				eleicao = new EleicaoEscolhaUnica();
+			else
+				eleicao = new EleicaoPontuacao();
+
 			eleicao.setId(Integer.valueOf(chavePrimaria));
 
 			eleicao = fachada
@@ -256,9 +271,9 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
-
+		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
 		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/alteracaoeleicao.jsp");
+				.getRequestDispatcher("jsp/alteracaoEleicao.jsp");
 		requestDispatcher.forward(request, response);
 
 	}
@@ -266,10 +281,12 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 	private void processarAlteracao(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
+		SimpleDateFormat sdt = new SimpleDateFormat("dd/MM/yyyy");
+		
 		Fachada fachada = Fachada.getInstancia();
 		
-		String idEleicao = request
-				.getParameter(ID_REQ_CODIGO_ELEICAO);
+		int idEleicao = Integer.valueOf(request
+				.getParameter(ID_REQ_CODIGO_ELEICAO));
 		String mensagem = "";
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		String descricaoEleicao = request
@@ -282,24 +299,24 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 			tipoEleicao = TipoEleicao.PONTUACAO;
 
 		Eleicao eleicao = null;
+		if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA)
+			eleicao = new EleicaoEscolhaUnica();
+		else
+			eleicao = new EleicaoPontuacao();
 		
+		eleicao.setId(idEleicao);
+		
+		eleicao = fachada.consultarEleicaoPelaChave(eleicao);
+				
 		if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA){
-			EleicaoEscolhaUnica eleicaoEU = new EleicaoEscolhaUnica();
-			eleicaoEU.setCampoNulo(request.getParameter(ID_REQ_IN_CAMPO_NULO_ELEICAO) != null);
-			eleicaoEU.setPercentualVitoria(Double.valueOf(request.getParameter(ID_REQ_PERCENTUAL_VITORIA_ELEICAO)));
-			
-			eleicao = eleicaoEU;
+			((EleicaoEscolhaUnica)eleicao).setCampoNulo(request.getParameter(ID_REQ_IN_CAMPO_NULO_ELEICAO) != null);
+			((EleicaoEscolhaUnica)eleicao).setPercentualVitoria(Double.valueOf(request.getParameter(ID_REQ_PERCENTUAL_VITORIA_ELEICAO)));
 		}
 		else{
-			EleicaoPontuacao eleicaoP = new EleicaoPontuacao();
-			eleicaoP.setPontuacaoMinima(Integer.valueOf(request.getParameter(ID_REQ_PONTUACAO_MINIMA_ELEICAO)));
-			eleicaoP.setPontuacaoMaxima(Integer.valueOf(request.getParameter(ID_REQ_PONTUACAO_MAXIMA_ELEICAO)));
-			eleicaoP.setIntervaloPontuacao(Integer.valueOf(request.getParameter(ID_REQ_INTERVALO_PONTUACAO_ELEICAO)));
-			
-			eleicao = eleicaoP;
+			((EleicaoPontuacao)eleicao).setPontuacaoMinima(Integer.valueOf(request.getParameter(ID_REQ_PONTUACAO_MINIMA_ELEICAO)));
+			((EleicaoPontuacao)eleicao).setPontuacaoMaxima(Integer.valueOf(request.getParameter(ID_REQ_PONTUACAO_MAXIMA_ELEICAO)));
+			((EleicaoPontuacao)eleicao).setIntervaloPontuacao(Integer.valueOf(request.getParameter(ID_REQ_INTERVALO_PONTUACAO_ELEICAO)));
 		}
-		
-		eleicao.setId(Integer.valueOf(idEleicao.trim()));
 
 		if (descricaoEleicao != null
 				&& !descricaoEleicao.equals("")) {
@@ -308,11 +325,14 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		eleicao.setPublica(request.getParameter(ID_REQ_IN_PUBLICA_ELEICAO) != null);
 		eleicao.setVisibilidadeVoto(request.getParameter(ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO) != null);
 		eleicao.setMultiplosVotos(request.getParameter(ID_REQ_IN_VOTO_MULTIPLO_ELEICAO) != null);
+		eleicao.setDataAbertura(sdt.parse(request.getParameter(ID_REQ_DATA_INICIO_ELEICAO)));
+		eleicao.setDataEncerramento(sdt.parse(request.getParameter(ID_REQ_DATA_FIM_ELEICAO)));
 
 		fachada.alterarEleicao(eleicao);
 
 		mensagem = "Eleição Alterada com Sucesso";		
 
+		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 		RequestDispatcher requestDispatcher = request
@@ -331,7 +351,19 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 		if (chavePrimaria != null) {
 
-			Eleicao eleicao = new Eleicao();
+			Eleicao eleicao = null;
+			
+			TipoEleicao tipoEleicao;
+			if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1"))
+				tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
+			else
+				tipoEleicao = TipoEleicao.PONTUACAO;
+
+			if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA)
+				eleicao = new EleicaoEscolhaUnica();
+			else
+				eleicao = new EleicaoPontuacao();
+
 			eleicao.setId(Integer.valueOf(chavePrimaria));
 
 			eleicao = fachada
@@ -347,7 +379,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 
 		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/exclusaoeleicao.jsp");
+				.getRequestDispatcher("jsp/exclusaoEleicao.jsp");
 		requestDispatcher.forward(request, response);
 
 	}
