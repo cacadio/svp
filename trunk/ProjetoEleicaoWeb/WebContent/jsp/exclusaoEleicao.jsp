@@ -12,12 +12,13 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Inclusão Perfil Usuário</title>
+	<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 	<script src="./js/jquery.js" type="text/javascript"></script>
 </head>
 <%
 	try{
 		//Pegando parâmetros do request
-		Eleicao eleicao = (Eleicao)request.getAttribute(ServletEleicao.ID_REQ_OBJETO_PERFIL_USUARIO);
+		Eleicao eleicao = (Eleicao)request.getAttribute(ServletEleicao.ID_REQ_OBJETO_ELEICAO);
 		TipoEleicao tipo;
 		if (eleicao instanceof EleicaoEscolhaUnica)
 			tipo = TipoEleicao.ESCOLHA_UNICA;
@@ -29,7 +30,7 @@
 	<script type="text/javascript">
 	
 	function eventoProcessarExclusao(){
-		document.forms.form_principal.<%=ServletEleicao.ID_REQ_EVENTO %>.value = "<%=ServletEleicao.ID_REQ_EVENTO_PROCESSAR_INCLUSAO%>";
+		document.forms.form_principal.<%=ServletEleicao.ID_REQ_EVENTO %>.value = "<%=ServletEleicao.ID_REQ_EVENTO_PROCESSAR_EXCLUSAO%>";
 		document.forms.form_principal.submit();
 	}
 	
@@ -38,71 +39,72 @@
 	<form action="/ProjetoEleicaoWeb/ServletEleicao" method="post" id="form_principal">
 	<table width="100%">
 		<tr>
-			<td align="center" colspan="2">
+			<th class="titulopagina" align="center" colspan="2">
 				<input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
 				<input type="hidden" id=<%=ServletEleicao.ID_REQ_CODIGO_ELEICAO %> name=<%=ServletEleicao.ID_REQ_CODIGO_ELEICAO %> value="<%= eleicao.getId() %>">
 				<b>Excluir Eleição</b>
-			</td>
+			</th>
 		</tr>
 		<tr>
-			<td width="25%">
+			<td class="rotulodado" width="25%">
 				Tipo:
 			</td>
-			<td>
-				<select id="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>" name="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>" disabled="disabled">
+			<td class="valordado">
+				<input type="hidden" id="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>" name="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>" value="<%= tipo.value() %>" />
+				<select disabled="disabled">
 					<option value="<%= TipoEleicao.ESCOLHA_UNICA.value() %>" <%= tipo == TipoEleicao.ESCOLHA_UNICA ? "selected": "" %>>Escolha Única</option>
 					<option value="<%= TipoEleicao.PONTUACAO.value() %>" <%= tipo == TipoEleicao.PONTUACAO ? "selected": "" %>>Pontuação</option>
 				</select>
 			</td>
 		</tr>
 		<tr>
-			<td width="25%">
+			<td class="rotulodado" width="25%">
 				Descrição:
 			</td>
-			<td>
+			<td class="valordado">
 				<input type="text" id="<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>" value="<%= eleicao.getDescricao() %>" title="Descrição" readonly="readonly"></input>
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td class="rotulodado">
 				Pública?
 			</td>
-			<td>
-				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>" value="1" title="Pública" <%= eleicao.isPublica()? "checked=\"checked\"": ""  %> readonly="readonly">Sim&nbsp;
-				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>" value="0" title="Pública"  <%= !eleicao.isPublica()? "checked=\"checked\"": ""  %> readonly="readonly">Não
+			<td class="valordado">
+				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>" value="1" title="Pública" <%= eleicao.isPublica()? "checked=\"checked\"": ""  %> disabled="disabled">Sim&nbsp;
+				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>" value="0" title="Pública"  <%= !eleicao.isPublica()? "checked=\"checked\"": ""  %> disabled="disabled">Não
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td class="rotulodado">
 				Voto Aberto?
 			</td>
-			<td>
-				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>" value="1" title="Voto Aberto" <%= eleicao.isVisibilidadeVoto()? "checked=\"checked\"": ""  %> readonly="readonly">Sim&nbsp;
-				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>" value="0" title="Voto Aberto" <%= !eleicao.isVisibilidadeVoto()? "checked=\"checked\"": ""  %> readonly="readonly">Não
+			<td class="valordado">
+				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>" value="1" title="Voto Aberto" <%= eleicao.isVisibilidadeVoto()? "checked=\"checked\"": ""  %> disabled="disabled">Sim&nbsp;
+				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>" value="0" title="Voto Aberto" <%= !eleicao.isVisibilidadeVoto()? "checked=\"checked\"": ""  %> disabled="disabled">Não
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td class="rotulodado">
 				Múltiplos Votos?
 			</td>
-			<td>
-				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>" value="1" title="Múltiplos Votos" <%= eleicao.isMultiplosVotos()? "checked=\"checked\"": ""  %> readonly="readonly">Sim&nbsp;
-				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>" value="0" title="Múltiplos Votos" <%= !eleicao.isMultiplosVotos()? "checked=\"checked\"": ""  %> readonly="readonly">Não
+			<td class="valordado">
+				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>" value="1" title="Múltiplos Votos" <%= eleicao.isMultiplosVotos()? "checked=\"checked\"": ""  %> disabled="disabled">Sim&nbsp;
+				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>" value="0" title="Múltiplos Votos" <%= !eleicao.isMultiplosVotos()? "checked=\"checked\"": ""  %> disabled="disabled">Não
 			</td>
 		</tr>
 		<tr>
-			<td width="25%">
+			<td class="rotulodado" width="25%">
 				Data Abertura:
 			</td>
-			<td>
+			<td class="valordado">
 				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="<%= sdt.format(eleicao.getDataAbertura()) %>" title="Data Abertura" readonly="readonly"></input>
 			</td>
 		</tr>
 		<tr>
-			<td width="25%">
+			<td class="rotulodado" width="25%">
 				Data Encerramento:
 			</td>
-			<td>
+			<td class="valordado">
 				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" value="<%= sdt.format(eleicao.getDataEncerramento()) %>" title="Data Encerramento" readonly="readonly"></input>
 			</td>
 		</tr>
@@ -112,20 +114,22 @@
 		%>
 		<tbody id="trEscolhaUnica">
 			<tr>
-				<td>
+				<td class="rotulodado">
 					Eleição Associada:
 				</td>
-				<td>
+				<td class="valordado">
 					<select id="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" name="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" disabled="disabled">
 						<option value="0"></option>
 					<%
 					@SuppressWarnings("unchecked")
 					ArrayList<EleicaoEscolhaUnica> eleicoes = (ArrayList<EleicaoEscolhaUnica>)request.getAttribute(ServletEleicao.ID_REQ_ARRAY_LIST_ELEICAO);
-					for(EleicaoEscolhaUnica eleicaoEscolhaUnica : eleicoes){
-						if (eleicaoEscolhaUnica.getId() != eleicao.getId()){
+					if (eleicoes != null){
+						for(EleicaoEscolhaUnica eleicaoEscolhaUnica : eleicoes){
+							if (eleicaoEscolhaUnica.getId() != eleicao.getId()){
 					%>
 						<option value="<%= eleicaoEscolhaUnica.getId() %>" <%= (eleicaoEU.getEleicaoPai() == null? "": (eleicaoEU.getEleicaoPai().getId() == eleicaoEscolhaUnica.getId()? "selected": "")) %>><%= eleicaoEscolhaUnica.getDescricao() %></option>
 					<%
+							}
 						}
 					}
 					%>
@@ -133,19 +137,19 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="rotulodado">
 					Existe Voto Nulo/Branco?
 				</td>
-				<td>
-					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="1" title="Voto Nulo/Branco" <%= eleicaoEU.isCampoNulo()? "checked=\"checked\"": ""  %> readonly="readonly">Sim&nbsp;
-					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="0" title="Voto Nulo/Branco" <%= eleicaoEU.isCampoNulo()? "checked=\"checked\"": ""  %> readonly="readonly">Não
+				<td class="valordado">
+					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="1" title="Voto Nulo/Branco" <%= eleicaoEU.isCampoNulo()? "checked=\"checked\"": ""  %> disabled="disabled">Sim&nbsp;
+					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="0" title="Voto Nulo/Branco" <%= eleicaoEU.isCampoNulo()? "checked=\"checked\"": ""  %> disabled="disabled">Não
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="rotulodado">
 					Percentual para Vitória:
 				</td>
-				<td>
+				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_PERCENTUAL_VITORIA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PERCENTUAL_VITORIA_ELEICAO %>" value="<%= eleicaoEU.getPercentualVitoria() %>" title="Percentual para Vitória" readonly="readonly">
 				</td>
 			</tr>
@@ -157,26 +161,26 @@
 		%>
 		<tbody id="trPontuacao" style="display: none">
 			<tr>
-				<td>
+				<td class="rotulodado">
 					Pontuação Mínima:
 				</td>
-				<td>
+				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_PONTUACAO_MINIMA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PONTUACAO_MINIMA_ELEICAO %>" value="<%= eleicaoPontuacao.getPontuacaoMinima() %>" title="Pontuação Mínima" readonly="readonly">
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="rotulodado">
 					Pontuação Máxima:
 				</td>
-				<td>
+				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_PONTUACAO_MAXIMA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PONTUACAO_MAXIMA_ELEICAO %>" value="<%= eleicaoPontuacao.getPontuacaoMaxima() %>" title="Pontuação Máxima" readonly="readonly">
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="rotulodado">
 					Intervalo da Pontuação:
 				</td>
-				<td>
+				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_INTERVALO_PONTUACAO_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_INTERVALO_PONTUACAO_ELEICAO %>" value="<%= eleicaoPontuacao.getIntervaloPontuacao() %>" title="Intervalo da Pontuação" readonly="readonly">
 				</td>
 			</tr>
@@ -187,8 +191,11 @@
 	</table>
 	<table width="100%">
 		<tr>
-			<td align="center"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
-			<td align="center"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarExclusao()" value="Confirmar"> </td>
+			<th class="footer" colspan="2">&nbsp;</th>
+		</tr>
+		<tr>
+			<td class="linhabotao" align="center"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
+			<td class="linhabotao" align="center"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarExclusao()" value="Confirmar"> </td>
 		</tr>
 	
 	</table>
