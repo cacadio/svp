@@ -30,7 +30,7 @@ public class CadastroEleicaoPontuacao {
 		repositorioBD.excluir(pEleicaoPontuacao);
 	}
 	
-	public EleicaoPontuacao consultarPelaChave(EleicaoPontuacao pEleicaoPontuacao) throws SQLException, ExcecaoRegistroNaoExistente{
+	public Eleicao consultarPelaChave(Eleicao pEleicaoPontuacao) throws SQLException, ExcecaoRegistroNaoExistente{
 		return (EleicaoPontuacao) repositorioBD.consultarPelaChave(pEleicaoPontuacao);
 	}
 	
