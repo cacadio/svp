@@ -14,6 +14,7 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_MENSAGEM = "idMensagem";
 	public static final String ID_REQ_NOME_SERVLET = "nomeServlet";
 	public static final String ID_REQ_CHAVE_PRIMARIA = "chavePrimaria";
+	public static final String ID_REQ_TITULO_PAGINA = "tituloPagina";
 	
 	//identificadores caso de uso Perfil de usuário
 	public static final String ID_REQ_ARRAY_LIST_PERFIL_USUARIO = "arrayListPerfilUsuario";

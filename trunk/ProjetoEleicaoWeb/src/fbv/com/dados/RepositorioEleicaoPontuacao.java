@@ -93,7 +93,7 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
                 try
                 {
                 	SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
-                	
+                	                	
                 	String sql = "UPDATE Eleicao SET " +
 					   				 "ID_ESTADO = " + eleicao.getEstado() + ", "+ 
 					   				 "DESCRICAO = '" + eleicao.getDescricao() + "', " + 
@@ -109,7 +109,7 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
 	            	sql = "UPDATE pontuacao SET " +
 	   				 		"PONTUACAO_MINIMA = " + eleicao.getPontuacaoMinima() + ", " +
 	   				 		"PONTUACAO_MAXIMA = " + eleicao.getPontuacaoMaxima() + ", " +
-	   				 		"GRAU_INTERVALOS = " + eleicao.getIntervaloPontuacao() + "" +
+	   				 		"GRAU_INTERVALOS = " + eleicao.getIntervaloPontuacao() + " " +
 	   				 	  "WHERE ID_ELEICAO_PONTUACAO = " + codigo + ";";
            	
 	            	statement.executeUpdate(sql);

@@ -4,7 +4,8 @@
 
 <%@page import="fbv.com.servlets.ServletPerfilUsuario"%>
 
-<html>
+
+<%@page import="fbv.com.util.InterfacePrincipal"%><html>
 <%
 try {
 		
@@ -20,6 +21,8 @@ try {
 	} else if (nomeServlet.equals(ServletPerfilUsuario.ID_REQ_NOME_SERVLET_OPCAO_VOTO)) {
 		tituloTela = "Opção de Voto";
 	}
+	else
+		tituloTela = request.getAttribute(InterfacePrincipal.ID_REQ_TITULO_PAGINA).toString();
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -30,7 +33,7 @@ try {
 <form action="<%=actionFormulario%>" id="form_principal" name="form_principal" method="post">
 	<table width="100%">
 		<tr>
-			<th class="header"><%=tituloTela%></th>
+			<th class="titulopagina"><%=tituloTela%></th>
 		</tr>
 		<tr>
 			<td class="mensagem"><%=Mensagem%></td>
