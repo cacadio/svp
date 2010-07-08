@@ -69,61 +69,61 @@
 			</th>
 		</tr>
 		<tr>
-			<td class="rotulodado" width="25%">
+			<th class="rotulodado" width="12%">
 				Tipo:
-			</td>
+			</th>
 			<td class="valordado">
 				<%= tipo == TipoEleicao.ESCOLHA_UNICA ? "Escolha Única": "Pontuação"%>
 				<input type="hidden" id=<%=ServletEleicao.ID_REQ_TIPO_ELEICAO %> name=<%=ServletEleicao.ID_REQ_TIPO_ELEICAO %> value="<%= tipo.value() %>">
 			</td>
 		</tr>
 		<tr>
-			<td class="rotulodado" width="25%">
+			<th class="rotulodado" width="12%">
 				Descrição:
-			</td>
+			</th>
 			<td class="valordado">
 				<input type="text" id="<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>" value="<%= eleicao.getDescricao() %>" title="Descrição" obrigatorio="1"></input>
 			</td>
 		</tr>
 		<tr>
-			<td class="rotulodado">
+			<th class="rotulodado">
 				Pública?
-			</td>
+			</th>
 			<td class="valordado">
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>" value="1" title="Pública" obrigatorio="1" <%= eleicao.isPublica()? "checked=\"checked\"": ""  %> >Sim&nbsp;
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>" value="0" title="Pública" obrigatorio="1"  <%= !eleicao.isPublica()? "checked=\"checked\"": ""  %>>Não
 			</td>
 		</tr>
 		<tr>
-			<td class="rotulodado">
+			<th class="rotulodado">
 				Voto Aberto?
-			</td>
+			</th>
 			<td class="valordado">
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>" value="1" title="Voto Aberto" obrigatorio="1" <%= eleicao.isVisibilidadeVoto()? "checked=\"checked\"": ""  %>>Sim&nbsp;
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>" value="0" title="Voto Aberto" obrigatorio="1" <%= !eleicao.isVisibilidadeVoto()? "checked=\"checked\"": ""  %>>Não
 			</td>
 		</tr>
 		<tr>
-			<td class="rotulodado">
+			<th class="rotulodado">
 				Múltiplos Votos?
-			</td>
+			</th>
 			<td class="valordado">
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>" value="1" title="Múltiplos Votos" obrigatorio="1" <%= eleicao.isMultiplosVotos()? "checked=\"checked\"": ""  %>>Sim&nbsp;
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>" value="0" title="Múltiplos Votos" obrigatorio="1" <%= !eleicao.isMultiplosVotos()? "checked=\"checked\"": ""  %>>Não
 			</td>
 		</tr>
 		<tr>
-			<td class="rotulodado" width="25%">
+			<th class="rotulodado" width="12%">
 				Data Abertura:
-			</td>
+			</th>
 			<td class="valordado">
 				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="<%= sdt.format(eleicao.getDataAbertura()) %>" title="Data Abertura" size="12" maxlength="10" obrigatorio="1"></input>
 			</td>
 		</tr>
 		<tr>
-			<td class="rotulodado" width="25%">
+			<th class="rotulodado" width="12%">
 				Data Encerramento:
-			</td>
+			</th>
 			<td class="valordado">
 				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" value="<%= sdt.format(eleicao.getDataEncerramento()) %>" title="Data Encerramento" size="12" maxlength="10" obrigatorio="1"></input>
 			</td>
@@ -134,18 +134,18 @@
 		%>
 		<tbody id="trEscolhaUnica">
 			<tr>
-				<td class="rotulodado">
+				<th class="rotulodado">
 					Existe Voto Nulo/Branco?
-				</td>
+				</th>
 				<td class="valordado">
 					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="1" title="Voto Nulo/Branco" obrigatorio="1" <%= eleicaoEscUnica.isCampoNulo()? "checked=\"checked\"": ""  %>>Sim&nbsp;
-					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="0" title="Voto Nulo/Branco" obrigatorio="1" <%= eleicaoEscUnica.isCampoNulo()? "checked=\"checked\"": ""  %>>Não
+					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="0" title="Voto Nulo/Branco" obrigatorio="1" <%= !eleicaoEscUnica.isCampoNulo()? "checked=\"checked\"": ""  %>>Não
 				</td>
 			</tr>
 			<tr>
-				<td class="rotulodado">
+				<th class="rotulodado">
 					Percentual para Vitória:
-				</td>
+				</th>
 				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_PERCENTUAL_VITORIA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PERCENTUAL_VITORIA_ELEICAO %>" value="<%= eleicaoEscUnica.getPercentualVitoria() %>" title="Percentual para Vitória" obrigatorio="1">
 				</td>
@@ -158,25 +158,25 @@
 		%>
 		<tbody id="trPontuacao">
 			<tr>
-				<td class="rotulodado">
+				<th class="rotulodado">
 					Pontuação Mínima:
-				</td>
+				</th>
 				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_PONTUACAO_MINIMA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PONTUACAO_MINIMA_ELEICAO %>" value="<%= eleicaoPontuacao.getPontuacaoMinima() %>" title="Pontuação Mínima" obrigatorio="1">
 				</td>
 			</tr>
 			<tr>
-				<td class="rotulodado">
+				<th class="rotulodado">
 					Pontuação Máxima:
-				</td>
+				</th>
 				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_PONTUACAO_MAXIMA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PONTUACAO_MAXIMA_ELEICAO %>" value="<%= eleicaoPontuacao.getPontuacaoMaxima() %>" title="Pontuação Máxima" obrigatorio="1">
 				</td>
 			</tr>
 			<tr>
-				<td class="rotulodado">
+				<th class="rotulodado">
 					Intervalo da Pontuação:
-				</td>
+				</th>
 				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_INTERVALO_PONTUACAO_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_INTERVALO_PONTUACAO_ELEICAO %>" value="<%= eleicaoPontuacao.getIntervaloPontuacao() %>" title="Intervalo da Pontuação" obrigatorio="1">
 				</td>

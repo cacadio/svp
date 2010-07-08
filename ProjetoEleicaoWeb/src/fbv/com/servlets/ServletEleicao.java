@@ -170,7 +170,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 			EleicaoEscolhaUnica eleicaoEU = new EleicaoEscolhaUnica();
 			if ((request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI) != null) && (!request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI).equals("0")))
 				eleicaoEU.setEleicaoPai(new EleicaoEscolhaUnica(Integer.parseInt(request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI))));
-			eleicaoEU.setCampoNulo(request.getParameter(ID_REQ_IN_CAMPO_NULO_ELEICAO) != null);
+			eleicaoEU.setCampoNulo(request.getParameter(ID_REQ_IN_CAMPO_NULO_ELEICAO).equals("1"));
 			eleicaoEU.setPercentualVitoria(Double.valueOf(request.getParameter(ID_REQ_PERCENTUAL_VITORIA_ELEICAO)));
 			
 			eleicao = eleicaoEU;
@@ -191,9 +191,9 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 			eleicao.setDescricao(descricaoEleicao);
 		}
 		eleicao.setEstado(1);
-		eleicao.setPublica(request.getParameter(ID_REQ_IN_PUBLICA_ELEICAO) != null);
-		eleicao.setVisibilidadeVoto(request.getParameter(ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO) != null);
-		eleicao.setMultiplosVotos(request.getParameter(ID_REQ_IN_VOTO_MULTIPLO_ELEICAO) != null);
+		eleicao.setPublica(request.getParameter(ID_REQ_IN_PUBLICA_ELEICAO).equals("1"));
+		eleicao.setVisibilidadeVoto(request.getParameter(ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO).equals("1"));
+		eleicao.setMultiplosVotos(request.getParameter(ID_REQ_IN_VOTO_MULTIPLO_ELEICAO).equals("1"));
 		eleicao.setDataAbertura(sdt.parse(request.getParameter(ID_REQ_DATA_INICIO_ELEICAO)));
 		eleicao.setDataEncerramento(sdt.parse(request.getParameter(ID_REQ_DATA_FIM_ELEICAO)));
 
@@ -203,6 +203,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
+		request.setAttribute(ID_REQ_TITULO_PAGINA, "Eleição");
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("jsp/mensagens.jsp");
 		requestDispatcher.forward(request, response);
@@ -283,7 +284,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		eleicao = fachada.consultarEleicaoPelaChave(eleicao);
 				
 		if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA){
-			((EleicaoEscolhaUnica)eleicao).setCampoNulo(request.getParameter(ID_REQ_IN_CAMPO_NULO_ELEICAO) != null);
+			((EleicaoEscolhaUnica)eleicao).setCampoNulo(request.getParameter(ID_REQ_IN_CAMPO_NULO_ELEICAO).equals("1"));
 			((EleicaoEscolhaUnica)eleicao).setPercentualVitoria(Double.valueOf(request.getParameter(ID_REQ_PERCENTUAL_VITORIA_ELEICAO)));
 		}
 		else{
@@ -296,9 +297,9 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 				&& !descricaoEleicao.equals("")) {
 			eleicao.setDescricao(descricaoEleicao);
 		}
-		eleicao.setPublica(request.getParameter(ID_REQ_IN_PUBLICA_ELEICAO) != null);
-		eleicao.setVisibilidadeVoto(request.getParameter(ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO) != null);
-		eleicao.setMultiplosVotos(request.getParameter(ID_REQ_IN_VOTO_MULTIPLO_ELEICAO) != null);
+		eleicao.setPublica(request.getParameter(ID_REQ_IN_PUBLICA_ELEICAO).equals("1"));
+		eleicao.setVisibilidadeVoto(request.getParameter(ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO).equals("1"));
+		eleicao.setMultiplosVotos(request.getParameter(ID_REQ_IN_VOTO_MULTIPLO_ELEICAO).equals("1"));
 		eleicao.setDataAbertura(sdt.parse(request.getParameter(ID_REQ_DATA_INICIO_ELEICAO)));
 		eleicao.setDataEncerramento(sdt.parse(request.getParameter(ID_REQ_DATA_FIM_ELEICAO)));
 
@@ -309,6 +310,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
+		request.setAttribute(ID_REQ_TITULO_PAGINA, "Eleição");
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("jsp/mensagens.jsp");
 		requestDispatcher.forward(request, response);
@@ -389,6 +391,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
+		request.setAttribute(ID_REQ_TITULO_PAGINA, "Eleição");
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("jsp/mensagens.jsp");
 		requestDispatcher.forward(request, response);
