@@ -20,31 +20,6 @@ import fbv.com.util.TipoEleicao;
 public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 	private static final long serialVersionUID = 1L;
-	//identificadores caso de uso Perfil de usuário
-	public static final String ID_REQ_ARRAY_LIST_ELEICAO = "arrayListEleicao";
-	public static final String ID_REQ_TIPO_ELEICAO = "tipoEleicao";
-	public static final String ID_REQ_CODIGO_ELEICAO = "codigoEleicao";
-	public static final String ID_REQ_DESCRICAO_ELEICAO = "descricaoEleicao";
-	public static final String ID_REQ_IN_PUBLICA_ELEICAO = "inPublicaEleicao";
-	public static final String ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO = "inVisibilidadeAbertaEleicao";
-	public static final String ID_REQ_IN_VOTO_MULTIPLO_ELEICAO = "inVotoMultiploEleicao";
-	public static final String ID_REQ_DATA_INICIO_ELEICAO = "dataInicioEleicao";
-	public static final String ID_REQ_DATA_FIM_ELEICAO = "dataFimEleicao";
-	/*
-	 * Escolha Única
-	 */
-	public static final String ID_REQ_CODIGO_ELEICAO_PAI = "codigoEleicaoPai"; 
-	public static final String ID_REQ_IN_CAMPO_NULO_ELEICAO = "inCampoNuloEleicao";
-	public static final String ID_REQ_PERCENTUAL_VITORIA_ELEICAO = "percentualVitoriaEleicao";
-	/*
-	 * Pontuação
-	 */
-	public static final String ID_REQ_PONTUACAO_MINIMA_ELEICAO = "pontuacaoMinimaEleicao";
-	public static final String ID_REQ_PONTUACAO_MAXIMA_ELEICAO = "pontuacaoMaximaEleicao";
-	public static final String ID_REQ_INTERVALO_PONTUACAO_ELEICAO = "intervaloPontuacaoEleicao";
-	
-	public static final String ID_REQ_NOME_SERVLET_ELEICAO = "ServletEleicao";
-	public static final String ID_REQ_OBJETO_ELEICAO = "objetoEleicao";
 	
 	public ServletEleicao(){
 		super();
@@ -264,7 +239,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 			request.setAttribute(
 					ServletEleicao.ID_REQ_OBJETO_ELEICAO,
-					eleicao);
+					eleicao); 
 
 		}
 		
