@@ -48,11 +48,36 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_NOME_SERVLET_OPCAO_VOTO = "ServletOpcaoVoto";
 	public static final String ID_REQ_CODIGO_OPCAO_VOTO = "codigoOpcaoVoto";
 	public static final String ID_REQ_DESCRICAO_OPCAO_VOTO = "descricaosOpcaoVoto";
-	public static final String ID_REQ_CODIGO_ELEICAO = "codigoEleicao"; // Quando intergrar pode ser que tenha que retirar
 	public static final String ID_REQ_PATH_FOTO = "pathFoto";
 	public static final String ID_REQ_ARRAY_LIST_OPCAO_VOTO = "arrayListOpcaoVoto";
 	public static final String ID_REQ_OBJETO_OPCAO_VOTO = "objetoOpcaoVoto";
 
+	//identificadores caso de uso Eleição
+	public static final String ID_REQ_ARRAY_LIST_ELEICAO = "arrayListEleicao";
+	public static final String ID_REQ_TIPO_ELEICAO = "tipoEleicao";
+	public static final String ID_REQ_CODIGO_ELEICAO = "codigoEleicao";
+	public static final String ID_REQ_DESCRICAO_ELEICAO = "descricaoEleicao";
+	public static final String ID_REQ_IN_PUBLICA_ELEICAO = "inPublicaEleicao";
+	public static final String ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO = "inVisibilidadeAbertaEleicao";
+	public static final String ID_REQ_IN_VOTO_MULTIPLO_ELEICAO = "inVotoMultiploEleicao";
+	public static final String ID_REQ_DATA_INICIO_ELEICAO = "dataInicioEleicao";
+	public static final String ID_REQ_DATA_FIM_ELEICAO = "dataFimEleicao";
+	/*
+	 * Escolha Única
+	 */
+	public static final String ID_REQ_CODIGO_ELEICAO_PAI = "codigoEleicaoPai"; 
+	public static final String ID_REQ_IN_CAMPO_NULO_ELEICAO = "inCampoNuloEleicao";
+	public static final String ID_REQ_PERCENTUAL_VITORIA_ELEICAO = "percentualVitoriaEleicao";
+	/*
+	 * Pontuação
+	 */
+	public static final String ID_REQ_PONTUACAO_MINIMA_ELEICAO = "pontuacaoMinimaEleicao";
+	public static final String ID_REQ_PONTUACAO_MAXIMA_ELEICAO = "pontuacaoMaximaEleicao";
+	public static final String ID_REQ_INTERVALO_PONTUACAO_ELEICAO = "intervaloPontuacaoEleicao";
+	
+	public static final String ID_REQ_NOME_SERVLET_ELEICAO = "ServletEleicao";
+	public static final String ID_REQ_OBJETO_ELEICAO = "objetoEleicao";
+	
 	public static final String  ID_REQ_TIPO_DE_ELEICAO = "tipoDeEleicao";
 	
 	
