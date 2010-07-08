@@ -11,6 +11,13 @@
 	<title>Inclusão Perfil Usuário</title>
 	<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 	<script src="./js/jquery.js" type="text/javascript" language="javascript"></script>
+	<script type="text/javascript" language="JavaScript" src="./js/jquery.maskedinput.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>').mask('99/99/9999',{placeholder:' '});
+			$('#<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>').mask('99/99/9999',{placeholder:' '});
+		});
+	</script>
 </head>
 <%
 	try{
@@ -127,7 +134,7 @@
 				Data Abertura:
 			</td>
 			<td class="valordado">
-				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" value="" title="Data Abertura"  obrigatorio="1"></input>
+				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" value="" title="Data Abertura" size="12" maxlength="10" obrigatorio="1"></input>
 			</td>
 		</tr>
 		<tr>
@@ -135,7 +142,7 @@
 				Data Encerramento:
 			</td>
 			<td class="valordado">
-				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="" title="Data Encerramento" obrigatorio="1"></input>
+				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="" title="Data Encerramento" size="12" maxlength="10" obrigatorio="1"></input>
 			</td>
 		</tr>
 		<tbody id="trEscolhaUnica" style="display: <%= (tipo == TipoEleicao.ESCOLHA_UNICA)? "": "none" %>">
