@@ -41,6 +41,7 @@ function eventoProcessarInclusao(){
 <body>
 	<form action="/ProjetoEleicaoWeb/ServletVoto" method="post" id="form_principal">
 	<input type="hidden" id="<%=ServletVoto.ID_REQ_EVENTO%>" name="<%=ServletVoto.ID_REQ_EVENTO%>" value="">
+	<input type="hidden" id="tipoElicaoHidden" name="<%=ServletVoto.ID_REQ_TIPO_DE_ELEICAO_HIDDEN%>" value="<%=tipoDeEleicao%>">
 	<table width="100%">
 		<tr>
 			<th class="titulopagina">Inclusão Voto</th>
@@ -91,7 +92,7 @@ function eventoProcessarInclusao(){
 		%>
 		<tr>
 			<th class="rotulodado" width="12%">Opção Voto:</th>
-			<td class="valordado"><input type="radio" id="radioOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" value= <%=opcaoVoto.getId()%>></td>
+			<td class="valordado"><input type="checkbox" id="<%=ServletOpcaoVoto.ID_REQ_CHECK_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO + opcaoVoto.getId()%>" value= <%=opcaoVoto.getId()%>></td>
 		</tr>
 		<tr>
 			<th class="rotulodado" width="12%">Descrição:</th>
