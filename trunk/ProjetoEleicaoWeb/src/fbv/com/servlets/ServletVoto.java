@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,6 +27,7 @@ import fbv.com.util.InterfacePrincipal;
  */
  public class ServletVoto extends HttpServlet implements InterfacePrincipal {
    static final long serialVersionUID = 1L;
+   
    
     /* (non-Java-doc)
 	 * @see javax.servlet.http.HttpServlet#HttpServlet()
@@ -50,7 +52,7 @@ import fbv.com.util.InterfacePrincipal;
 		try {
 
 			String idEvento = request
-					.getParameter(ServletPerfilUsuario.ID_REQ_EVENTO);
+					.getParameter(ServletVoto.ID_REQ_EVENTO);
 
 			if (idEvento != null && !idEvento.equals("")) {
 
@@ -179,7 +181,7 @@ import fbv.com.util.InterfacePrincipal;
 		Fachada fachada = Fachada.getInstancia();
 		
 		//Pegar da sessão----------------------//
-		String tipoDeEleicao = "OPCAO_UNICA";
+		String tipoDeEleicao = "OPCAO_PONTUACAO";
 		//-------------------------------------//
 		
 		ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
@@ -203,14 +205,19 @@ import fbv.com.util.InterfacePrincipal;
 		String opcaoVoto = "";
 		String valorVoto = "";
 		String nomeServlet = "";
+		String tipoEleicao = "";
+		String tipoDeEleicao = "OPCAO_PONTUACAO";
 		Voto voto = null;	
 		ArrayList<Usuario> usuario = new ArrayList<Usuario>();
 		
 		//Obtendo dados da tela via request
 		nomeServlet = ID_REQ_NOME_SERVLET_VOTO;
 		idUsuario = request.getParameter(ServletVoto.ID_REQ_ID_USUARIO);
+		
+		if(tipoDeEleicao.equals("OPCAO_UNICA")){
 //		idEleicao = request.getParameter(ServletEleicao.ID_REQ_ID_ELEICAO);
 		opcaoVoto = request.getParameter(ServletVoto.ID_REQ_CODIGO_OPCAO_VOTO);
+		
 		if(idUsuario == null){
 			
 			idUsuario = "7";
@@ -234,11 +241,47 @@ import fbv.com.util.InterfacePrincipal;
 			fachada.incluirVoto(voto);
 			mensagem = "Voto Cadastrado com Sucesso";
 		
-
-		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
-		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mensagens.jsp");
-		requestDispatcher.forward(request, response);
+		}else{
+				ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
+				
+				OpcaoVoto opcaoVotoCheck = null;
+				//Consultando as opções de voto 
+				colecaoOpcaoVoto = fachada.consultarTodosOpcaoVoto();
+				
+				for(int i=0; colecaoOpcaoVoto.size() > i; i++){
+					 
+					opcaoVotoCheck = colecaoOpcaoVoto.get(i);
+				
+				opcaoVoto = request.getParameter(ServletVoto.ID_REQ_CODIGO_OPCAO_VOTO + opcaoVotoCheck.getId());
+				if(idUsuario == null){
+					
+					idUsuario = "7";
+				}
+				
+				//Pegar da sessção---------//
+				idEleicao = "2";
+				//-------------------------//
+				valorVoto = request.getParameter(ServletVoto.ID_REQ_VALOR_VOTO + opcaoVotoCheck.getId());
+				
+				//Montando o Objeto Voto
+				voto = new Voto();
+				voto.setIdUsuario(Integer.valueOf(idUsuario.trim()));
+				voto.setIdEleicao(Integer.valueOf(idEleicao.trim()));
+				voto.setIdOpcaoVoto(Integer.valueOf(opcaoVoto.trim()));
+			
+				if(valorVoto != null && !valorVoto.equals("")){
+					voto.setValorVoto(Integer.valueOf(valorVoto.trim()));
+				}
+				
+					fachada.incluirVoto(voto);
+					mensagem = "Voto Cadastrado com Sucesso";
+				}
+			}
+		
+			request.setAttribute(ID_REQ_MENSAGEM, mensagem);
+			request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mensagens.jsp");
+			requestDispatcher.forward(request, response);	
 
 	}
 	
