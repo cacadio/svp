@@ -7,7 +7,8 @@
 <%@page import="fbv.com.negocio.Eleicao"%>
 <%@page import="fbv.com.negocio.EleicaoEscolhaUnica"%>
 <%@page import="fbv.com.negocio.EleicaoPontuacao"%>
-<%@page import="java.text.SimpleDateFormat"%><html>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.ArrayList"%><html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Inclusão Perfil Usuário</title>
@@ -112,20 +113,27 @@
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>_Nao" name="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>" value="0" title="Múltiplos Votos" obrigatorio="1" <%= !eleicao.isMultiplosVotos()? "checked=\"checked\"": ""  %>>Não
 			</td>
 		</tr>
+		<%
+		if (eleicao.getEstado() > 1){
+		%>
 		<tr>
 			<th class="rotulodado" width="12%">
 				Data Abertura:
 			</th>
 			<td class="valordado">
-				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="<%= sdt.format(eleicao.getDataAbertura()) %>" title="Data Abertura" size="12" maxlength="10" obrigatorio="1"></input>
+				<input type="hidden" id="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" value="<%= sdt.format(eleicao.getDataAbertura()) %>" />
+				<input type="text" value="<%= sdt.format(eleicao.getDataAbertura()) %>" title="Data Abertura" size="12" maxlength="10" disabled="disabled" />
 			</td>
 		</tr>
+		<%
+		}
+		%>
 		<tr>
 			<th class="rotulodado" width="12%">
 				Data Encerramento:
 			</th>
 			<td class="valordado">
-				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" value="<%= sdt.format(eleicao.getDataEncerramento()) %>" title="Data Encerramento" size="12" maxlength="10" obrigatorio="1"></input>
+				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="<%= eleicao.getDataEncerramento() != null ? sdt.format(eleicao.getDataEncerramento()) : "" %>" title="Data Encerramento" size="12" maxlength="10" />
 			</td>
 		</tr>
 		<%
@@ -133,6 +141,30 @@
 			EleicaoEscolhaUnica eleicaoEscUnica = (EleicaoEscolhaUnica)eleicao;
 		%>
 		<tbody id="trEscolhaUnica">
+			<tr>
+				<th class="rotulodado">
+					Eleição Associada:
+				</th>
+				<td class="valordado">
+					<select id="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" name="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" <%= eleicao.getEstado() > 1? "disabled=\"disabled\"": "" %>>
+						<option value="0"></option>
+					<%
+					int idEleicaoPai = eleicaoEscUnica.getEleicaoPai() != null ? eleicaoEscUnica.getEleicaoPai().getId() : 0;
+					@SuppressWarnings("unchecked")
+					ArrayList<EleicaoEscolhaUnica> eleicoes = (ArrayList<EleicaoEscolhaUnica>)request.getAttribute(ServletEleicao.ID_REQ_ARRAY_LIST_ELEICAO);
+					if (eleicoes != null){
+						for(EleicaoEscolhaUnica el : eleicoes){
+							if (el.getEstado() == 5 && el.getId() != eleicao.getId() ){
+					%>
+						<option value="<%= el.getId() %>" <%= el.getId() == idEleicaoPai? "selected=\"selected\"": "" %>><%= el.getDescricao() %></option>
+					<%
+							}
+						}
+					}
+					%>
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<th class="rotulodado">
 					Existe Voto Nulo/Branco?

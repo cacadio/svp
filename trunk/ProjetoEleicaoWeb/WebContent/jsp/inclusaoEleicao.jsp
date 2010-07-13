@@ -131,18 +131,10 @@
 		</tr>
 		<tr>
 			<th class="rotulodado" width="12%">
-				Data Abertura:
+				Data Encerramento (Prevista):
 			</th>
 			<td class="valordado">
-				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" value="" title="Data Abertura" size="12" maxlength="10" obrigatorio="1"></input>
-			</td>
-		</tr>
-		<tr>
-			<th class="rotulodado" width="12%">
-				Data Encerramento:
-			</th>
-			<td class="valordado">
-				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="" title="Data Encerramento" size="12" maxlength="10" obrigatorio="1"></input>
+				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="" title="Data Encerramento" size="12" maxlength="10"></input>
 			</td>
 		</tr>
 		<tbody id="trEscolhaUnica" style="display: <%= (tipo == TipoEleicao.ESCOLHA_UNICA)? "": "none" %>">
@@ -158,9 +150,11 @@
 					ArrayList<EleicaoEscolhaUnica> eleicoes = (ArrayList<EleicaoEscolhaUnica>)request.getAttribute(ServletEleicao.ID_REQ_ARRAY_LIST_ELEICAO);
 					if (eleicoes != null){
 						for(EleicaoEscolhaUnica eleicao : eleicoes){
+							if (eleicao.getEstado() == 5){
 					%>
 						<option value="<%= eleicao.getId() %>"><%= eleicao.getDescricao() %></option>
 					<%
+							}
 						}
 					}
 					%>
