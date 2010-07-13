@@ -43,14 +43,13 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
             try
             {
              	String sql = "INSERT INTO eleicao " +
-            				 "(ID_ESTADO, DESCRICAO, IN_PUBLICA, IN_VISIBILIDADE_ABERTA, " +
-            				  "IN_MAIS_DE_UM_VOTO, DT_INICIO, DT_FIM)" +
+	            				 "(ID_ESTADO, DESCRICAO, IN_PUBLICA, IN_VISIBILIDADE_ABERTA, " +
+	            				  "IN_MAIS_DE_UM_VOTO, DT_FIM)" +
             				 "VALUES(" + eleicao.getEstado() + ", '" + eleicao.getDescricao() + "', " + 
-            				 (eleicao.isPublica()? "1": "0") + ", " + 
-            				 (eleicao.isVisibilidadeVoto()? "1": "0") + ", " + 
-            				 (eleicao.isMultiplosVotos()? "1": "0") + ", '" + 
-            				 sdt.format(eleicao.getDataAbertura())  + "', '" + 
-            				 sdt.format(eleicao.getDataEncerramento()) + "');";
+	            				 (eleicao.isPublica()? "1": "0") + ", " + 
+	            				 (eleicao.isVisibilidadeVoto()? "1": "0") + ", " + 
+	            				 (eleicao.isMultiplosVotos()? "1": "0") + ", " + 
+	            				 (eleicao.getDataEncerramento() != null ? "'" + sdt.format(eleicao.getDataEncerramento()) + "'" : "null") + ");";
             	
             	statement.executeUpdate(sql);
             	
@@ -102,8 +101,8 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
 					   				 "IN_PUBLICA = " + (eleicao.isPublica()? "1": "0") + ", " + 
 					   				 "IN_VISIBILIDADE_ABERTA = " + (eleicao.isVisibilidadeVoto()? "1": "0") + ", " +
 					   				 "IN_MAIS_DE_UM_VOTO = " + (eleicao.isMultiplosVotos()? "1": "0") + ", " +
-					   				 "DT_INICIO = '" + sdt.format(eleicao.getDataAbertura()) + "', " + 
-					   				 "DT_FIM = '" + sdt.format(eleicao.getDataEncerramento()) + "' " +
+					   				 "DT_INICIO = " + (eleicao.getDataAbertura() != null? "'" + sdt.format(eleicao.getDataAbertura()) + "'": "null") + ", " + 
+					   				 "DT_FIM = " + (eleicao.getDataEncerramento() != null? "'" + sdt.format(eleicao.getDataEncerramento()) + "'": "null") + " " +
 				   				 "WHERE ID_ELEICAO = " + codigo + ";";
    	
                 	statement.executeUpdate(sql);
