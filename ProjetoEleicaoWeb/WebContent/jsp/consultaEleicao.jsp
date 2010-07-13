@@ -105,6 +105,7 @@ function eventoExcluir(){
 			<th class="rotulodado" width="30px"></th>
 			<th class="rotulodado" width="80px" align="center">Código</th>
 			<th class="rotulodado" align="center">Descrição</th>
+			<th class="rotulodado" width="100px" align="center">Estado</th>
 			<th class="rotulodado" width="120px" align="center">Data Abertura</th>
 			<th class="rotulodado" width="120px" align="center">Data Encerramento</th>
 		</tr>
@@ -133,8 +134,29 @@ function eventoExcluir(){
 			<td class="<%= classeLinha %>"><input type="radio" id="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=eleicao.getId()%>"> </td>
 			<td class="<%= classeLinha %>" align="left"><%=eleicao.getId()%></td>
 			<td class="<%= classeLinha %>" align="left"><%=eleicao.getDescricao()%></td>
-			<td class="<%= classeLinha %>" align="center"><%= sdf.format(eleicao.getDataAbertura()) %></td>
-			<td class="<%= classeLinha %>" align="center"><%= sdf.format(eleicao.getDataEncerramento()) %></td>
+			<td class="<%= classeLinha %>" align="left">
+			<%
+			switch (eleicao.getEstado()){
+			case 1:
+				out.print("NOVA");
+				break;
+			case 2:
+				out.print("INICIADA");
+				break;
+			case 3:
+				out.print("EM CURSO");
+				break;
+			case 4:
+				out.print("EM APURACAO");
+				break;
+			case 5:
+				out.print("CONCLUIDA");
+				break;
+			}
+			%>
+			</td>
+			<td class="<%= classeLinha %>" align="center"><%= eleicao.getDataAbertura() != null ? sdf.format(eleicao.getDataAbertura()) : "" %></td>
+			<td class="<%= classeLinha %>" align="center"><%= eleicao.getDataEncerramento() != null ? sdf.format(eleicao.getDataEncerramento()) : "" %></td>
 		</tr>
 		<%
 			}
