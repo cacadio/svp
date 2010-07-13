@@ -136,6 +136,10 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 	private void exibirInclusao(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
+		ArrayList<EleicaoEscolhaUnica> eleicoes = Fachada.getInstancia().consultarTodasEleicoes(TipoEleicao.ESCOLHA_UNICA);
+		
+		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, eleicoes);
+		
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 		request.setAttribute(ID_REQ_TIPO_ELEICAO, Integer.parseInt(request.getParameter(ID_REQ_TIPO_ELEICAO)));
@@ -194,8 +198,9 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		eleicao.setPublica(request.getParameter(ID_REQ_IN_PUBLICA_ELEICAO).equals("1"));
 		eleicao.setVisibilidadeVoto(request.getParameter(ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO).equals("1"));
 		eleicao.setMultiplosVotos(request.getParameter(ID_REQ_IN_VOTO_MULTIPLO_ELEICAO).equals("1"));
-		eleicao.setDataAbertura(sdt.parse(request.getParameter(ID_REQ_DATA_INICIO_ELEICAO)));
-		eleicao.setDataEncerramento(sdt.parse(request.getParameter(ID_REQ_DATA_FIM_ELEICAO)));
+		//eleicao.setDataAbertura(sdt.parse(request.getParameter(ID_REQ_DATA_INICIO_ELEICAO)));
+		if (request.getParameter(ID_REQ_DATA_FIM_ELEICAO) != null && !request.getParameter(ID_REQ_DATA_FIM_ELEICAO).equals(""))
+			eleicao.setDataEncerramento(sdt.parse(request.getParameter(ID_REQ_DATA_FIM_ELEICAO)));
 
 		fachada.incluirEleicao(eleicao);
 		mensagem = "Eleição Cadastrada com Sucesso";
@@ -300,8 +305,10 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		eleicao.setPublica(request.getParameter(ID_REQ_IN_PUBLICA_ELEICAO).equals("1"));
 		eleicao.setVisibilidadeVoto(request.getParameter(ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO).equals("1"));
 		eleicao.setMultiplosVotos(request.getParameter(ID_REQ_IN_VOTO_MULTIPLO_ELEICAO).equals("1"));
-		eleicao.setDataAbertura(sdt.parse(request.getParameter(ID_REQ_DATA_INICIO_ELEICAO)));
-		eleicao.setDataEncerramento(sdt.parse(request.getParameter(ID_REQ_DATA_FIM_ELEICAO)));
+		if (request.getParameter(ID_REQ_DATA_INICIO_ELEICAO) != null && !request.getParameter(ID_REQ_DATA_INICIO_ELEICAO).equals(""))
+			eleicao.setDataAbertura(sdt.parse(request.getParameter(ID_REQ_DATA_INICIO_ELEICAO)));
+		if (request.getParameter(ID_REQ_DATA_FIM_ELEICAO) != null && !request.getParameter(ID_REQ_DATA_FIM_ELEICAO).equals(""))
+			eleicao.setDataEncerramento(sdt.parse(request.getParameter(ID_REQ_DATA_FIM_ELEICAO)));
 
 		fachada.alterarEleicao(eleicao);
 
