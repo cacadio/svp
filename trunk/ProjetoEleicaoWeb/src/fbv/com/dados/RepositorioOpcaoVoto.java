@@ -18,7 +18,7 @@ Opcaovoto = Nome da classe de entidade
 pOpcaovoto = Parâmetro da entidade
 */
 
-public class RepositorioOpcaoVoto implements IRepositorioBD {
+public class RepositorioOpcaoVoto implements IRepositorioBD, IRepositorioGenericoBD {
 	
 	private Connection conexao;
 	private Statement statement; 
@@ -189,7 +189,63 @@ public class RepositorioOpcaoVoto implements IRepositorioBD {
 	        }
 			
 		}
-
+	
+//	------------------	
+    //BUSCA PELO ID ELEICAO
+	//-------------------
+	public  ArrayList consultarPeloIDEleicao(Object pOpcaoVoto) throws ExcecaoRegistroNaoExistente {
+		OpcaoVoto opcaoVoto = (OpcaoVoto)pOpcaoVoto;
+		ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
+		int idEleicao = opcaoVoto.getIdEleicao();
+		try
+	        {
+				ResultSet rs = null;
+	            try
+	            {
+	            	rs = statement.executeQuery("SELECT OPCAO_VOTO.ID_OPCAO_VOTO, OPCAO_VOTO.ELEICAO_ID_ELEICAO,OPCAO_VOTO.DESCRICAO,OPCAO_VOTO.CAMINHO_IMAGEM FROM svp.OPCAO_VOTO INNER JOIN svp.ELEICAO ON OPCAO_VOTO.ELEICAO_ID_ELEICAO = " + idEleicao);
+	            	
+	                while (rs.next())
+	                {
+	                	//Capturando os valores do result set
+	                	int idOpcaoVoto = rs.getInt ("id_opcao_voto");
+						String dsOpcaoVoto = rs.getString ("descricao");
+						String caminhoImagem = rs.getString("caminho_imagem");
+						idEleicao = rs.getInt("eleicao_id_eleicao");
+						//Criando uma nova instância de Usuario com os parâmetros capturados
+						opcaoVoto = new OpcaoVoto(idOpcaoVoto, idEleicao ,dsOpcaoVoto, caminhoImagem);
+						colecaoOpcaoVoto.add(opcaoVoto);  
+	                }
+	
+	                return colecaoOpcaoVoto;                               
+	
+	            }
+	            catch (Exception e)
+	            {
+	                throw new ExcecaoAcessoRepositorio("Erro ao buscar no banco de dados!" /*+ "/n" + e.toString()*/);
+	            }
+	            
+				finally
+				{
+					if (rs != null)
+					{
+						try {rs.close();}catch(Exception e) {}
+					}
+					if (conexao != null)
+					{
+						try {statement.close();}catch(Exception e) {}
+					}		
+					if (conexao != null)
+					{
+						try {conexao.close();}catch(Exception e) {}
+					}				
+				}
+	       }
+	        catch (Exception e)
+	        {
+	            throw new ExcecaoRegistroNaoExistente(e.getMessage() /*+ "/n" + e.toString()*/);
+	        }
+			
+		}
 
 	public ArrayList consultarTodos() throws SQLException, ExcecaoRegistroNaoExistente {
 		ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
