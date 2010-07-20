@@ -179,18 +179,33 @@ import fbv.com.util.InterfacePrincipal;
 	private void exibirInclusao(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		Fachada fachada = Fachada.getInstancia();
+		ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
+		OpcaoVoto opcaoVoto = null;
+		String mensagem = "";
+		String nomeServlet = "";
+		
+		nomeServlet = ID_REQ_NOME_SERVLET_VOTO;
 		
 		//Pegar da sessão----------------------//
 		String tipoDeEleicao = "OPCAO_PONTUACAO";
+		String descEleicao = "Eleição de Comidas";
+		int idEleicao = 2;
 		//-------------------------------------//
 		
-		ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
-		
-		//Consultando as opções de voto 
-		colecaoOpcaoVoto = fachada.consultarTodosOpcaoVoto();
-		
+		opcaoVoto = new OpcaoVoto();
+		opcaoVoto.setIdEleicao(idEleicao);
+		colecaoOpcaoVoto = fachada.consultarPeloIDEleicao(opcaoVoto);
+		if(colecaoOpcaoVoto != null && colecaoOpcaoVoto.isEmpty()){
+			
+			mensagem = "Não existe opções de voto cadastrada para este tipo de eleição";
+			request.setAttribute(ID_REQ_MENSAGEM, mensagem);
+			request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mensagens.jsp");
+			requestDispatcher.forward(request, response);	
+		}
 		request.setAttribute(ID_REQ_OBJETO_VOTO, colecaoOpcaoVoto);
 		request.setAttribute(ID_REQ_TIPO_DE_ELEICAO, tipoDeEleicao);
+		request.setAttribute(ID_REQ_DESCRICAO_ELEICAO, descEleicao);
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/inclusao_voto.jsp");
 		requestDispatcher.forward(request, response);
 	}
@@ -201,13 +216,14 @@ import fbv.com.util.InterfacePrincipal;
 		Fachada fachada = Fachada.getInstancia();
 		String mensagem = "";
 		String idUsuario = "";
-		String idEleicao = "";
+		Integer idEleicao = null;
 		String opcaoVoto = "";
 		String valorVoto = "";
 		String nomeServlet = "";
 		String tipoEleicao = "";
-		String tipoDeEleicao = "OPCAO_PONTUACAO";
+		String tipoDeEleicao = "OPCAO_PONTUCAO";
 		Voto voto = null;	
+		OpcaoVoto opcaoVotoEleicao = null;
 		ArrayList<Usuario> usuario = new ArrayList<Usuario>();
 		
 		//Obtendo dados da tela via request
@@ -224,14 +240,14 @@ import fbv.com.util.InterfacePrincipal;
 		}
 		
 		//Pegar da sessção---------//
-		idEleicao = "2";
+		idEleicao = 2;
 		//-------------------------//
 		valorVoto = request.getParameter(ServletVoto.ID_REQ_VALOR_VOTO + opcaoVoto);
 		
 		//Montando o Objeto Voto
 		voto = new Voto();
 		voto.setIdUsuario(Integer.valueOf(idUsuario.trim()));
-		voto.setIdEleicao(Integer.valueOf(idEleicao.trim()));
+		voto.setIdEleicao(idEleicao);
 		voto.setIdOpcaoVoto(Integer.valueOf(opcaoVoto.trim()));
 	
 		if(valorVoto != null && !valorVoto.equals("")){
@@ -244,9 +260,13 @@ import fbv.com.util.InterfacePrincipal;
 		}else{
 				ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
 				
+				idEleicao = 2;
+				opcaoVotoEleicao = new OpcaoVoto();
+				opcaoVotoEleicao.setIdEleicao(idEleicao);
 				OpcaoVoto opcaoVotoCheck = null;
+				
 				//Consultando as opções de voto 
-				colecaoOpcaoVoto = fachada.consultarTodosOpcaoVoto();
+				colecaoOpcaoVoto = fachada.consultarPeloIDEleicao(opcaoVotoEleicao);
 				
 				for(int i=0; colecaoOpcaoVoto.size() > i; i++){
 					 
@@ -259,14 +279,14 @@ import fbv.com.util.InterfacePrincipal;
 				}
 				
 				//Pegar da sessção---------//
-				idEleicao = "2";
+				idEleicao = 1;
 				//-------------------------//
 				valorVoto = request.getParameter(ServletVoto.ID_REQ_VALOR_VOTO + opcaoVotoCheck.getId());
 				
 				//Montando o Objeto Voto
 				voto = new Voto();
 				voto.setIdUsuario(Integer.valueOf(idUsuario.trim()));
-				voto.setIdEleicao(Integer.valueOf(idEleicao.trim()));
+				voto.setIdEleicao(idEleicao);
 				voto.setIdOpcaoVoto(Integer.valueOf(opcaoVoto.trim()));
 			
 				if(valorVoto != null && !valorVoto.equals("")){
