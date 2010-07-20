@@ -4,15 +4,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import fbv.com.dados.IRepositorioBD;
+import fbv.com.dados.IRepositorioGenericoBD;
+import fbv.com.dados.RepositorioOpcaoVoto;
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;
 import fbv.com.excecoes.ExcecaoRegistroNaoExistente;
 
 public class CadastroOpcaoVoto {
  
-	private IRepositorioBD repositorioBD;
+	private RepositorioOpcaoVoto repositorioBD;
 	
-	public CadastroOpcaoVoto(IRepositorioBD repositorio){
+	public CadastroOpcaoVoto(RepositorioOpcaoVoto repositorio){
 		if(repositorio != null){
 			this.repositorioBD = repositorio;
 		}
@@ -37,6 +39,10 @@ public class CadastroOpcaoVoto {
 	public ArrayList<OpcaoVoto> consultarTodos() throws SQLException, ExcecaoRegistroNaoExistente{
 		return repositorioBD.consultarTodos();
 	}
-	 
+	
+	public ArrayList<OpcaoVoto> consultarPeloIDEleicao(OpcaoVoto pOpcaoVoto) throws SQLException, ExcecaoRegistroNaoExistente{
+		return repositorioBD.consultarPeloIDEleicao(pOpcaoVoto);
+	}
+	
 }
  
