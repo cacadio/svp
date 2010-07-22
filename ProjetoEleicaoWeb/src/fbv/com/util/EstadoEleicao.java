@@ -1,16 +1,24 @@
 package fbv.com.util;
 
-public enum EstadoEleicao {
-	
-	CRIADA(1),	INICIADA(2), FECHADA(3);
+import fbv.com.negocio.Eleicao;
+import fbv.com.negocio.IEstado;
 
-	private final int value;
-	
-	EstadoEleicao(int value) {  
-      this.value = value;  
-    }  
-  
-    public int value() {  
-      return this.value;  
-    }
+public class EstadoEleicao {
+	public static IEstado getEstado(int estado){
+		switch (estado) {
+		case 1:
+			return Eleicao.NOVA;
+		case 2:
+			return Eleicao.INICIADA;
+		case 3:
+			return Eleicao.EMCURSO;
+		case 4:
+			return Eleicao.EMAPURACAO;
+		case 5:
+			return Eleicao.CONCLUIDA;
+		default:
+			return Eleicao.NOVA;
+		}
+		
+	}
 }
