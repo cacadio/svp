@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fbv.com.negocio.EleicaoEscolhaUnica;
 import fbv.com.negocio.EleicaoPontuacao;
+import fbv.com.negocio.EstadoNova;
 import fbv.com.negocio.Fachada;
 import fbv.com.negocio.Eleicao;
 import fbv.com.util.InterfacePrincipal;
@@ -194,7 +195,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 				&& !descricaoEleicao.equals("")) {
 			eleicao.setDescricao(descricaoEleicao);
 		}
-		eleicao.setEstado(1);
+		eleicao.setEstado(new EstadoNova());
 		eleicao.setPublica(request.getParameter(ID_REQ_IN_PUBLICA_ELEICAO).equals("1"));
 		eleicao.setVisibilidadeVoto(request.getParameter(ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO).equals("1"));
 		eleicao.setMultiplosVotos(request.getParameter(ID_REQ_IN_VOTO_MULTIPLO_ELEICAO).equals("1"));
