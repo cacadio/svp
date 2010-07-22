@@ -11,6 +11,7 @@ import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;
 import fbv.com.excecoes.ExcecaoRegistroNaoExistente;
 import fbv.com.negocio.EleicaoPontuacao;
+import fbv.com.util.EstadoEleicao;
 import fbv.com.util.GerenciadorConexaoBDR;
 
 /*
@@ -43,7 +44,7 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
              	String sql = "INSERT INTO eleicao " +
 								 "(ID_ESTADO, DESCRICAO, IN_PUBLICA, IN_VISIBILIDADE_ABERTA, " +
 								  "IN_MAIS_DE_UM_VOTO, DT_FIM)" +
-							 "VALUES(" + eleicao.getEstado() + ", '" + eleicao.getDescricao() + "', " + 
+							 "VALUES(" + eleicao.getEstado().getValor() + ", '" + eleicao.getDescricao() + "', " + 
 								 (eleicao.isPublica()? "1": "0") + ", " + 
 								 (eleicao.isVisibilidadeVoto()? "1": "0") + ", " + 
 								 (eleicao.isMultiplosVotos()? "1": "0") + ", " + 
@@ -91,28 +92,19 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
             {
                 try
                 {
-                	SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
-                	                	
-                	String sql = "UPDATE Eleicao SET " +
-					   				 "ID_ESTADO = " + eleicao.getEstado() + ", "+ 
-					   				 "DESCRICAO = '" + eleicao.getDescricao() + "', " + 
-					   				 "IN_PUBLICA = " + (eleicao.isPublica()? "1": "0") + ", " + 
-					   				 "IN_VISIBILIDADE_ABERTA = " + (eleicao.isVisibilidadeVoto()? "1": "0") + ", " +
-					   				 "IN_MAIS_DE_UM_VOTO = " + (eleicao.isMultiplosVotos()? "1": "0") + ", " +
-					   				 "DT_INICIO = " + (eleicao.getDataAbertura() != null? "'" + sdt.format(eleicao.getDataAbertura()) + "'": "null") + ", " + 
-					   				 "DT_FIM = " + (eleicao.getDataEncerramento() != null? "'" + sdt.format(eleicao.getDataEncerramento()) + "'": "null") + " " +
-				  				 "WHERE ID_ELEICAO = " + codigo + ";";
+                	String sql = eleicao.getEstado().getUpdateSQL(eleicao);
    	
                 	statement.executeUpdate(sql);
 				   	
-	            	sql = "UPDATE pontuacao SET " +
-	   				 		"PONTUACAO_MINIMA = " + eleicao.getPontuacaoMinima() + ", " +
-	   				 		"PONTUACAO_MAXIMA = " + eleicao.getPontuacaoMaxima() + ", " +
-	   				 		"GRAU_INTERVALOS = " + eleicao.getIntervaloPontuacao() + " " +
-	   				 	  "WHERE ID_ELEICAO_PONTUACAO = " + codigo + ";";
-           	
-	            	statement.executeUpdate(sql);
-				   	
+                	if (eleicao.getEstado().getValor() == 1){
+		            	sql = "UPDATE pontuacao SET " +
+		   				 		"PONTUACAO_MINIMA = " + eleicao.getPontuacaoMinima() + ", " +
+		   				 		"PONTUACAO_MAXIMA = " + eleicao.getPontuacaoMaxima() + ", " +
+		   				 		"GRAU_INTERVALOS = " + eleicao.getIntervaloPontuacao() + " " +
+		   				 	  "WHERE ID_ELEICAO_PONTUACAO = " + codigo + ";";
+	           	
+		            	statement.executeUpdate(sql);
+                	}
                 }
                 catch (Exception e)
                 {
@@ -265,7 +257,7 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
     	EleicaoPontuacao eleicao = new EleicaoPontuacao();
     	//Capturando os valores do result set
     	eleicao.setId(rs.getInt("ID_ELEICAO"));
-    	eleicao.setEstado(rs.getInt("ID_ESTADO"));
+    	eleicao.setEstado(EstadoEleicao.getEstado(rs.getInt("ID_ESTADO")));
 		eleicao.setDescricao(rs.getString ("DESCRICAO"));
 		eleicao.setPublica(rs.getBoolean("IN_PUBLICA"));
 		eleicao.setVisibilidadeVoto(rs.getBoolean("IN_VISIBILIDADE_ABERTA"));
