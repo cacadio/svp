@@ -2,23 +2,23 @@ package fbv.com.negocio;
 
 import java.util.Date;
 
+
 public class Eleicao {
 	
 	private int id;
- 
 	private String descricao;
-	
 	private boolean publica;
-	
 	private boolean visibilidadeVoto;
-
 	private Date dataAbertura;
-	
 	private Date dataEncerramento;
-
-	private int estado;
-	 
+	private IEstado estado;
 	private boolean multiplosVotos;
+
+	public static final IEstado NOVA = new EstadoNova();
+	public static final IEstado INICIADA = new EstadoIniciada();
+	public static final IEstado EMCURSO = new EstadoEmCurso();
+	public static final IEstado EMAPURACAO = new EstadoEmApuracao();
+	public static final IEstado CONCLUIDA = new EstadoConcluida();
 	
 	public Eleicao(){
 		
@@ -30,7 +30,7 @@ public class Eleicao {
 
 	public Eleicao(int id, String descricao, boolean publica,
 			boolean visibilidadeVoto, Date dataAbertura,
-			Date dataEncerramento, int estado, boolean multiplosVotos) {
+			Date dataEncerramento, IEstado estado, boolean multiplosVotos) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
@@ -90,11 +90,11 @@ public class Eleicao {
 		this.dataEncerramento = dataEncerramento;
 	}
 
-	public int getEstado() {
+	public IEstado getEstado() {
 		return estado;
 	}
 
-	public void setEstado(int estado) {
+	public void setEstado(IEstado estado) {
 		this.estado = estado;
 	}
 
