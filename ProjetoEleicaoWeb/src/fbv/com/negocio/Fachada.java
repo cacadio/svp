@@ -101,6 +101,7 @@ public class Fachada {
 		return controladorEleicao.consultarTodosOpcaoVoto();
 	}
 	
+	//@Rodrigo
 	public  ArrayList<OpcaoVoto> consultarPeloIDEleicao(OpcaoVoto pOpcaoVoto) throws SQLException, ExcecaoRegistroNaoExistente{
 		return controladorEleicao.consultarPeloIDEleicao(pOpcaoVoto);
 	}
