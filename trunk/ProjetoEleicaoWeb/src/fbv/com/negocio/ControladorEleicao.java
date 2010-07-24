@@ -35,7 +35,7 @@ public class ControladorEleicao {
 	private ControladorEleicao() throws ExcecaoAcessoRepositorio, SQLException{
 		cadastroEleicaoEscolhaUnica = new CadastroEleicaoEscolhaUnica(new RepositorioEleicaoEscolhaUnica());
 		cadastroEleicaoPontuacao = new CadastroEleicaoPontuacao(new RepositorioEleicaoPontuacao());
-		cadastroOpcaoVoto = new CadastroOpcaoVoto(new RepositorioOpcaoVoto());
+		cadastroOpcaoVoto = new CadastroOpcaoVoto(new RepositorioOpcaoVoto() );
 		cadastroVoto = new CadastroVoto(new RepositorioVoto());
 		
 	}
@@ -67,9 +67,9 @@ public class ControladorEleicao {
 	
 	public Eleicao consultarEleicaoPelaChave(Eleicao eleicao) throws SQLException, ExcecaoRegistroNaoExistente{
 		if (eleicao instanceof EleicaoEscolhaUnica)
-			return cadastroEleicaoEscolhaUnica.consultarPelaChave(eleicao);
+			return cadastroEleicaoEscolhaUnica.consultarPelaChave((EleicaoEscolhaUnica)eleicao);
 		else
-			return cadastroEleicaoPontuacao.consultarPelaChave(eleicao);
+			return cadastroEleicaoPontuacao.consultarPelaChave((EleicaoPontuacao)eleicao);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -107,6 +107,11 @@ public class ControladorEleicao {
 	/*
 	 * Opcao de voto
 	 * **/
+	
+	//consulta opção voto pelo tipo de eleição
+	public  ArrayList<OpcaoVoto> consultarPeloIDEleicao(OpcaoVoto pOpcaoVoto) throws SQLException, ExcecaoRegistroNaoExistente{
+		return cadastroOpcaoVoto.consultarPeloIDEleicao(pOpcaoVoto);
+	}
 	
 	public void incluirOpcaoVoto(OpcaoVoto pOpcaoVoto) throws SQLException, ExcecaoRegistroJaExistente{
 		cadastroOpcaoVoto.incluir(pOpcaoVoto);
