@@ -183,17 +183,19 @@ import fbv.com.util.InterfacePrincipal;
 		OpcaoVoto opcaoVoto = null;
 		String mensagem = "";
 		String nomeServlet = "";
+		String tipoDeEleicao = "";
+		String descEleicao = "";
+		String idEleicao = "";
 		
 		nomeServlet = ID_REQ_NOME_SERVLET_VOTO;
 		
-		//Pegar da sessão----------------------//
-		String tipoDeEleicao = "OPCAO_PONTUACAO";
-		String descEleicao = "Eleição de Comidas";
-		int idEleicao = 2;
-		//-------------------------------------//
+		//Pegando o tipo de eleição da sessao
+		tipoDeEleicao = request.getSession().getAttribute(ServletVoto.ID_REQ_TIPO_DE_ELEICAO).toString();
+		idEleicao = request.getSession().getAttribute(ServletVoto.ID_REQ_CODIGO_ELEICAO).toString();
+		descEleicao = request.getParameter(ServletVoto.ID_REQ_DESCRICAO_ELEICAO);
 		
 		opcaoVoto = new OpcaoVoto();
-		opcaoVoto.setIdEleicao(idEleicao);
+		opcaoVoto.setIdEleicao(new Integer(idEleicao));
 		colecaoOpcaoVoto = fachada.consultarPeloIDEleicao(opcaoVoto);
 		if(colecaoOpcaoVoto != null && colecaoOpcaoVoto.isEmpty()){
 			
@@ -216,12 +218,11 @@ import fbv.com.util.InterfacePrincipal;
 		Fachada fachada = Fachada.getInstancia();
 		String mensagem = "";
 		String idUsuario = "";
-		Integer idEleicao = null;
+		String idEleicao = "";
 		String opcaoVoto = "";
 		String valorVoto = "";
 		String nomeServlet = "";
-		String tipoEleicao = "";
-		String tipoDeEleicao = "OPCAO_PONTUCAO";
+		String tipoDeEleicao = "";
 		Voto voto = null;	
 		OpcaoVoto opcaoVotoEleicao = null;
 		ArrayList<Usuario> usuario = new ArrayList<Usuario>();
@@ -230,8 +231,11 @@ import fbv.com.util.InterfacePrincipal;
 		nomeServlet = ID_REQ_NOME_SERVLET_VOTO;
 		idUsuario = request.getParameter(ServletVoto.ID_REQ_ID_USUARIO);
 		
+		tipoDeEleicao = request.getSession().getAttribute(ServletVoto.ID_REQ_TIPO_DE_ELEICAO).toString();
+		idEleicao = request.getSession().getAttribute(ServletVoto.ID_REQ_CODIGO_ELEICAO).toString();
+		idUsuario = request.getSession().getAttribute(ServletVoto.ID_REQ_ID_USUARIO).toString();
+		
 		if(tipoDeEleicao.equals("OPCAO_UNICA")){
-//		idEleicao = request.getParameter(ServletEleicao.ID_REQ_ID_ELEICAO);
 		opcaoVoto = request.getParameter(ServletVoto.ID_REQ_CODIGO_OPCAO_VOTO);
 		
 		if(idUsuario == null){
@@ -239,15 +243,12 @@ import fbv.com.util.InterfacePrincipal;
 			idUsuario = "7";
 		}
 		
-		//Pegar da sessção---------//
-		idEleicao = 2;
-		//-------------------------//
 		valorVoto = request.getParameter(ServletVoto.ID_REQ_VALOR_VOTO + opcaoVoto);
 		
 		//Montando o Objeto Voto
 		voto = new Voto();
 		voto.setIdUsuario(Integer.valueOf(idUsuario.trim()));
-		voto.setIdEleicao(idEleicao);
+		voto.setIdEleicao(new Integer(idEleicao));
 		voto.setIdOpcaoVoto(Integer.valueOf(opcaoVoto.trim()));
 	
 		if(valorVoto != null && !valorVoto.equals("")){
@@ -260,9 +261,8 @@ import fbv.com.util.InterfacePrincipal;
 		}else{
 				ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
 				
-				idEleicao = 2;
 				opcaoVotoEleicao = new OpcaoVoto();
-				opcaoVotoEleicao.setIdEleicao(idEleicao);
+				opcaoVotoEleicao.setIdEleicao(new Integer(idEleicao));
 				OpcaoVoto opcaoVotoCheck = null;
 				
 				//Consultando as opções de voto 
@@ -277,16 +277,13 @@ import fbv.com.util.InterfacePrincipal;
 					
 					idUsuario = "7";
 				}
-				
-				//Pegar da sessção---------//
-				idEleicao = 1;
-				//-------------------------//
+
 				valorVoto = request.getParameter(ServletVoto.ID_REQ_VALOR_VOTO + opcaoVotoCheck.getId());
 				
 				//Montando o Objeto Voto
 				voto = new Voto();
 				voto.setIdUsuario(Integer.valueOf(idUsuario.trim()));
-				voto.setIdEleicao(idEleicao);
+				voto.setIdEleicao(new Integer(idEleicao));
 				voto.setIdOpcaoVoto(Integer.valueOf(opcaoVoto.trim()));
 			
 				if(valorVoto != null && !valorVoto.equals("")){
