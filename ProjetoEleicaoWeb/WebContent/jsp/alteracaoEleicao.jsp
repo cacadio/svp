@@ -114,7 +114,7 @@
 			</td>
 		</tr>
 		<%
-		if (eleicao.getEstado() > 1){
+		if (eleicao.getEstado().getValor() > 1){
 		%>
 		<tr>
 			<th class="rotulodado" width="12%">
@@ -146,7 +146,7 @@
 					Eleição Associada:
 				</th>
 				<td class="valordado">
-					<select id="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" name="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" <%= eleicao.getEstado() > 1? "disabled=\"disabled\"": "" %>>
+					<select id="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" name="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" <%= eleicao.getEstado().getValor() > 1? "disabled=\"disabled\"": "" %>>
 						<option value="0"></option>
 					<%
 					int idEleicaoPai = eleicaoEscUnica.getEleicaoPai() != null ? eleicaoEscUnica.getEleicaoPai().getId() : 0;
@@ -154,7 +154,7 @@
 					ArrayList<EleicaoEscolhaUnica> eleicoes = (ArrayList<EleicaoEscolhaUnica>)request.getAttribute(ServletEleicao.ID_REQ_ARRAY_LIST_ELEICAO);
 					if (eleicoes != null){
 						for(EleicaoEscolhaUnica el : eleicoes){
-							if (el.getEstado() == 5 && el.getId() != eleicao.getId() ){
+							if (el.getEstado().getValor() == 5 && el.getId() != eleicao.getId() ){
 					%>
 						<option value="<%= el.getId() %>" <%= el.getId() == idEleicaoPai? "selected=\"selected\"": "" %>><%= el.getDescricao() %></option>
 					<%
