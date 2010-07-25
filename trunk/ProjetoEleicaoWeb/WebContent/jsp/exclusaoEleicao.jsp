@@ -93,7 +93,7 @@
 			</td>
 		</tr>
 		<%
-		if (eleicao.getEstado() > 1){
+		if (eleicao.getEstado().getValor() > 1){
 		%>
 		<tr>
 			<th class="rotulodado" width="12%">
