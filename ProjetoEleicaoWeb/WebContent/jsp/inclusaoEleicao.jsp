@@ -150,7 +150,7 @@
 					ArrayList<EleicaoEscolhaUnica> eleicoes = (ArrayList<EleicaoEscolhaUnica>)request.getAttribute(ServletEleicao.ID_REQ_ARRAY_LIST_ELEICAO);
 					if (eleicoes != null){
 						for(EleicaoEscolhaUnica eleicao : eleicoes){
-							if (eleicao.getEstado() == 5){
+							if (eleicao.getEstado().getValor() == 5){
 					%>
 						<option value="<%= eleicao.getId() %>"><%= eleicao.getDescricao() %></option>
 					<%

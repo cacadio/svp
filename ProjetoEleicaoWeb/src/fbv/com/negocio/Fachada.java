@@ -54,30 +54,6 @@ public class Fachada {
 	}
 	
 	/*
-	 * EleicaoPontuacao
-	 * **/
-	/*
-	public void incluirEleicaoPontuacao(EleicaoPontuacao pEleicaoPontuacao) throws SQLException, ExcecaoRegistroJaExistente{
-		controladorEleicao.incluirEleicaoPontuacao(pEleicaoPontuacao);
-	}
-	
-	public void alterarEleicaoPontuacao(EleicaoPontuacao pEleicaoPontuacao) throws SQLException, ExcecaoAcessoRepositorio{
-		controladorEleicao.alterarEleicaoPontuacao(pEleicaoPontuacao);
-	}
-	
-	public void excluirEleicaoPontuacao(EleicaoPontuacao pEleicaoPontuacao) throws SQLException, ExcecaoAcessoRepositorio{
-		controladorEleicao.excluirEleicaoPontuacao(pEleicaoPontuacao);
-	}
-	
-	public EleicaoPontuacao consultarEleicaoPelaChave(EleicaoPontuacao pEleicaoPontuacao) throws SQLException, ExcecaoRegistroNaoExistente{
-		return controladorEleicao.consultarEleicaoPelaChave(pEleicaoPontuacao);
-	}
-	
-	public ArrayList<EleicaoPontuacao> consultarTodosEleicaoPontuacaos() throws SQLException, ExcecaoRegistroNaoExistente{
-		return controladorEleicao.consultarTodosEleicaoPontuacao();
-	}
-	*/
-	/*
 	 * Opcao de voto
 	 * **/
 	

@@ -136,7 +136,7 @@ function eventoExcluir(){
 			<td class="<%= classeLinha %>" align="left"><%=eleicao.getDescricao()%></td>
 			<td class="<%= classeLinha %>" align="left">
 			<%
-			switch (eleicao.getEstado()){
+			switch (eleicao.getEstado().getValor()){
 			case 1:
 				out.print("NOVA");
 				break;
