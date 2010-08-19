@@ -14,7 +14,6 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_MENSAGEM = "idMensagem";
 	public static final String ID_REQ_NOME_SERVLET = "nomeServlet";
 	public static final String ID_REQ_CHAVE_PRIMARIA = "chavePrimaria";
-	public static final String ID_REQ_TITULO_PAGINA = "tituloPagina";
 	
 	//identificadores caso de uso Perfil de usuário
 	public static final String ID_REQ_ARRAY_LIST_PERFIL_USUARIO = "arrayListPerfilUsuario";
@@ -53,6 +52,7 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_ARRAY_LIST_OPCAO_VOTO = "arrayListOpcaoVoto";
 	public static final String ID_REQ_OBJETO_OPCAO_VOTO = "objetoOpcaoVoto";
 
+
 	//identificadores caso de uso Eleição
 	public static final String ID_REQ_ARRAY_LIST_ELEICAO = "arrayListEleicao";
 	public static final String ID_REQ_TIPO_ELEICAO = "tipoEleicao";
@@ -63,6 +63,9 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_IN_VOTO_MULTIPLO_ELEICAO = "inVotoMultiploEleicao";
 	public static final String ID_REQ_DATA_INICIO_ELEICAO = "dataInicioEleicao";
 	public static final String ID_REQ_DATA_FIM_ELEICAO = "dataFimEleicao";
+	public static final String ID_REQ_TITULO_PAGINA = "tituloPagina";
+	public static final String ID_REQ_ARRAY_LIST_ELEICAO_PRIVADA = "ArrayListEleicaoPrivada";
+	public static final String ID_REQ_ARRAY_LIST_ELEICAO_PUBLICA = "ArrayListEleicaoPublica";
 	/*
 	 * Escolha Única
 	 */
@@ -75,14 +78,14 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_PONTUACAO_MINIMA_ELEICAO = "pontuacaoMinimaEleicao";
 	public static final String ID_REQ_PONTUACAO_MAXIMA_ELEICAO = "pontuacaoMaximaEleicao";
 	public static final String ID_REQ_INTERVALO_PONTUACAO_ELEICAO = "intervaloPontuacaoEleicao";
-	
+	public static final String  ID_REQ_TIPO_DE_ELEICAO = "tipoDeEleicao";
 	public static final String ID_REQ_NOME_SERVLET_ELEICAO = "ServletEleicao";
 	public static final String ID_REQ_OBJETO_ELEICAO = "objetoEleicao";
 	
-	public static final String  ID_REQ_TIPO_DE_ELEICAO = "tipoDeEleicao";
-	
-	
-	
+	//identificadores caso de uso login
+	public static final String ID_REQ_NOME_SERVLET_LOGIN = "ServletLogin";
+	public static final String ID_REQ_LOGIN = "login";
+	public static final String ID_REQ_PASSWORD = "password";
 	
 	
 
