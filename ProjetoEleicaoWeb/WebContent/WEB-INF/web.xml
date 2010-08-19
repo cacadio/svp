@@ -51,6 +51,26 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>ServletLogin</display-name>
+    <servlet-name>ServletLogin</servlet-name>
+    <servlet-class>fbv.com.servlets.ServletLogin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletLogin</servlet-name>
+    <url-pattern>/ServletLogin</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletMenu</display-name>
+    <servlet-name>ServletMenu</servlet-name>
+    <servlet-class>fbv.com.servlets.ServletMenu</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletMenu</servlet-name>
+    <url-pattern>/ServletMenu</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>ServletEleicao</display-name>
     <servlet-name>ServletEleicao</servlet-name>
     <servlet-class>fbv.com.servlets.ServletEleicao</servlet-class>
