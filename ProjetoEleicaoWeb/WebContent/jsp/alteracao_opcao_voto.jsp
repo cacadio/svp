@@ -67,7 +67,7 @@ function eventoProcessarAlteracao(){
 				        pathFoto = opcaoVoto.getPath_foto();
 				    }
 				%>
-				<input type="file" id="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" value="<%=pathFoto%>" size="40" maxlength="45"></input>
+				<input type="text" id="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" value="<%=pathFoto%>" size="40" maxlength="45"></input>
 			</td>
 		</tr>
 	</table>
