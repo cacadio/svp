@@ -50,7 +50,7 @@ function eventoProcessarInclusao() {
 		</tr>
 		<tr>
 			<th class="rotulodado" width="12%">Foto:</th>
-			<td class="valordado"><input type="file" id="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" value="" size="40" maxlength="45"></td>
+			<td class="valordado"><input type="text" id="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" value="" size="40" maxlength="45"></td>
 		</tr>
 	</table>
 	<table width="100%">
