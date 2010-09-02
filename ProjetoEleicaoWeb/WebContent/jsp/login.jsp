@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Efetuar login</title>
+<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 </head>
 <%
 try{
@@ -24,15 +25,43 @@ function eventoLogar() {
 <input type="hidden" id="<%=ServletLogin.ID_REQ_EVENTO%>" name="<%=ServletLogin.ID_REQ_EVENTO%>" value="">
 <input type="hidden" id="<%=ServletLogin.ID_REQ_ID_ELEICAO%>" name="<%=ServletLogin.ID_REQ_ID_ELEICAO%>" value="<%=idEleicao%>">
 <input type="hidden" id="<%=ServletLogin.ID_REQ_TIPO_DE_ELEICAO%>" name="<%=ServletLogin.ID_REQ_TIPO_DE_ELEICAO%>" value="<%=tpElicao%>">
-	<table width="100%" border="1" align="center">
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Projeto Eleição</a></h1>
+		<p>FBV - Faculdade Boa Viagem</p>
+	</div>
+	<!-- end #logo -->
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+</div>
+	<table width="80%" border="0" align="center">
 		<tr>
-			<td>Login: </td>
+			<td colspan="2">
+				<div class="post">
+					<h1 class="title">Login</h1>
+				</div>
+			</td>
+		</tr>
+		<div id="sidebar">
+		<div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
+		<tr>
+			<td class="td" width="20%" align="right">Login: </td>
 			<td>
 				<input type="text" id="<%=ServletLogin.ID_REQ_LOGIN%>" name="<%=ServletLogin.ID_REQ_LOGIN%>" value="">
 			</td>
 		</tr>
 		<tr>
-			<td>Senha: </td>
+			<td class="td" width="20%" align="right">Senha: </td>
 			<td>
 				<input type="password" id="<%=ServletLogin.ID_REQ_SENHA_USUARIO%>" name="<%=ServletLogin.ID_REQ_SENHA_USUARIO%>" value="">
 			</td>
@@ -40,7 +69,13 @@ function eventoLogar() {
 		<tr>
 			<td align="center"><input type="button" id="botaoLogar" name="botaoLogar" onclick="eventoLogar()" value="Logar" a ></td>
 		</tr>
+		</div>
+		<div id="sidebar-bgbtm"></div>
+		</div>
 	</table>
+	<div id="footer">
+		<p>&copy; 2008. All Rights Reserved.</p>
+	</div>
 </form>
 <%
 	}catch(Exception e){

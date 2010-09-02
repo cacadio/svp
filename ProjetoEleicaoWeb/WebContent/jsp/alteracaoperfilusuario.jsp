@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 <title>Alteração Perfil Usuário</title>
 </head>
@@ -27,30 +28,53 @@ function eventoProcessarAlteracao() {
 <body>
 <form action="/ProjetoEleicaoWeb/ServletPerfilUsuario" method="post" id="form_principal">
 	<input type="hidden" id="<%=ServletPerfilUsuario.ID_REQ_EVENTO%>" name="<%=ServletPerfilUsuario.ID_REQ_EVENTO%>" value="">
-	<table width="100%">
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Projeto Eleição</a></h1>
+		<p>FBV - Faculdade Boa Viagem</p>
+	</div>
+	<!-- end #logo -->
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+</div>
+	<table width="80%" border="0" align="center">
+		<div id="sidebar">
+		<div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
 		<tr>
-			<th class="titulopagina">Alteração Perfil de Usuário</th>
+			<td colspan="4">
+				<div class="post">
+					<h1 class="title">Alteração Perfil de Usuário</h1>
+				</div>
+			</td>
 		</tr>
-	</table>
-	<table width="100%">
 		<tr>
-			<th class="rotulodado" width="12%">Código:</th>
+			<th class="td" width="22%">Código:</th>
 			<td class="valordado"><input type="text" id="<%=ServletPerfilUsuario.ID_REQ_CODIGO_PERFIL_USUARIO%>" name="<%=ServletPerfilUsuario.ID_REQ_CODIGO_PERFIL_USUARIO%>" class="camporeadonly" value="<%=perfilUsuario.getId()%>" readonly="readonly" size="8"></td>
 		</tr>
 		<tr>
-			<th class="rotulodado" width="12%">Descrição:</th>
+			<th class="td" width="22%">Descrição:</th>
 			<td class="valordado"><input type="text" id="<%=ServletPerfilUsuario.ID_REQ_DESCRICAO_PERFIL_USUARIO%>" name="<%=ServletPerfilUsuario.ID_REQ_DESCRICAO_PERFIL_USUARIO%>" value="<%=perfilUsuario.getDescricao()%>" size="45" maxlength="45"></td>
-		</tr>
-	</table>
-	<table width="100%">
-		<tr>
-			<th class="footer" colspan="2">&nbsp;</th>
 		</tr>
 		<tr>
 			<td class="linhabotao"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
 			<td class="linhabotao"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarAlteracao()" value="Confirmar"> </td>
 		</tr>
-	</table>
+	<div id="sidebar-bgbtm"></div>
+		</div>
+		</table>
+		<div id="footer">
+		<p>&copy; 2008. All Rights Reserved.</p>
+	</div>
 </form>
 <%
 } catch(Exception e) {

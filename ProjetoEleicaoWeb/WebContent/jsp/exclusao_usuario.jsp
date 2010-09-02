@@ -10,6 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 <title>Exclusão Usuário</title>
 </head>
@@ -44,32 +45,55 @@ function eventoProcessarExclusao(){
 <body>
 	<form action="/ProjetoEleicaoWeb/ServletUsuario" method="post" id="form_principal">
 	<input type="hidden" id="<%=ServletUsuario.ID_REQ_EVENTO%>" name="<%=ServletUsuario.ID_REQ_EVENTO%>" value="">
-	<table width="100%">
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Projeto Eleição</a></h1>
+		<p>FBV - Faculdade Boa Viagem</p>
+	</div>
+	<!-- end #logo -->
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+</div>
+	<table width="80%" border="0" align="center">
 		<tr>
-			<th class="titulopagina">Exclusão de Usuário</th>
+			<td colspan="4">
+				<div class="post">
+					<h1 class="title">Exclusão de Usuário </h1>
+				</div>
+			</td>
 		</tr>
-	</table>
-	<table width="100%">
+		<div id="sidebar">
+		<div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
 		<tr>
-			<th class="rotulodado" width="12%">CPF do Usuário:</th>
+			<th class="td" width="22%" align="right">CPF do Usuário:</th>
 			<td class="valordado"><input type="text" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" value="<%=cpfUsuario%>" readonly="readonly" ></td>
 		</tr>
 		<tr>
-			<th class="rotulodado" width="12%">Nome do Usuário:</th>
+			<th class="td" width="22%" align="right">Nome do Usuário:</th>
 			<td class="valordado"><input type="text" id="<%=ServletUsuario.ID_REQ_NOME_USUARIO%>" name="<%=ServletUsuario.ID_REQ_NOME_USUARIO%>" value="<%=nomeUsuario%>" readonly="readonly"></td>
 		</tr>
 		<tr>
-			<th class="rotulodado" width="12%">Login do Usuário:</th>
+			<th class="td" width="22%" align="right">Login do Usuário:</th>
 			<td class="valordado"><input type="text" id="<%=ServletUsuario.ID_REQ_LOGIN_USUARIO%>" name="<%=ServletUsuario.ID_REQ_LOGIN_USUARIO%>" value="<%=loginUsuario%>" readonly="readonly"></td>
 		</tr>
 		<tr>
 			<tr>
-			<th class="rotulodado" width="12%">Senha do Usuário:</th>
+			<th class="td" width="22%" align="right">Senha do Usuário:</th>
 			<td class="valordado"><input type="password" id="<%=ServletUsuario.ID_REQ_SENHA_USUARIO%>" name="<%=ServletUsuario.ID_REQ_SENHA_USUARIO%>" value="<%=senhaUsuario%>" readonly="readonly"></td>
 		</tr>
 		<tr>
 			<tr>
-			<th class="rotulodado" width="12%">Perfil do Usuário:</th>
+			<th class="td" width="22%" align="right">Perfil do Usuário:</th>
 			<td class="valordado">
 				<select name="<%=ServletUsuario.ID_REQ_ID_PERFIL_USUARIO%>">  	
 					<% 
@@ -96,17 +120,17 @@ function eventoProcessarExclusao(){
            		</select> 
 			</td>
 		</tr>
-	</table>
-	<table width="100%">
-		<tr>
-			<th class="footer" colspan="2">&nbsp;</th>
-		</tr>
 		<tr>
 			<td class="linhabotao"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
 			<td class="linhabotao"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarExclusao()" value="Confirmar"> </td>
 		</tr>
-	
+	</div>
+		<div id="sidebar-bgbtm"></div>
+		</div>
 	</table>
+	<div id="footer">
+		<p>&copy; 2008. All Rights Reserved.</p>
+	</div>
 	</form>
 <% }catch(Exception e){
 	e.printStackTrace();

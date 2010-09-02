@@ -7,6 +7,7 @@
 <%@page import="fbv.com.servlets.ServletUsuario"%><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 
 <title>Consulta Usuário</title>
@@ -68,27 +69,50 @@ function eventoExcluir(){
 </script>
 <body>
 <form action="/ProjetoEleicaoWeb/ServletUsuario" method="post" id="form_principal">
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Projeto Eleição</a></h1>
+		<p>FBV - Faculdade Boa Viagem</p>
+	</div>
+	<!-- end #logo -->
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+</div>
 <input type="hidden" id="<%=ServletUsuario.ID_REQ_EVENTO%>" name="<%=ServletUsuario.ID_REQ_EVENTO%>" value="">
 				
-	<table width="100%">
+	<table width="80%" align="center" border="0">
 		<tr>
-			<th class="titulopagina">Consulta Usuário</th>
+			<td colspan="4">
+				<div class="post">
+					<h1 class="title">Consultar Usuário </h1>
+				</div>
+			</td>
 		</tr>
-	</table>
-		<table>
+		<div id="sidebar">
+		<div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
 			<tr>
-				<th class="rotulodado" width="40%">CPF do Usuário:</th>
+				<th class="td" width="30%" colspan="2">CPF do Usuário:</th>
 				<td><input type="text" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" value="" size="16" maxlength="10">
 					<input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
 			</tr>
+		<tr>
 		</table>
-	<table width="100%">
-	<tr>
-				<th class="rotulodado" width="3%">&nbsp;&nbsp;&nbsp;#</th>
-				<th class="rotulodado">CPF:</td>
-				<th class="rotulodado">Login:</td>
-				<th class="rotulodado">Nome:</td>
-				<th class="rotulodado">Perfil:</td>
+		<table width="80%" align="center" border="0">
+				<th class="td" align="center"><b>#</b></th>
+				<th class="td"><b>CPF:</b></td>
+				<th class="td"><b>Login:</b></td>
+				<th class="td"><b>Nome:</b></td>
+				<th class="td"><b>Perfil:</b></td>
 			</tr>
 		<%
 		//Exibindo dados
@@ -112,7 +136,7 @@ function eventoExcluir(){
 		%>
 			
 			<tr>
-				<td><input type="radio" id="<%=ServletUsuario.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletUsuario.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=Usuario.getCpf()%>"> </td>
+				<td class="<%=classeLinha%>"><input type="radio" id="<%=ServletUsuario.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletUsuario.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=Usuario.getCpf()%>"> </td>
 				<td class="<%=classeLinha%>"><%=Usuario.getCpf()%></td>
 				<td class="<%=classeLinha%>"><%=Usuario.getLogin()%></td>
 				<td class="<%=classeLinha%>"><%=Usuario.getNome()%></td>
@@ -128,20 +152,20 @@ function eventoExcluir(){
 		
 		<%
 		}
-		%>		
-	</table>
-	<table width="100%">
-		<tr>
-			<th class="footer" colspan="3">&nbsp;</th>
-		</tr>
+		%>
 		<tr>
 			<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
 			<td class="linhabotao"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
 			<td class="linhabotao"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
 		</tr>
 	
+	</div>
+		<div id="sidebar-bgbtm"></div>
+		</div>
 	</table>
-
+	<div id="footer">
+		<p>&copy; 2008. All Rights Reserved.</p>
+	</div>
 </form>
 
 <%

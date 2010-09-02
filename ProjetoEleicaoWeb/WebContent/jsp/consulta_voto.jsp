@@ -8,6 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 <title>Consulta Voto</title>
 </head>
@@ -36,27 +37,49 @@ function eventoIncluir(){
 <body>
 <form action="/ProjetoEleicaoWeb/ServletVoto" method="post" id="form_principal">
 <input type="hidden" id="<%=ServletVoto.ID_REQ_EVENTO%>" name="<%=ServletVoto.ID_REQ_EVENTO%>" value="">
-					
-	<table width="100%">
-	  <tr>
-		<th class="titulopagina">Consulta Voto</th>
-	  </tr>
-	  </table>
-	 <table width="100%">	
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Projeto Eleição</a></h1>
+		<p>FBV - Faculdade Boa Viagem</p>
+	</div>
+	<!-- end #logo -->
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+</div>
+	<table width="80%" border="0" align="center">
+		<div id="sidebar">
+		<div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
 		<tr>
-			<th class="rotulodado" width="12%">Código do Voto:</th>	
-			<td class="valordado"><input type="text" id="<%=ServletVoto.ID_REQ_ID_VOTO%>" name="<%=ServletVoto.ID_REQ_ID_VOTO%>" value="" size="16" maxlength="10">
+			<td colspan="4">
+				<div class="post">
+					<h1 class="title">Consulta Voto</h1>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th class="td" width="22%">Código do Voto:</th>	
+			<td><input type="text" id="<%=ServletVoto.ID_REQ_ID_VOTO%>" name="<%=ServletVoto.ID_REQ_ID_VOTO%>" value="" size="16" maxlength="10">
 								  <input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"></td>
 		</tr>
 		</table>
 	
-	<table width="100%">
-		<th class="rotulodado" width="3%">&nbsp;&nbsp;&nbsp;#</th>
-		<th class="rotulodado">Usuário: </td>
-		<th class="rotulodado" >Código Eleição: </td>
-		<th class="rotulodado">Opção de Voto: </td>
-		<th class="rotulodado">Valor Voto: </td>
-		<th class="rotulodado">Data: </td>
+	<table width="80%" border="0" align="center">
+		<th class="td" width="3%">&nbsp;&nbsp;&nbsp;#</th>
+		<th class="td" align="right">Usuário: </td>
+		<th class="td" align="right">Código Eleição: </td>
+		<th class="td" align="right">Opção de Voto: </td>
+		<th class="td" align="right">Valor Voto: </td>
+		<th class="td" align="right">Data: </td>
 		<%
 		//Exibindo dados
 		if(arrayListVoto != null && !arrayListVoto.isEmpty()){
@@ -96,16 +119,17 @@ function eventoIncluir(){
 		
 			<%
 		}
-		%>		
-	</table>
-		<table width="100%">
-			<tr>
-				<th class="footer" colspan="3">&nbsp;</th>
-			</tr>
-			<tr>
+		%>
+			<tr align="center">
 				<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Votar" onclick="eventoIncluir()"> </td>
 			</tr>
+			</div>
+		<div id="sidebar-bgbtm"></div>
+		</div>
 		</table>
+		<div id="footer">
+		<p>&copy; 2008. All Rights Reserved.</p>
+	</div>
 
 </form>
 
