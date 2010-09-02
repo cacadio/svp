@@ -43,12 +43,13 @@ public class RepositorioEleicaoPontuacao implements IRepositorioBD {
             {
              	String sql = "INSERT INTO eleicao " +
 								 "(ID_ESTADO, DESCRICAO, IN_PUBLICA, IN_VISIBILIDADE_ABERTA, " +
-								  "IN_MAIS_DE_UM_VOTO, DT_FIM)" +
+								  "IN_MAIS_DE_UM_VOTO, DT_FIM, DT_INICIO)" +
 							 "VALUES(" + eleicao.getEstado().getValor() + ", '" + eleicao.getDescricao() + "', " + 
 								 (eleicao.isPublica()? "1": "0") + ", " + 
 								 (eleicao.isVisibilidadeVoto()? "1": "0") + ", " + 
 								 (eleicao.isMultiplosVotos()? "1": "0") + ", " + 
-								 (eleicao.getDataEncerramento() != null ? "'" + sdt.format(eleicao.getDataEncerramento()) + "'" : "null") + ");";
+								 (eleicao.getDataEncerramento() != null ? "'" + sdt.format(eleicao.getDataEncerramento()) + "'" : "null") + ", " +
+								 (eleicao.getDataAbertura() != null ? "'" + sdt.format(eleicao.getDataAbertura()) + "'" : "null")+ ");";
 	
 				statement.executeUpdate(sql);
 				
