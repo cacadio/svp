@@ -14,6 +14,7 @@
 	<title>Inclusão Perfil Usuário</title>
 	<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 	<script src="./js/jquery.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 </head>
 <%
 	try{
@@ -37,16 +38,39 @@
 	</script>
 <body>
 	<form action="/ProjetoEleicaoWeb/ServletEleicao" method="post" id="form_principal">
-	<table width="100%">
+	<input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Projeto Eleição</a></h1>
+		<p>FBV - Faculdade Boa Viagem</p>
+	</div>
+	<!-- end #logo -->
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+</div>
+	<table width="80%" border="0" align="center">
 		<tr>
-			<th class="titulopagina" align="center" colspan="2">
-				<input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
-				<input type="hidden" id=<%=ServletEleicao.ID_REQ_CODIGO_ELEICAO %> name=<%=ServletEleicao.ID_REQ_CODIGO_ELEICAO %> value="<%= eleicao.getId() %>">
-				<b>Excluir Eleição</b>
-			</th>
+			<td colspan="4">
+				<div class="post">
+					<h1 class="title">Excluir Eleição </h1>
+				</div>
+			</td>
 		</tr>
+		<div id="sidebar">
+		<div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
+		<input type="hidden" id="<%=ServletEleicao.ID_REQ_CODIGO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_CODIGO_ELEICAO%>" class="camporeadonly" value="<%=eleicao.getId()%>">
 		<tr>
-			<th class="rotulodado" width="12%">
+			<th class="td" width="12%">
 				Tipo:
 			</th>
 			<td class="valordado">
@@ -58,7 +82,7 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="rotulodado" width="12%">
+			<th class="td" width="12%">
 				Descrição:
 			</th>
 			<td class="valordado">
@@ -66,7 +90,7 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="rotulodado">
+			<th class="td">
 				Pública?
 			</th>
 			<td class="valordado">
@@ -75,7 +99,7 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="rotulodado">
+			<th class="td">
 				Voto Aberto?
 			</th>
 			<td class="valordado">
@@ -84,7 +108,7 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="rotulodado">
+			<th class="td">
 				Múltiplos Votos?
 			</th>
 			<td class="valordado">
@@ -96,7 +120,7 @@
 		if (eleicao.getEstado().getValor() > 1){
 		%>
 		<tr>
-			<th class="rotulodado" width="12%">
+			<th class="td" width="12%">
 				Data Abertura:
 			</th>
 			<td class="valordado">
@@ -107,7 +131,7 @@
 		}
 		%>
 		<tr>
-			<th class="rotulodado" width="12%">
+			<th class="td" width="12%">
 				Data Encerramento:
 			</th>
 			<td class="valordado">
@@ -120,7 +144,7 @@
 		%>
 		<tbody id="trEscolhaUnica">
 			<tr>
-				<th class="rotulodado">
+				<th class="td">
 					Eleição Associada:
 				</th>
 				<td class="valordado">
@@ -143,7 +167,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="rotulodado">
+				<th class="td">
 					Existe Voto Nulo/Branco?
 				</th>
 				<td class="valordado">
@@ -152,7 +176,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="rotulodado">
+				<th class="td">
 					Percentual para Vitória:
 				</th>
 				<td class="valordado">
@@ -167,7 +191,7 @@
 		%>
 		<tbody id="trPontuacao" style="display: none">
 			<tr>
-				<th class="rotulodado">
+				<th class="td">
 					Pontuação Mínima:
 				</th>
 				<td class="valordado">
@@ -175,7 +199,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="rotulodado">
+				<th class="td">
 					Pontuação Máxima:
 				</th>
 				<td class="valordado">
@@ -183,7 +207,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="rotulodado">
+				<th class="td">
 					Intervalo da Pontuação:
 				</th>
 				<td class="valordado">
@@ -194,17 +218,16 @@
 		<%
 		}
 		%>
-	</table>
-	<table width="100%">
-		<tr>
-			<th class="footer" colspan="2">&nbsp;</th>
-		</tr>
-		<tr>
 			<td class="linhabotao" align="center"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
 			<td class="linhabotao" align="center"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarExclusao()" value="Confirmar"> </td>
 		</tr>
-	
+	</div>
+		<div id="sidebar-bgbtm"></div>
+		</div>
 	</table>
+	<div id="footer">
+		<p>&copy; 2008. All Rights Reserved.</p>
+	</div>
 	</form>
 <% }catch(Exception e){
 	e.printStackTrace();

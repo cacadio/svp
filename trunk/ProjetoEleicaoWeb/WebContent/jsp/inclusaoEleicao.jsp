@@ -18,6 +18,7 @@
 			$('#<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>').mask('99/99/9999',{placeholder:' '});
 		});
 	</script>
+	<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 </head>
 <%
 	try{
@@ -76,15 +77,38 @@
 	</script>
 <body>
 	<form action="/ProjetoEleicaoWeb/ServletEleicao" method="post" id="form_principal">
-	<table width="100%">
+	<input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Projeto Eleição</a></h1>
+		<p>FBV - Faculdade Boa Viagem</p>
+	</div>
+	<!-- end #logo -->
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+</div>
+	<table width="80%" border="0" align="center">
 		<tr>
-			<th class="titulopagina" align="center" colspan="2">
-				<input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
-				Incluir Eleição
-			</th>
+			<td colspan="4">
+				<div class="post">
+					<h1 class="title">Incluir Eleição </h1>
+				</div>
+			</td>
 		</tr>
+		<div id="sidebar">
+		<div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
 		<tr>
-			<th class="rotulodado" width="12%">
+			<th class="td" width="22%" align="right">
 				Tipo:
 			</th>
 			<td class="valordado">
@@ -95,7 +119,7 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="rotulodado" width="12%">
+			<th class="td" width="22%" align="right">
 				Descrição:
 			</th>
 			<td class="valordado">
@@ -103,8 +127,8 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="rotulodado">
-				Pública?
+			<th class="td">
+				<b>Pública?</b>
 			</th>
 			<td class="valordado">
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_PUBLICA_ELEICAO %>" value="1" title="Pública" obrigatorio="1">Sim&nbsp;
@@ -112,8 +136,8 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="rotulodado">
-				Voto Aberto?
+			<th class="td">
+				<b>Voto Aberto?</b>
 			</th>
 			<td class="valordado">
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO %>" value="1" title="Voto Aberto" obrigatorio="1">Sim&nbsp;
@@ -121,8 +145,8 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="rotulodado">
-				Múltiplos Votos?
+			<th class="td">
+				<b>Múltiplos Votos?</b>
 			</th>
 			<td class="valordado">
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>" value="1" title="Múltiplos Votos" obrigatorio="1">Sim&nbsp;
@@ -130,8 +154,8 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="rotulodado" width="12%">
-				Data Encerramento (Prevista):
+			<th class="td" width="22%">
+				<b>Data Encerramento (Prevista):</b>
 			</th>
 			<td class="valordado">
 				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="" title="Data Encerramento" size="12" maxlength="10"></input>
@@ -139,8 +163,8 @@
 		</tr>
 		<tbody id="trEscolhaUnica" style="display: <%= (tipo == TipoEleicao.ESCOLHA_UNICA)? "": "none" %>">
 			<tr>
-				<th class="rotulodado">
-					Eleição Associada:
+				<th class="td">
+					<b>Eleição Associada:</b>
 				</th>
 				<td class="valordado">
 					<select id="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>" name="<%= ServletEleicao.ID_REQ_CODIGO_ELEICAO_PAI %>">
@@ -162,8 +186,8 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="rotulodado">
-					Existe Voto Nulo/Branco?
+				<th class="td">
+					<b>Existe Voto Nulo/Branco?</b>
 				</th>
 				<td class="valordado">
 					<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_CAMPO_NULO_ELEICAO %>" value="1" title="Voto Nulo/Branco" obrigatorio="1" escolhaunica="1">Sim&nbsp;
@@ -171,8 +195,8 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="rotulodado">
-					Percentual para Vitória:
+				<th class="td">
+					<b>Percentual para Vitória:</b>
 				</th>
 				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_PERCENTUAL_VITORIA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PERCENTUAL_VITORIA_ELEICAO %>" title="Percentual para Vitória" obrigatorio="1" escolhaunica="1">
@@ -181,41 +205,42 @@
 		</tbody>
 		<tbody id="trPontuacao" style="display: <%= (tipo == TipoEleicao.PONTUACAO)? "": "none" %>">
 			<tr>
-				<th class="rotulodado">
-					Pontuação Mínima:
+				<th class="td">
+					<b>Pontuação Mínima:</b>
 				</th>
 				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_PONTUACAO_MINIMA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PONTUACAO_MINIMA_ELEICAO %>" title="Pontuação Mínima" pontuacao="1">
 				</td>
 			</tr>
 			<tr>
-				<th class="rotulodado">
-					Pontuação Máxima:
+				<th class="td">
+					<b>Pontuação Máxima:</b>
 				</th>
 				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_PONTUACAO_MAXIMA_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_PONTUACAO_MAXIMA_ELEICAO %>" title="Pontuação Máxima" pontuacao="1">
 				</td>
 			</tr>
 			<tr>
-				<th class="rotulodado">
-					Intervalo da Pontuação:
+				<th class="td">
+					<b>Intervalo da Pontuação:</b>
 				</th>
 				<td class="valordado">
 					<input type="text" id="<%= ServletEleicao.ID_REQ_INTERVALO_PONTUACAO_ELEICAO %>" name="<%=ServletEleicao.ID_REQ_INTERVALO_PONTUACAO_ELEICAO %>" title="Intervalo da Pontuação" pontuacao="1">
 				</td>
 			</tr>
 		</tbody>
-	</table>
-	<table width="100%">
-		<tr>
-			<th class="footer" colspan="2">&nbsp;</th>
-		</tr>
 		<tr>
 			<td class="linhabotao" align="center"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
 			<td class="linhabotao" align="center"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarInclusao()" value="Confirmar"> </td>
 		</tr>
 	
+	</div>
+		<div id="sidebar-bgbtm"></div>
+		</div>
 	</table>
+	<div id="footer">
+		<p>&copy; 2008. All Rights Reserved.</p>
+	</div>
 	</form>
 <% }catch(Exception e){
 	e.printStackTrace();

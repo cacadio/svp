@@ -10,6 +10,7 @@
 <head>
 	<title>Consulta Eleição</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 </head>
 <%
@@ -23,24 +24,25 @@
 
 <script type="text/javascript" >
 
-function eventoConsultar(){
+function eventoConsultar() {
 	document.forms.form_principal.<%=ServletEleicao.ID_REQ_EVENTO%>.value = "<%=ServletEleicao.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA%>";
 	document.forms.form_principal.submit();
 }
 
-function eventoIncluir(){
+function eventoIncluir() {
 	document.forms.form_principal.<%=ServletEleicao.ID_REQ_EVENTO%>.value = "<%=ServletEleicao.ID_REQ_EVENTO_EXIBIR_INCLUSAO%>";
 	document.forms.form_principal.submit();
 }
 
-function eventoAlterar(){
+function eventoAlterar() {
 	<%
-	if(arrayListEleicao != null && arrayListEleicao.size() > 0){
+	if (arrayListEleicao != null && arrayListEleicao.size() > 0) {
 	%>
+
 		document.forms.form_principal.<%=ServletEleicao.ID_REQ_EVENTO%>.value = "<%=ServletEleicao.ID_REQ_EVENTO_EXIBIR_ALTERACAO%>";
 		document.forms.form_principal.submit();
 	<%
-	}else{	
+	} else {	
 	%>
 		alert("Nenhum Registro Selecionado!");
 		return false;
@@ -69,19 +71,41 @@ function eventoExcluir(){
 </script>
 <body>
 <form action="/ProjetoEleicaoWeb/ServletEleicao" method="post" id="form_principal">
-	<table width="100%" border="0">
-		
+<input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Projeto Eleição</a></h1>
+		<p>FBV - Faculdade Boa Viagem</p>
+	</div>
+	<!-- end #logo -->
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+</div>
+	<table width="80%" border="0" align="center">
 		<tr>
-			<th colspan="3" align="center" class="titulopagina">
-				<input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
-				Consultar Eleição
-			</th>
+			<td colspan="4">
+				<div class="post">
+					<h1 class="title">Consultar Eleição </h1>
+				</div>
+			</td>
 		</tr>
+		<div id="sidebar">
+		<div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
 		<tr>
-			<td class="rotulodado" width="80px">
+			<td width="80px" class="td" align="right">
 				Tipo:
 			</td>
-			<td class="valordado" width="100px">
+			<td width="100px">
 				<select id="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>" name="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>">
 					<option value="<%= TipoEleicao.ESCOLHA_UNICA.value() %>" <%= request.getAttribute(ServletEleicao.ID_REQ_TIPO_ELEICAO).equals(TipoEleicao.ESCOLHA_UNICA.value())? "selected": "" %>>Escolha Única</option>
 					<option value="<%= TipoEleicao.PONTUACAO.value() %>" <%= request.getAttribute(ServletEleicao.ID_REQ_TIPO_ELEICAO).equals(TipoEleicao.PONTUACAO.value())? "selected": "" %>>Pontuação</option>
@@ -90,7 +114,7 @@ function eventoExcluir(){
 			<td></td>
 		</tr>
 		<tr>
-			<td class="rotulodado">
+			<td class="td" align="right">
 				Código:
 			</td>
 			<td>
@@ -100,14 +124,14 @@ function eventoExcluir(){
 		</tr>
 	</table>
 	<br/>
-	<table width="100%" border="0">
+	<table width="80%" border="0" align="center">
 		<tr>
-			<th class="rotulodado" width="30px"></th>
-			<th class="rotulodado" width="80px" align="center">Código</th>
-			<th class="rotulodado" align="center">Descrição</th>
-			<th class="rotulodado" width="100px" align="center">Estado</th>
-			<th class="rotulodado" width="120px" align="center">Data Abertura</th>
-			<th class="rotulodado" width="120px" align="center">Data Encerramento</th>
+			<th class="td" width="10%" align="center">#</th>
+			<th class="td" width="10%" align="center">Código</th>
+			<th class="td" width="40%" align="center">Descrição</th>
+			<th class="td" width="10px" align="center">Estado</th>
+			<th class="td" width="10px" align="center">Data Abertura</th>
+			<th class="td" width="10px" align="center">Data Encerramento</th>
 		</tr>
 		<%
 		//Exibindo dados
@@ -170,10 +194,7 @@ function eventoExcluir(){
 		}
 		%>		
 	</table>
-	<table width="100%">
-		<tr>
-			<th class="footer" colspan="3">&nbsp;</th>
-		</tr>
+	<table width="80%" border="0" align="center">
 		<tr>
 			<td class="linhabotao" align="right"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
 			<td class="linhabotao" align="center"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
@@ -181,7 +202,12 @@ function eventoExcluir(){
 		</tr>
 	
 	</table>
-
+	<div id="footer">
+		<p>&copy; 2008. All Rights Reserved.</p>
+	</div>
+	</div>
+		<div id="sidebar-bgbtm"></div>
+		</div>
 </form>
 
 <%

@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
 <title>Consulta Opção de Voto</title>
 </head>
@@ -67,26 +68,47 @@ function eventoExcluir() {
 </script>
 <body>
 <form action="/ProjetoEleicaoWeb/ServletOpcaoVoto" method="post" id="form_principal">
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Projeto Eleição</a></h1>
+		<p>FBV - Faculdade Boa Viagem</p>
+	</div>
+	<!-- end #logo -->
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+</div>
 	<input type="hidden" id="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" name="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" value="">
-	<table width="100%">
+	<table width="80%" align="center">
+		<div id="sidebar">
+		<div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
 		<tr>
-			<th class="titulopagina">Consulta Opção de Voto</th>
+			<td colspan="8">
+				<div class="post">
+					<h1 class="title">Consulta Opção de Voto</h1>
+				</div>
+			</td>
 		</tr>
-	</table>
-	<table width="100%">
 		<tr>
-			<th class="rotulodado" width="12%">Código:</th>
-			<td class="valordado"><input type="text" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" value="" size="8" maxlength="10">
+			<td class="td" width="12%">Código:</th>
+			<td colspan="4"><input type="text" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" value="" size="8" maxlength="10">
 								  <input type="button" id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
 		</tr>
-	</table>
-	<table width="100%">
 		<tr>
-			<th class="rotulodado" width="3%">&nbsp;&nbsp;&nbsp;#</th>
-			<th class="rotulodado" width="12%">Código</th>
-			<th class="rotulodado" width="40%">Descrição</th>
-			<th class="rotulodado" width="10">Eleição</th>
-			<th class="rotulodado" width="35%">Foto</th>
+			<th class="td" width="3%">&nbsp;&nbsp;&nbsp;#</th>
+			<th class="td" width="12%">Código</th>
+			<th class="td" width="40%">Descrição</th>
+			<th class="td" width="10">Eleição</th>
+			<th class="td" width="35%">Foto</th>
 		</tr>
 	<%
 		//Exibindo dados
@@ -131,18 +153,23 @@ function eventoExcluir() {
 		</tr>	
 	<%
 		}
-	%>		
-	</table>
-	<table width="100%">
-		<tr>
-			<th class="footer" colspan="3">&nbsp;</th>
-		</tr>
+	%>
+	</div>
+		<div id="sidebar-bgbtm"></div>
+		</div>
 		<tr>
 			<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
 			<td class="linhabotao"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
 			<td class="linhabotao"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
 		</tr>
+		</div>
+		<div id="sidebar-bgbtm"></div>
+		</div>
 	</table>
+	<div id="footer">
+		<p>&copy; 2008. All Rights Reserved.</p>
+	</div>
+	
 </form>
 <%
 	}catch(Exception e){

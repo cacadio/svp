@@ -57,10 +57,11 @@ function eventoDetalharEleicao(idEleicao, tpEleicao) {
 	<div id="menu">
 		<ul>
 			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
-			<li><a href="#">About Us</a></li>
-			<li><a href="#">Products</a></li>
-			<li><a href="#">Services</a></li>
-			<li><a href="#">Contact Us</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
 		</ul>
 	</div>
 	<!-- end #menu -->
