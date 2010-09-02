@@ -91,6 +91,7 @@ public class ServletLogin extends HttpServlet implements
 
 		ArrayList<Usuario> arrayUsuario = new ArrayList<Usuario>();
 		Usuario usuario = null;
+		String idEleicao = "";
 		String login = "";
 		String senha = "";
 		String tpEleicao = "";
@@ -98,6 +99,7 @@ public class ServletLogin extends HttpServlet implements
 		login = request.getParameter(ServletLogin.ID_REQ_LOGIN);
 		senha = request.getParameter(ServletLogin.ID_REQ_SENHA_USUARIO);
 		tpEleicao = request.getParameter(ID_REQ_TIPO_DE_ELEICAO);
+		idEleicao = request.getParameter(ID_REQ_ID_ELEICAO);
 
 		Fachada fachada = Fachada.getInstancia();
 		arrayUsuario = fachada.consultarTodosUsuario();
@@ -108,6 +110,7 @@ public class ServletLogin extends HttpServlet implements
 			request.setAttribute(ID_REQ_NOME_USUARIO, usuario.getNome());
 			request.setAttribute(ID_REQ_ID_USUARIO, usuario.getId());
 			request.setAttribute(ID_REQ_TIPO_DE_ELEICAO, tpEleicao);
+			request.setAttribute(ID_REQ_ID_ELEICAO, idEleicao);
 			request.setAttribute(ID_REQ_EVENTO, ID_REQ_EVENTO_EXIBIR_INCLUSAO);
 			
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/ServletVoto");
