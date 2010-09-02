@@ -36,56 +36,17 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		InterfacePrincipal {
 	private static final long serialVersionUID = 1L;
 	
+	// Local onde será armazenado as imagens
 	//private static final String TMP_DIR_PATH = "/Users/rodrigosantosbb";
-	private static final String TMP_DIR_PATH = "C:\\";
-	private File tmpDir;
-	private static final String DESTINATION_DIR_PATH ="files";
-	private File destinationDir;
+	private static final String PASTA_SALVAR_IMG = "C:\\Img_Eleicao\\";
 	
 	public void init(ServletOpcaoVoto config) throws ServletException{
 		super.init(config);
-		tmpDir = new File(TMP_DIR_PATH);
-		if(!tmpDir.isDirectory()) {
-			throw new ServletException(TMP_DIR_PATH + " is not a directory");
-		}
-		String realPath = getServletContext().getRealPath(DESTINATION_DIR_PATH);
-		destinationDir = new File(realPath);
-		if(!destinationDir.isDirectory()) {
-			throw new ServletException(DESTINATION_DIR_PATH+" is not a directory");
-		}
 	}	
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		 boolean isMultiPart = FileUpload.isMultipartContent(request);
-         if (isMultiPart) {
-             FileItemFactory factory = new DiskFileItemFactory();
-             ServletFileUpload upload = new ServletFileUpload(factory);
-             String formulario = "";
-             try {
-                 List items = upload.parseRequest(request);
-                 Iterator iter = items.iterator();
-                 while (iter.hasNext()) {
-                     FileItem item = (FileItem) iter.next();
-                     if (item.getFieldName().equals("tipoForm")) {
-                         formulario = item.getString();
-                     }
-                     if (!item.isFormField()) {
-                         if (item.getName().length() > 0) {
-                             //this.inserirImagem(item);
-                        	 System.out.println("teria funcionado");
-                         }
-                     }
-                 }
-             }catch (FileUploadException ex) {
-				ex.printStackTrace();
-			 }catch (Exception ex) {
-				ex.printStackTrace();
-			 }
-	    }else{
-			doPost(request, response);
-	    }
+		doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
@@ -162,12 +123,10 @@ public class ServletOpcaoVoto extends HttpServlet implements
 	}
 	
 	private void inserirImagemDiretorio(String pDsOpcaoVoto, String pCdEleicao, FileItem item) throws IOException, SQLException {  
-
-		// Local onde será armazenado as imagens
-		String caminho = "C:\\Img_Eleicao\\";
 		
+		String caminho = "";
 		// Cria o diretorio caso ele nao exista
-		File diretorio = new File(caminho);
+		File diretorio = new File(PASTA_SALVAR_IMG);
 		if (!diretorio.exists()) {
 			diretorio.mkdir();
 		}
@@ -191,13 +150,12 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		output.flush();
 		output.close();
 		
-		caminho =  caminho + nome;
+		caminho =  PASTA_SALVAR_IMG + nome;
 		caminho = caminho.replace("\\", "\\\\");
 		
 		OpcaoVoto op = new OpcaoVoto(0, Integer.parseInt(pCdEleicao), pDsOpcaoVoto, caminho);
 		try {
 			Fachada.getInstancia().incluirOpcaoVoto(op);
-			System.out.println("Inclusao realizada");
 		} catch (ExcecaoRegistroJaExistente e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -207,7 +165,6 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		}
 
 	}  
-
 
 	private void processarFiltroConsulta(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
@@ -249,27 +206,13 @@ public class ServletOpcaoVoto extends HttpServlet implements
 
 	private void processarInclusao(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
-		Upload upload = new Upload(request);
-		if(ServletFileUpload.isMultipartContent(request))
-			System.out.println("Teste");
-		String nomArq ="";
+		
 		Fachada fachada = Fachada.getInstancia();
 		String mensagem = "";
 		String nomeServlet = ID_REQ_NOME_SERVLET_OPCAO_VOTO;
 		String descricaoOpcaoVoto = request.getParameter(ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO);
 		String cdEleicao = request.getParameter(ID_REQ_CODIGO_ELEICAO);
 		String pathFoto = request.getParameter(ID_REQ_PATH_FOTO);
-		pathFoto = upload.getParameter(ID_REQ_PATH_FOTO);
-		
-		
-		int index = pathFoto.lastIndexOf("\\");
-		int prefixLength = pathFoto.length();							
-		if (index < prefixLength) nomArq = pathFoto.substring(prefixLength);
-		nomArq = pathFoto.substring(index + 1);
-		//***************
-		//String doc = "/tmp/"+nomArq;
-		String doc = Upload.barraSO + nomArq;
-		File arquivo = new File(doc);
 		
 		OpcaoVoto opcaoVoto = new OpcaoVoto();
 
