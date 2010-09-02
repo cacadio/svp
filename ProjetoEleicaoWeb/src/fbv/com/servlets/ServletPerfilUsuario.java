@@ -230,7 +230,7 @@ public class ServletPerfilUsuario extends HttpServlet implements
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/mensagens.jsp");
+.getRequestDispatcher("jsp/mensagens.jsp");
 		requestDispatcher.forward(request, response);
 
 	}
