@@ -3,6 +3,7 @@ package fbv.com.servlets;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -200,6 +201,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		eleicao.setVisibilidadeVoto(request.getParameter(ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO).equals("1"));
 		eleicao.setMultiplosVotos(request.getParameter(ID_REQ_IN_VOTO_MULTIPLO_ELEICAO).equals("1"));
 		//eleicao.setDataAbertura(sdt.parse(request.getParameter(ID_REQ_DATA_INICIO_ELEICAO)));
+		eleicao.setDataAbertura(new Date(System.currentTimeMillis()));
 		if (request.getParameter(ID_REQ_DATA_FIM_ELEICAO) != null && !request.getParameter(ID_REQ_DATA_FIM_ELEICAO).equals(""))
 			eleicao.setDataEncerramento(sdt.parse(request.getParameter(ID_REQ_DATA_FIM_ELEICAO)));
 
@@ -266,8 +268,8 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		
 		Fachada fachada = Fachada.getInstancia();
 		
-		int idEleicao = Integer.valueOf(request
-				.getParameter(ID_REQ_CODIGO_ELEICAO));
+		String idEleicao = request.getParameter(ServletEleicao.ID_REQ_CODIGO_ELEICAO);
+		
 		String mensagem = "";
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		String descricaoEleicao = request
@@ -285,7 +287,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		else
 			eleicao = new EleicaoPontuacao();
 		
-		eleicao.setId(idEleicao);
+		eleicao.setId(new Integer(idEleicao));
 		
 		eleicao = fachada.consultarEleicaoPelaChave(eleicao);
 				
