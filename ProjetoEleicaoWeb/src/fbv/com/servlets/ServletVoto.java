@@ -51,8 +51,8 @@ import fbv.com.util.InterfacePrincipal;
 		// TODO Auto-generated method stub
 		try {
 
-			String idEvento = request
-					.getParameter(ServletVoto.ID_REQ_EVENTO);
+			//String idEvento = request.getParameter(ServletVoto.ID_REQ_EVENTO);
+			String idEvento = this.getAtributoOuParametroStringOpcional(ID_REQ_EVENTO, request);
 
 			if (idEvento != null && !idEvento.equals("")) {
 
@@ -92,7 +92,7 @@ import fbv.com.util.InterfacePrincipal;
 
 		String idVoto = request.getParameter(ServletVoto.ID_REQ_ID_VOTO);
 		
-		//Se o c—digo do voto for passado como parametro, consultar o voto, se n‹o consultar todos os votos
+		//Se o cï¿½digo do voto for passado como parametro, consultar o voto, se nï¿½o consultar todos os votos
 		if (idVoto != null && !idVoto.equals("")) {
 
 			objVoto = new Voto();
@@ -181,25 +181,28 @@ import fbv.com.util.InterfacePrincipal;
 		Fachada fachada = Fachada.getInstancia();
 		ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
 		OpcaoVoto opcaoVoto = null;
+		Usuario usuario = null;
 		String mensagem = "";
 		String nomeServlet = "";
 		String tipoDeEleicao = "";
-		String descEleicao = "";
+		String descEleicao = "PADRAO";
 		String idEleicao = "";
 		
 		nomeServlet = ID_REQ_NOME_SERVLET_VOTO;
 		
-		//Pegando o tipo de elei‹o da sessao
-		tipoDeEleicao = request.getSession().getAttribute(ServletVoto.ID_REQ_TIPO_DE_ELEICAO).toString();
-		idEleicao = request.getSession().getAttribute(ServletVoto.ID_REQ_CODIGO_ELEICAO).toString();
-		descEleicao = request.getParameter(ServletVoto.ID_REQ_DESCRICAO_ELEICAO);
+		//Pegando o tipo de eleiï¿½ï¿½o da sessao
+		tipoDeEleicao = this.getAtributoOuParametroStringOpcional(ServletVoto.ID_REQ_TIPO_DE_ELEICAO, request);
+		idEleicao = this.getAtributoOuParametroStringOpcional(ServletVoto.ID_REQ_ID_ELEICAO, request);
+		usuario = (Usuario)request.getSession().getAttribute("usuario");
 		
+		//TODO: Quando for pegar as opcoes de voto para a eleicao,
+		//dÃ¡ um join e pega as informaÃ§Ãµes dela tb p mostrar
 		opcaoVoto = new OpcaoVoto();
 		opcaoVoto.setIdEleicao(new Integer(idEleicao));
 		colecaoOpcaoVoto = fachada.consultarPeloIDEleicao(opcaoVoto);
 		if(colecaoOpcaoVoto != null && colecaoOpcaoVoto.isEmpty()){
 			
-			mensagem = "N‹o existe op›es de voto cadastrada para este tipo de elei‹o";
+			mensagem = "NÃ£o existe opÃ§Ãµes de voto cadastrado para este tipo de eleiÃ§Ã£o";
 			request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 			request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mensagens.jsp");
@@ -265,7 +268,7 @@ import fbv.com.util.InterfacePrincipal;
 				opcaoVotoEleicao.setIdEleicao(new Integer(idEleicao));
 				OpcaoVoto opcaoVotoCheck = null;
 				
-				//Consultando as op›es de voto 
+				//Consultando as opï¿½ï¿½es de voto 
 				colecaoOpcaoVoto = fachada.consultarPeloIDEleicao(opcaoVotoEleicao);
 				
 				for(int i=0; colecaoOpcaoVoto.size() > i; i++){
@@ -301,5 +304,18 @@ import fbv.com.util.InterfacePrincipal;
 			requestDispatcher.forward(request, response);	
 
 	}
+	
+	private String getAtributoOuParametroStringOpcional(String pNmAtributo, HttpServletRequest pRequest){
+		String strAux = null;
+	
+		strAux = (String) pRequest.getAttribute(pNmAtributo);
+	
+		if (strAux == null) {
+			strAux = pRequest.getParameter(pNmAtributo);
+		}
+	
+		return strAux;
+	}
+
 	
 }
