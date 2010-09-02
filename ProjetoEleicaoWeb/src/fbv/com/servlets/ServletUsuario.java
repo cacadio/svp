@@ -179,10 +179,10 @@ import fbv.com.util.InterfacePrincipal;
 
 		// já existe registro cadastrado com esse código
 		if (usuarioBase != null) {
-			mensagem = "Usu‡rio j‡ Cadastrado!";
+			mensagem = "Usuário já Cadastrado!";
 		} else {
 			fachada.incluirUsuario(usuario);
-			mensagem = "Usu‡rio Cadastrado com Sucesso";
+			mensagem = "Usuário Cadastrado com Sucesso";
 		}
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
@@ -273,7 +273,7 @@ import fbv.com.util.InterfacePrincipal;
 
 		fachada.alterarUsuario(usuario);
 
-		mensagem = "Usu‡rio Alterado com Sucesso";
+		mensagem = "Usuário Alterado com Sucesso";
 		
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
@@ -354,7 +354,7 @@ import fbv.com.util.InterfacePrincipal;
 
 		fachada.excluirUsuario(usuario);
 
-		mensagem = "Usu‡rio Excluido com Sucesso";
+		mensagem = "Usuário Excluido com Sucesso";
 		
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
