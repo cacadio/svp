@@ -27,8 +27,7 @@ import fbv.com.excecoes.ExcecaoRegistroJaExistente;
 import fbv.com.negocio.Fachada;
 import fbv.com.negocio.OpcaoVoto;
 import fbv.com.util.InterfacePrincipal;
-import fbv.com.util.Upload;
-
+ 
 /**
  * Servlet implementation class ServletOpcaoVoto
  */
