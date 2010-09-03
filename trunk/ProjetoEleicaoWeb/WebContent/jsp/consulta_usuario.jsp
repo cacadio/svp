@@ -66,8 +66,14 @@ function eventoExcluir(){
 	%>
 }
 
+function setFocus(){
+    
+	document.forms.form_principal.cpfName.focus();
+
+ }
+
 </script>
-<body>
+<body onLoad="setFocus();">
 <form action="/ProjetoEleicaoWeb/ServletUsuario" method="post" id="form_principal">
 <div id="header">
 	<div id="logo">
@@ -102,7 +108,7 @@ function eventoExcluir(){
 		<div id="sidebar-content">
 			<tr>
 				<th class="td" width="30%" colspan="2">CPF do Usuário:</th>
-				<td><input type="text" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" value="" size="16" maxlength="10">
+				<td><input type="text" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="cpfName" value="" size="16" maxlength="10">
 					<input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
 			</tr>
 		<tr>
