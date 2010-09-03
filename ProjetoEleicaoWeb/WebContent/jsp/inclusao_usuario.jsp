@@ -48,13 +48,14 @@ function eventoProcessarInclusao(){
 }
 
 function VerificaCPF () {
-	if (!vercpf(document.forms.form_principal.cpf.value)) {
+	if (!vercpf(document.forms.form_principal.cpfName.value)) {
 	  
 		errors="1";
 		if (errors) 
 		alert('CPF NÃO VÁLIDO');
-			document.forms.form_principal.cpf.value = "";
+			document.forms.form_principal.cpfName.value = "";
 			document.retorno = (errors == '');
+			
 	}
 }
 function vercpf (cpf) {
@@ -79,8 +80,14 @@ function vercpf (cpf) {
 				document.retorno = (errors == '');
 				return true;
 }
+
+function setFocus(){
+	document.forms.form_principal.cpfName.focus();
+
+ }
+
 </script>
-<body>
+<body  onLoad="setFocus();">
 <form action="/ProjetoEleicaoWeb/ServletUsuario" method="post" id="form_principal">
 <input type="hidden" id="<%=ServletUsuario.ID_REQ_EVENTO%>" name="<%=ServletUsuario.ID_REQ_EVENTO%>" value="">	
 <div id="header">
@@ -115,7 +122,7 @@ function vercpf (cpf) {
 
 		<tr>
 			<th class="td" width="22%" align="right">CPF do Usuário</th>
-			<td class="valordado"><input type="text" maxlength="11" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" value="" onchange="VerificaCPF();"> *</td>
+			<td class="valordado"><input type="text" maxlength="11" id="<%=ServletUsuario.ID_REQ_CPF_USUARIO%>" name="cpfName" value="" onchange="VerificaCPF();"> *</td>
 		</tr>
 		<tr>
 			<th class="td" width="22%" align="right">Nome do Usuário:</th>
