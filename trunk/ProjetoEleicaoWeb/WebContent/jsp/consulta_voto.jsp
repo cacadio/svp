@@ -32,9 +32,13 @@ function eventoIncluir(){
 	document.forms.form_principal.submit();
 }
 
+function setFocus(){
+	document.forms.form_principal.codigoName.focus();
+
+ }
 
 </script>
-<body>
+<body onLoad="setFocus();">
 <form action="/ProjetoEleicaoWeb/ServletVoto" method="post" id="form_principal">
 <input type="hidden" id="<%=ServletVoto.ID_REQ_EVENTO%>" name="<%=ServletVoto.ID_REQ_EVENTO%>" value="">
 <div id="header">
@@ -68,7 +72,7 @@ function eventoIncluir(){
 		</tr>
 		<tr>
 			<th class="td" width="22%">Código do Voto:</th>	
-			<td><input type="text" id="<%=ServletVoto.ID_REQ_ID_VOTO%>" name="<%=ServletVoto.ID_REQ_ID_VOTO%>" value="" size="16" maxlength="10">
+			<td><input type="text" id="<%=ServletVoto.ID_REQ_ID_VOTO%>" name="codigoName" value="" size="16" maxlength="10">
 								  <input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"></td>
 		</tr>
 		</table>
