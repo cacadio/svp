@@ -191,8 +191,8 @@ import fbv.com.util.InterfacePrincipal;
 		nomeServlet = ID_REQ_NOME_SERVLET_VOTO;
 		
 		//Pegando o tipo de elei��o da sessao
-		tipoDeEleicao = this.getAtributoOuParametroStringOpcional(ServletVoto.ID_REQ_TIPO_DE_ELEICAO, request);
-		idEleicao = this.getAtributoOuParametroStringOpcional(ServletVoto.ID_REQ_ID_ELEICAO, request);
+		tipoDeEleicao = this.getAtributoOuParametroStringOpcional(ServletLogin.ID_REQ_TIPO_DE_ELEICAO, request);
+		idEleicao = this.getAtributoOuParametroStringOpcional(ServletLogin.ID_REQ_ID_ELEICAO, request);
 		usuario = (Usuario)request.getSession().getAttribute("usuario");
 		
 		//TODO: Quando for pegar as opcoes de voto para a eleicao,
