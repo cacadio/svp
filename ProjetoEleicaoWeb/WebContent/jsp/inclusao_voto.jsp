@@ -21,6 +21,7 @@
 	String imagem = "";
 	String tipoDeEleicao = "";
 	String descEleicao = "";
+	String idEleicao = "";
 	Integer valorVoto = null;
 	ArrayList<OpcaoVoto> arrayListVoto = null;
 	String pathImage = "";	
@@ -29,6 +30,7 @@
 	//Obtem Parâmetros do request	
 	arrayListVoto = (ArrayList<OpcaoVoto>) request.getAttribute(ServletVoto.ID_REQ_OBJETO_VOTO);
 	tipoDeEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_TIPO_DE_ELEICAO);
+	idEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_ID_ELEICAO);
 	descEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_DESCRICAO_ELEICAO);
 
 	try{
@@ -41,10 +43,13 @@ function eventoProcessarInclusao(){
 	document.forms.form_principal.submit();
 }
 
+
 </script>
 <body>
 	<form action="/ProjetoEleicaoWeb/ServletVoto" method="post" id="form_principal">
 	<input type="hidden" id="<%=ServletVoto.ID_REQ_EVENTO%>" name="<%=ServletVoto.ID_REQ_EVENTO%>" value="">
+	<input type="hidden" id="<%=ServletVoto.ID_REQ_ID_ELEICAO%>" name="<%=ServletVoto.ID_REQ_ID_ELEICAO%>" value="<%=idEleicao%>">
+	<input type="hidden" id="<%=ServletVoto.ID_REQ_TIPO_DE_ELEICAO%>" name="<%=ServletVoto.ID_REQ_TIPO_DE_ELEICAO%>" value="<%=tipoDeEleicao%>">
 <div id="header">
 	<div id="logo">
 		<h1><a href="#">Projeto Eleição</a></h1>
@@ -91,7 +96,7 @@ function eventoProcessarInclusao(){
 			<th class="td" height="58%">Imagem:</th>
 			</tr>
 			<%
-				if(!tipoDeEleicao.equals("OPCAO_UNICA")){
+				if(tipoDeEleicao.equals("OPCAO_UNICA")){
 			%>
 			<tr>
 			<th class="td" height="22%">Valor do Voto:</th>
