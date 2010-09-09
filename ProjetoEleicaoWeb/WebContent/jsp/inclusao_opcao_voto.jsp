@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
+<script type="text/javascript" src="js/biblioteca_funcoes_eleicao.js" ></script>
 <title>Inclusão de Opção de Voto</title>
 </head>
 <%
@@ -32,7 +33,7 @@ function eventoProcessarInclusao() {
 }
 
 </script>
-<body>
+<body onload="setarFoco(document.forms.form_principal.<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>)">
 <form method="post" id="form_principal" name="form_principal" action="/ProjetoEleicaoWeb/ServletOpcaoVoto" enctype="multipart/form-data">
 	<input type="hidden" id="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" name="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" value="">
 <div id="header">

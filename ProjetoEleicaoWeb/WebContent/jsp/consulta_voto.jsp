@@ -10,6 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
+<script type="text/javascript" src="js/biblioteca_funcoes_eleicao.js" ></script>
 <title>Consulta Voto</title>
 </head>
 <%
@@ -20,25 +21,7 @@
 	
 %>
 
-<script type="text/javascript" >
-
-function eventoConsultar(){
-	document.forms.form_principal.<%=ServletVoto.ID_REQ_EVENTO%>.value = "<%=ServletVoto.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA%>";
-	document.forms.form_principal.submit();
-}
-
-function eventoIncluir(){
-	document.forms.form_principal.<%=ServletVoto.ID_REQ_EVENTO%>.value = "<%=ServletVoto.ID_REQ_EVENTO_EXIBIR_INCLUSAO%>";
-	document.forms.form_principal.submit();
-}
-
-function setFocus(){
-	document.forms.form_principal.codigoName.focus();
-
- }
-
-</script>
-<body onLoad="setFocus();">
+<body onload="setarFoco(document.forms.form_principal.<%=ServletVoto.ID_REQ_ID_VOTO%>)">
 <form action="/ProjetoEleicaoWeb/ServletVoto" method="post" id="form_principal">
 <input type="hidden" id="<%=ServletVoto.ID_REQ_EVENTO%>" name="<%=ServletVoto.ID_REQ_EVENTO%>" value="">
 <div id="header">
