@@ -73,67 +73,10 @@ public class RepositorioVoto implements IRepositorioBD {
 	}
 	public void alterar(Object pVoto) throws ExcecaoAcessoRepositorio {
 		System.out.println("VOTO NAO SE ALTERA");
-//		Voto voto = (Voto)pVoto;
-//        try
-//        {
-//
-//			//Armazenando os valores do código e a Descrição do Voto para passar para o statement
-//			int codigo = voto.getIdVoto();
-//			//String desc = pVoto.getDescricao();			
-//			
-//            if (consultarPelaChave(codigo) != null)
-//            {
-//            	
-//                try
-//                {
-//                	//TODO: Alterar da maneira mais adequada
-//                   	//statement.executeUpdate("UPDATE Voto SET descVoto = '"+ desc +"' WHERE codVoto = " + codigo + ";");
-//                }
-//                catch (Exception e)
-//                {
-//                    throw new ExcecaoAcessoRepositorio("Erro ao alterar no banco de dados!");
-//                }
-//            }
-//            else
-//            {
-//                throw new ExcecaoRegistroNaoExistente("Erro ao remover no banco de dados! Registro não Existente!");
-//            }
-//        }
-//        catch (Exception e)
-//        {
-//            throw new ExcecaoAcessoRepositorio("Erro ao inicializar dados do Repositorio!" );
-//        }
 	}
 	
 	public void excluir(Object pVoto) throws ExcecaoAcessoRepositorio {
 		System.out.println("VOTO NAO SE EXCLUI");
-//		Voto voto = (Voto)pVoto;
-//		int codigo = voto.getIdVoto();
-//        try
-//        {
-//			
-//            if (consultarPelaChave(codigo) != null)
-//            {
-//                try
-//                {
-//                	//TODO: Alterar da maneira mais adequada
-//                   	statement.executeUpdate("DELETE FROM Voto WHERE codVoto = " + codigo + ";");
-//                }
-//                catch (Exception e)
-//                {
-//                    throw new ExcecaoAcessoRepositorio("Erro ao alterar no banco de dados!");
-//                }
-//            }
-//            else
-//            {
-//                throw new ExcecaoRegistroNaoExistente("Não é possível excluir pois" + '\n' + " não existe este Voto !");
-//            }
-//        }
-//        catch (Exception e)
-//        {
-//            throw new ExcecaoAcessoRepositorio(e.getMessage() );
-//        }
-
 	}
 	
 	//	------------------	
