@@ -14,12 +14,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fbv.com.negocio.Eleicao;
+import fbv.com.negocio.EleicaoEscolhaUnica;
+import fbv.com.negocio.EleicaoPontuacao;
 import fbv.com.negocio.Fachada;
 import fbv.com.negocio.OpcaoVoto;
 import fbv.com.negocio.PerfilUsuario;
 import fbv.com.negocio.Usuario;
 import fbv.com.negocio.Voto;
 import fbv.com.util.InterfacePrincipal;
+import fbv.com.util.TipoEleicao;
 
 /**
  * Servlet implementation class for Servlet: ServletVoto
@@ -187,13 +191,43 @@ import fbv.com.util.InterfacePrincipal;
 		String tipoDeEleicao = "";
 		String descEleicao = "PADRAO";
 		String idEleicao = "";
+		Integer intervaloPontuacao = null;
+		Integer valorMaximoPontuacao = null;
+		Integer valorMinimoPontuacao = null;
+		boolean usuarioJaVotou = false;
+		Eleicao eleicaoVoto = null;
 		
 		nomeServlet = ID_REQ_NOME_SERVLET_VOTO;
 		
 		//Pegando o tipo de elei��o da sessao
-		tipoDeEleicao = this.getAtributoOuParametroStringOpcional(ServletLogin.ID_REQ_TIPO_DE_ELEICAO, request);
-		idEleicao = this.getAtributoOuParametroStringOpcional(ServletLogin.ID_REQ_ID_ELEICAO, request);
+		tipoDeEleicao = (String)request.getSession().getAttribute("tpEleicao");
+		idEleicao = (String)request.getSession().getAttribute("idEleicao");
 		usuario = (Usuario)request.getSession().getAttribute("usuario");
+		
+		//Verifica pelo tipo de usuario se o mesmo pode votar mais de uma vez, se não puder voltar para tela de login
+		Voto voto = new Voto();
+		voto.setIdUsuario(usuario.getId());
+		voto.setIdEleicao(new Integer(idEleicao));
+		
+		eleicaoVoto = new Eleicao();
+		if (tipoDeEleicao.equals("ESCOLHA_UNICA"))
+			eleicaoVoto = new EleicaoEscolhaUnica();
+		else
+			eleicaoVoto = new EleicaoPontuacao();
+
+		eleicaoVoto.setId(new Integer(idEleicao).intValue());
+
+		eleicaoVoto = fachada
+				.consultarEleicaoPelaChave(eleicaoVoto);
+
+		
+		boolean votosPorUsuario = eleicaoVoto.isMultiplosVotos();
+//@Rodrigo		
+//		voto = fachada.consultarVotoPorUsuarioEleicao(voto);
+		
+		if(voto != null){
+			usuarioJaVotou = true;
+		}
 		
 		//TODO: Quando for pegar as opcoes de voto para a eleicao,
 		//dá um join e pega as informações dela tb p mostrar
@@ -208,12 +242,45 @@ import fbv.com.util.InterfacePrincipal;
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mensagens.jsp");
 			requestDispatcher.forward(request, response);	
 		}
+		
+		Eleicao eleicao = new Eleicao();
+		
+		if (tipoDeEleicao.equals("PONTUACAO"))
+		{
+
+		eleicao.setId(Integer.valueOf(idEleicao));
+		
+		EleicaoPontuacao eleicaoPontuacao = new EleicaoPontuacao();
+//@Rodrigo		
+//		eleicaoPontuacao = fachada.consultarEleicaoPontuacaoPelaChave(eleicao);
+		
+		
+		
+		 intervaloPontuacao = eleicaoPontuacao.getIntervaloPontuacao();
+		 valorMaximoPontuacao = eleicaoPontuacao.getPontuacaoMaxima();
+		 valorMinimoPontuacao = eleicaoPontuacao.getPontuacaoMinima();
+		
+		}
+		
+		request.setAttribute(ID_REQ_INTERVALO_PONTUACAO_ELEICAO, intervaloPontuacao);
+		request.setAttribute(ID_REQ_PONTUACAO_MAXIMA_ELEICAO, valorMaximoPontuacao);
+		request.setAttribute(ID_REQ_PONTUACAO_MINIMA_ELEICAO, valorMinimoPontuacao);
 		request.setAttribute(ID_REQ_OBJETO_VOTO, colecaoOpcaoVoto);
 		request.setAttribute(ID_REQ_TIPO_DE_ELEICAO, tipoDeEleicao);
+		request.setAttribute(ID_REQ_OBJETO_ELEICAO, eleicao);
 		request.setAttribute(ID_REQ_ID_ELEICAO, idEleicao);
 		request.setAttribute(ID_REQ_DESCRICAO_ELEICAO, descEleicao);
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/inclusao_voto.jsp");
-		requestDispatcher.forward(request, response);
+		//Se multiplos votos for falso e usuario já tiver votado, voltar para tela principal
+		if(!votosPorUsuario){
+			if(usuarioJaVotou){
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/principal.jsp");
+				requestDispatcher.forward(request, response);
+				
+			}
+		}else{
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/inclusao_voto.jsp");
+			requestDispatcher.forward(request, response);
+		}
 	}
 
 	private void processarInclusao(HttpServletRequest request,
@@ -248,7 +315,7 @@ import fbv.com.util.InterfacePrincipal;
 		
 		if(usuario == null){
 			
-			usuario.setId(7);
+			usuario.setId(0);
 		}
 		
 		valorVoto = request.getParameter(ServletVoto.ID_REQ_VALOR_VOTO + opcaoVoto);
@@ -283,7 +350,7 @@ import fbv.com.util.InterfacePrincipal;
 				opcaoVoto = request.getParameter(ServletVoto.ID_REQ_CODIGO_OPCAO_VOTO + opcaoVotoCheck.getId());
 				if(usuario == null){
 					
-					usuario.setId(7);
+					usuario.setId(0);
 				}
 
 				valorVoto = request.getParameter(ServletVoto.ID_REQ_VALOR_VOTO + opcaoVotoCheck.getId());
