@@ -156,5 +156,9 @@ public class Fachada {
 	public ArrayList<Voto> consultarTodosVoto() throws SQLException, ExcecaoRegistroNaoExistente{
 		return controladorEleicao.consultarTodosVoto();
 	}
+	
+	public ArrayList<Voto> consultarVotoPorUsuarioEleicao(int idUsuario, int idEleicao) throws SQLException, ExcecaoRegistroNaoExistente{
+		return controladorEleicao.consultarVotoPorUsuarioEleicao(idUsuario, idEleicao);
+	}
 }
  
