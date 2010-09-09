@@ -149,10 +149,10 @@ public class ServletMenu extends HttpServlet implements
 		request.setAttribute(ID_REQ_TIPO_DE_ELEICAO, tpEleicao);
 		request.setAttribute(ID_REQ_EVENTO, ID_REQ_EVENTO_EXIBIR_INCLUSAO);
 		
-		if(fachada.consultarEleicaoPelaChave(eleicao).isPublica()){
+		if(((Eleicao)fachada.consultarEleicaoPelaChave(eleicao)).isPublica()){
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/ServletVoto");
 			requestDispatcher.forward(request, response);
-		}else if(!fachada.consultarEleicaoPelaChave(eleicao).isPublica()){
+		}else if(!((Eleicao)fachada.consultarEleicaoPelaChave(eleicao)).isPublica()){
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login.jsp");
 			requestDispatcher.forward(request, response);
 		}
