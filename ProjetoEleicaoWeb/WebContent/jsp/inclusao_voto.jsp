@@ -38,7 +38,6 @@
 	tipoDeEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_TIPO_DE_ELEICAO);
 	idEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_ID_ELEICAO);
 	descEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_DESCRICAO_ELEICAO);
-	
 
 	try{
 %>
@@ -65,7 +64,7 @@ function validaCheckbox()
         if (frm.elements[i].type == "checkbox") {
                 //Verifica se o checkbox foi selecionado
                 if(!frm.elements[i].checked) {
-                    alert("Selecione ao menos uma opcção de voto!");
+                    alert("Selecione todas as opcoes de voto!");
                     return false;
                 }                    
         }    
