@@ -79,4 +79,14 @@
     <servlet-name>ServletEleicao</servlet-name>
     <url-pattern>/ServletEleicao</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletResultado</display-name>
+    <servlet-name>ServletResultado</servlet-name>
+    <servlet-class>fbv.com.servlets.ServletResultado</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletResultado</servlet-name>
+    <url-pattern>/ServletResultado</url-pattern>
+  </servlet-mapping>
 </web-app>
