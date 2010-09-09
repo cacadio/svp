@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import fbv.com.dados.RepositorioEleicaoEscolhaUnica;
 import fbv.com.dados.RepositorioEleicaoPontuacao;
 import fbv.com.dados.RepositorioOpcaoVoto;
+import fbv.com.dados.RepositorioResultado;
 import fbv.com.dados.RepositorioVoto;
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;
@@ -23,6 +24,8 @@ public class ControladorEleicao {
 	 
 	private CadastroVoto cadastroVoto;
 	
+	private CadastroResultadoEleicao cadastroResultado;
+	
 	private static ControladorEleicao controladorEleicao = null;
 	
 	public static ControladorEleicao getInstancia() throws ExcecaoAcessoRepositorio, SQLException{
@@ -37,7 +40,7 @@ public class ControladorEleicao {
 		cadastroEleicaoPontuacao = new CadastroEleicaoPontuacao(new RepositorioEleicaoPontuacao());
 		cadastroOpcaoVoto = new CadastroOpcaoVoto(new RepositorioOpcaoVoto() );
 		cadastroVoto = new CadastroVoto(new RepositorioVoto());
-		
+		cadastroResultado = new CadastroResultadoEleicao(new RepositorioResultado());
 	}
 	
 	/*
@@ -168,5 +171,9 @@ public class ControladorEleicao {
 		}
 		
 		return arrRetornoVotos;
+	}
+	
+	public ArrayList<ResultadoEleicao> consultarResultadoEleicao(int idEleicao) throws Exception{
+		return cadastroResultado.consultar(idEleicao);
 	}
 }
