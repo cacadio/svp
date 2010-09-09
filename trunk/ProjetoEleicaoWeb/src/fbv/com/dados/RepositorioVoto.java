@@ -85,7 +85,7 @@ public class RepositorioVoto implements IRepositorioBD {
 	public Voto consultarPelaChave(Object pVoto) throws ExcecaoRegistroNaoExistente {
 		Voto voto = (Voto)pVoto;
 		int codigo = voto.getIdVoto();
-	try
+		try
         {
 			ResultSet rs = null;
             try
