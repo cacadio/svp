@@ -106,6 +106,8 @@ public class ServletLogin extends HttpServlet implements
 		usuario = validarLoginUsuario(arrayUsuario, login, senha);
 		if(usuario != null){
 			request.getSession(true).setAttribute("usuario", usuario);
+			request.getSession(true).setAttribute("idEleicao", idEleicao);
+			request.getSession(true).setAttribute("tpEleicao", tpEleicao);
 			
 			request.setAttribute(ID_REQ_NOME_USUARIO, usuario.getNome());
 			request.setAttribute(ID_REQ_ID_USUARIO, usuario.getId());
