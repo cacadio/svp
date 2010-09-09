@@ -82,7 +82,7 @@ function eventoDetalharEleicao(idEleicao, tpEleicao) {
 		<div id="sidebar-content">
 		<tr>
 			<td class="td"><b>Privado</b></td>
-			<td class="td"><b>Publica</b></td>
+			<td class="td"><b>Pública</b></td>
 		</tr>
 		<tr>
 			<td>
@@ -146,7 +146,7 @@ function eventoDetalharEleicao(idEleicao, tpEleicao) {
 		</div>
 	</table>
 	<div id="footer">
-		<p>&copy; 2008. All Rights Reserved.</p>
+		<p>&copy; 2010. All Rights Reserved.</p>
 	</div>
 </form>
 <%
