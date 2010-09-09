@@ -66,6 +66,7 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_TITULO_PAGINA = "tituloPagina";
 	public static final String ID_REQ_ARRAY_LIST_ELEICAO_PRIVADA = "ArrayListEleicaoPrivada";
 	public static final String ID_REQ_ARRAY_LIST_ELEICAO_PUBLICA = "ArrayListEleicaoPublica";
+	
 	/*
 	 * Escolha Única
 	 */
@@ -75,6 +76,7 @@ public interface InterfacePrincipal {
 	/*
 	 * Pontuação
 	 */
+	public static final String ID_REQ_PONTUACAO_TIPO_ELEICAO_PONTUACAO = "PONTUACAO";
 	public static final String ID_REQ_PONTUACAO_MINIMA_ELEICAO = "pontuacaoMinimaEleicao";
 	public static final String ID_REQ_PONTUACAO_MAXIMA_ELEICAO = "pontuacaoMaximaEleicao";
 	public static final String ID_REQ_INTERVALO_PONTUACAO_ELEICAO = "intervaloPontuacaoEleicao";
