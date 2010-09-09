@@ -61,11 +61,11 @@
 	
 	<table width="80%" border="0" align="center">
 		<th class="td" width="3%">&nbsp;&nbsp;&nbsp;#</th>
-		<th class="td" align="right">Usuário: </td>
-		<th class="td" align="right">Código Eleição: </td>
-		<th class="td" align="right">Opção de Voto: </td>
-		<th class="td" align="right">Valor Voto: </td>
-		<th class="td" align="right">Data: </td>
+		<th class="td" align="right">Usuário</td>
+		<th class="td" align="right">Código Eleição</td>
+		<th class="td" align="right">Opção de Voto</td>
+		<th class="td" align="right">Valor Voto</td>
+		<th class="td" align="right">Data</td>
 		<%
 		//Exibindo dados
 		if(arrayListVoto != null && !arrayListVoto.isEmpty()){
