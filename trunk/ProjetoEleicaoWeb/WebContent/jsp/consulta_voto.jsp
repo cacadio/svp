@@ -37,7 +37,6 @@
 			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
-			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
 		</ul>
 	</div>
 	<!-- end #menu -->
@@ -100,10 +99,6 @@
 			}
 		}else{
 			%>
-			<tr>
-				<td colspan="4">Nenhum Registro Encontrado</td>
-			</tr>	
-		
 			<%
 		}
 		%>
