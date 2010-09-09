@@ -217,8 +217,7 @@ import fbv.com.util.TipoEleicao;
 
 		eleicaoVoto.setId(new Integer(idEleicao).intValue());
 
-		eleicaoVoto = fachada
-				.consultarEleicaoPelaChave(eleicaoVoto);
+		eleicaoVoto = (Eleicao) fachada.consultarEleicaoPelaChave(eleicaoVoto);
 
 		
 		boolean votosPorUsuario = eleicaoVoto.isMultiplosVotos();
