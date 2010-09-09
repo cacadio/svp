@@ -32,9 +32,6 @@
 	String pathImage = "";	
 	int contador = 0;
 	ArrayList vlVoto = null;
-	Integer intervaloPontuacao = null;
-	Integer valorMaximoPontuacao = null;
-	Integer valorMinimoPontuacao = null;
 
 	//Obtem Parâmetros do request	
 	arrayListVoto = (ArrayList<OpcaoVoto>) request.getAttribute(ServletVoto.ID_REQ_OBJETO_VOTO);
@@ -42,9 +39,6 @@
 	idEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_ID_ELEICAO);
 	descEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_DESCRICAO_ELEICAO);
 	
-	intervaloPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_INTERVALO_PONTUACAO_ELEICAO);
-	valorMaximoPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_PONTUACAO_MAXIMA_ELEICAO);
-	valorMinimoPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_PONTUACAO_MINIMA_ELEICAO);
 
 	try{
 %>
@@ -71,7 +65,7 @@ function validaCheckbox()
         if (frm.elements[i].type == "checkbox") {
                 //Verifica se o checkbox foi selecionado
                 if(!frm.elements[i].checked) {
-                    alert("Selecione todas as opcoes de voto!");
+                    alert("Selecione ao menos uma opcção de voto!");
                     return false;
                 }                    
         }    
@@ -155,7 +149,7 @@ function validaCheckbox()
 				<td>
 	 		<table width="100%">
 	 		 <%
-		    	if(!tipoDeEleicao.equals("OPCAO_UNICA")){
+		    if(tipoDeEleicao.equals(ServletEleicao.ID_REQ_PONTUACAO_TIPO_ELEICAO_PONTUACAO)){
 		     %>
 				<tr>
 				<td class="valordado" width="30%">
@@ -169,22 +163,32 @@ function validaCheckbox()
 				<td class="valordado" height="22%"><select name="<%=ServletVoto.ID_REQ_VALOR_VOTO + opcaoVoto.getId()%>"> 
 				<% 
 				
-				vlVoto = new ArrayList();
-				for(int k= valorMinimoPontuacao.intValue(); k <= valorMaximoPontuacao.intValue(); k= k + intervaloPontuacao.intValue()){
-						
+				Integer intervaloPontuacao = null;
+				Integer valorMaximoPontuacao = null;
+				Integer valorMinimoPontuacao = null;
+				
+				intervaloPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_INTERVALO_PONTUACAO_ELEICAO);
+				valorMaximoPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_PONTUACAO_MAXIMA_ELEICAO);
+				valorMinimoPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_PONTUACAO_MINIMA_ELEICAO);
+				
+				if(intervaloPontuacao != null && valorMaximoPontuacao != null && valorMinimoPontuacao != null){
+					vlVoto = new ArrayList();
+					for(int k= valorMinimoPontuacao.intValue(); k <= valorMaximoPontuacao.intValue(); k= k + intervaloPontuacao.intValue()){	
 						vlVoto.add(k);
-		    	}
-						
-						Iterator iteraValorVoto = null;
-						iteraValorVoto = vlVoto.iterator(); 
-						
-						for(int j=0; vlVoto.size() > j; j++){
-						
-							Object vlVotoObj = vlVoto.get(j);
-						 %>           
-  							<option value="<%= vlVotoObj %>"><%= vlVotoObj%></option>  
-             			<% } %>                                       
-           			</select>  
+			    	}
+							
+					Iterator iteraValorVoto = null;
+					iteraValorVoto = vlVoto.iterator(); 
+							
+					while(iteraValorVoto.hasNext()){
+							
+						Object vlVotoObj = iteraValorVoto.next();
+				%>           
+	  					<option value="<%= vlVotoObj %>"><%= vlVotoObj%></option>  
+	             <% } %>                                       
+	           			</select>  
+				<% } %> 
+
 				</td>
 	 			</tr>
 	 		<%}else{ %>
@@ -214,7 +218,7 @@ function validaCheckbox()
 		<tr>
 			<td class="linhabotao"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarInclusao()" value="Confirmar"> </td>
 			<td class="linhabotao"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
-			</tr>
+		</tr>
 	<div id="sidebar-bgbtm"></div>
 		</div>
 		</table>
