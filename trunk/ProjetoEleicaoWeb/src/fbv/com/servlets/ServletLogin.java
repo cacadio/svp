@@ -119,6 +119,8 @@ public class ServletLogin extends HttpServlet implements
 			requestDispatcher.forward(request, response);
 			
 		}else{
+			
+			request.getSession(true).setAttribute("usuario", usuario);
 			request.setAttribute(ID_REQ_MENSAGEM, "Erro ao efetuar o login");
 			request.setAttribute(ID_REQ_NOME_SERVLET, ID_REQ_NOME_SERVLET_LOGIN);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mensagens.jsp");
