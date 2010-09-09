@@ -78,7 +78,14 @@ public class ServletOpcaoVoto extends HttpServlet implements
 					if (!item.isFormField()) {
 						if (item.getName().length() > 0) {
 							this.inserirImagemDiretorio(dsOpcaoVoto, cdEleicao, item);
+						} else {
+							request.setAttribute(ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO, dsOpcaoVoto);
+							request.setAttribute(ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO, cdEleicao);
+							this.processarInclusao(request, response);
 						}
+						
+						exibirMensagemInclusao(request, response);
+						
 					}
 				}
 			} catch (FileUploadException ex) {
@@ -207,8 +214,6 @@ public class ServletOpcaoVoto extends HttpServlet implements
 			throws Exception {
 		
 		Fachada fachada = Fachada.getInstancia();
-		String mensagem = "";
-		String nomeServlet = ID_REQ_NOME_SERVLET_OPCAO_VOTO;
 		String descricaoOpcaoVoto = request.getParameter(ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO);
 		String cdEleicao = request.getParameter(ID_REQ_CODIGO_ELEICAO);
 		String pathFoto = request.getParameter(ID_REQ_PATH_FOTO);
@@ -217,9 +222,15 @@ public class ServletOpcaoVoto extends HttpServlet implements
 
 		if ((descricaoOpcaoVoto != null) && (!descricaoOpcaoVoto.equals(""))) {
 			opcaoVoto.setDescricao(descricaoOpcaoVoto);
+		} else if(request.getAttribute(ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO) != null){
+			descricaoOpcaoVoto = request.getAttribute(ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO).toString();
+			opcaoVoto.setDescricao(descricaoOpcaoVoto);
 		}
 		
 		if ((cdEleicao != null) && (!cdEleicao.equals(""))) {
+			opcaoVoto.setIdEleicao(Integer.valueOf(cdEleicao.trim()));
+		} else if(request.getAttribute(ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO) != null){
+			cdEleicao = request.getAttribute(ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO).toString();
 			opcaoVoto.setIdEleicao(Integer.valueOf(cdEleicao.trim()));
 		}
 		
@@ -228,10 +239,14 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		}
 
 		fachada.incluirOpcaoVoto(opcaoVoto);
-		mensagem = "Opção de Voto Cadastrada com Sucesso";
+
+	}
+
+	private void exibirMensagemInclusao(HttpServletRequest request, HttpServletResponse response)throws Exception{
+		String mensagem = "Opção de Voto Cadastrada com Sucesso";
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
-		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
+		request.setAttribute(ID_REQ_NOME_SERVLET, ID_REQ_NOME_SERVLET_OPCAO_VOTO);
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mensagens.jsp");
 		requestDispatcher.forward(request, response);
 
