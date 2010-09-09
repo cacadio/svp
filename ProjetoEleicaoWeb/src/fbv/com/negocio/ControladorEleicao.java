@@ -67,9 +67,9 @@ public class ControladorEleicao {
 	
 	public Object consultarEleicaoPelaChave(Eleicao eleicao) throws SQLException, ExcecaoRegistroNaoExistente{
 		if (eleicao instanceof EleicaoEscolhaUnica)
-			return cadastroEleicaoEscolhaUnica.consultarPelaChave((EleicaoEscolhaUnica)eleicao);
+			return cadastroEleicaoEscolhaUnica.consultarPelaChave(eleicao);
 		else
-			return cadastroEleicaoPontuacao.consultarPelaChave((EleicaoPontuacao)eleicao);
+			return cadastroEleicaoPontuacao.consultarPelaChave(eleicao);
 	}
 	
 	@SuppressWarnings("unchecked")
