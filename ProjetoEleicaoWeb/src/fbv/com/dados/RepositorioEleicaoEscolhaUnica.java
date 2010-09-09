@@ -167,13 +167,38 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
 	            try
 	            {
 	            	EleicaoEscolhaUnica retorno = null;
-	            	rs = statement.executeQuery("SELECT E.*, EU.* from eleicao E " + 
+	            	
+	            	GerenciadorConexaoBDR banco = GerenciadorConexaoBDR.getMyInstance();
+	        		Connection conexao = banco.getConexao(false);
+	        		//this.conexao = conexao;
+	        		Statement st = conexao.createStatement();		
+	            	
+	            	rs = st.executeQuery("SELECT E.*, EU.* from eleicao E " + 
 	            								"INNER JOIN escolha_unica EU " +
 	            										"ON EU.ID_ELEICAO_ESCOLHA_UNICA = E.ID_ELEICAO " +
 	            								"WHERE E.ID_ELEICAO = " + codigo + ";");
 	                while (rs.next())
 	                {
-	                	retorno = preencherObjeto(rs);
+	                	retorno = new EleicaoEscolhaUnica();
+	                	//Capturando os valores do result set
+	                	retorno.setId(rs.getInt("ID_ELEICAO"));
+	                	retorno.setEstado(EstadoEleicao.getEstado(rs.getInt("ID_ESTADO")));
+	                	retorno.setDescricao(rs.getString ("DESCRICAO"));
+	                	retorno.setPublica(rs.getBoolean("IN_PUBLICA"));
+	                	retorno.setVisibilidadeVoto(rs.getBoolean("IN_VISIBILIDADE_ABERTA"));
+	                	retorno.setMultiplosVotos(rs.getBoolean("IN_MAIS_DE_UM_VOTO"));
+	                	retorno.setDataAbertura(rs.getDate("DT_INICIO"));
+	                	retorno.setDataEncerramento(rs.getDate("DT_FIM"));
+	            		if (rs.getObject("ID_ELEICAO_PAI") != null){
+	            			try {
+	            				retorno.setEleicaoPai(consultarPelaChave(new EleicaoEscolhaUnica(rs.getInt("ID_ELEICAO_PAI"))));
+	            			} catch (ExcecaoRegistroNaoExistente e) {
+	            				e.printStackTrace();
+	            			}
+	            		}
+	            		retorno.setCampoNulo(rs.getBoolean("BRANCO_NULO"));
+	            		retorno.setPercentualVitoria(rs.getDouble("PERCENT_VITORIA"));
+	                	//retorno = preencherObjeto(rs);
 	                }
 	
 	                return retorno;                               
@@ -186,10 +211,10 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
 	            
 				finally
 				{
-					if (rs != null)
+					/*if (rs != null)
 					{
 						try {rs.close();}catch(Exception e) {}
-					}
+					}*/
 					if (conexao != null)
 					{
 						try {statement.close();}catch(Exception e) {}
@@ -218,6 +243,8 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
             										"ON EU.ID_ELEICAO_ESCOLHA_UNICA = E.ID_ELEICAO;");
 
             	retorno = new ArrayList<EleicaoEscolhaUnica>();
+            	
+            	
             	
             	while (rs.next())
                 {
