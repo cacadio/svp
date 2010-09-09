@@ -65,7 +65,7 @@ public class ControladorEleicao {
 			cadastroEleicaoPontuacao.excluir((EleicaoPontuacao)pEleicao);
 	}
 	
-	public Eleicao consultarEleicaoPelaChave(Eleicao eleicao) throws SQLException, ExcecaoRegistroNaoExistente{
+	public Object consultarEleicaoPelaChave(Eleicao eleicao) throws SQLException, ExcecaoRegistroNaoExistente{
 		if (eleicao instanceof EleicaoEscolhaUnica)
 			return cadastroEleicaoEscolhaUnica.consultarPelaChave((EleicaoEscolhaUnica)eleicao);
 		else
@@ -108,7 +108,7 @@ public class ControladorEleicao {
 	 * Opcao de voto
 	 * **/
 	
-	//consulta opção voto pelo tipo de eleição
+	//consulta opÔøΩ‚Äπo voto pelo tipo de eleiÔøΩ‚Äπo
 	public  ArrayList<OpcaoVoto> consultarPeloIDEleicao(OpcaoVoto pOpcaoVoto) throws SQLException, ExcecaoRegistroNaoExistente{
 		return cadastroOpcaoVoto.consultarPeloIDEleicao(pOpcaoVoto);
 	}
