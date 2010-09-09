@@ -30,32 +30,20 @@ import fbv.com.util.TipoEleicao;
  *
  */
  public class ServletVoto extends HttpServlet implements InterfacePrincipal {
-   static final long serialVersionUID = 1L;
+    static final long serialVersionUID = 1L;
    
-   
-    /* (non-Java-doc)
-	 * @see javax.servlet.http.HttpServlet#HttpServlet()
-	 */
 	public ServletVoto() {
 		super();
 	}   	
 	
-	/* (non-Java-doc)
-	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doPost(request, response);
 	}  	
 	
-	/* (non-Java-doc)
-	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
 
-			//String idEvento = request.getParameter(ServletVoto.ID_REQ_EVENTO);
 			String idEvento = this.getAtributoOuParametroStringOpcional(ID_REQ_EVENTO, request);
 
 			if (idEvento != null && !idEvento.equals("")) {
@@ -76,7 +64,6 @@ import fbv.com.util.TipoEleicao;
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}   
@@ -189,7 +176,7 @@ import fbv.com.util.TipoEleicao;
 		String mensagem = "";
 		String nomeServlet = "";
 		String tipoDeEleicao = "";
-		String descEleicao = "PADRAO";
+		String descEleicao = "";
 		String idEleicao = "";
 		Integer intervaloPontuacao = null;
 		Integer valorMaximoPontuacao = null;
@@ -204,11 +191,6 @@ import fbv.com.util.TipoEleicao;
 		idEleicao = (String)request.getSession().getAttribute("idEleicao");
 		usuario = (Usuario)request.getSession().getAttribute("usuario");
 		
-		//Verifica pelo tipo de usuario se o mesmo pode votar mais de uma vez, se não puder voltar para tela de login
-		Voto voto = new Voto();
-		voto.setIdUsuario(usuario.getId());
-		voto.setIdEleicao(new Integer(idEleicao));
-		
 		eleicaoVoto = new Eleicao();
 		if (tipoDeEleicao.equals("ESCOLHA_UNICA"))
 			eleicaoVoto = new EleicaoEscolhaUnica();
@@ -218,14 +200,16 @@ import fbv.com.util.TipoEleicao;
 		eleicaoVoto.setId(new Integer(idEleicao).intValue());
 
 		eleicaoVoto = (Eleicao) fachada.consultarEleicaoPelaChave(eleicaoVoto);
-
+		descEleicao = eleicaoVoto.getDescricao();
 		
-		boolean votosPorUsuario = eleicaoVoto.isMultiplosVotos();
-//@Rodrigo		
-//		voto = fachada.consultarVotoPorUsuarioEleicao(voto);
+		//Verifica pelo tipo de usuario se o mesmo pode votar mais de uma vez, se não puder voltar para tela de login
+		if(!eleicaoVoto.isPublica() && eleicaoVoto.isMultiplosVotos()){
+			ArrayList respostaVotoUsuario = null;
+			respostaVotoUsuario = fachada.consultarVotoPorUsuarioEleicao(new Integer(usuario.getId()).intValue(),new Integer(idEleicao).intValue());
 		
-		if(voto != null){
-			usuarioJaVotou = true;
+			if(respostaVotoUsuario != null && respostaVotoUsuario.size() != 0){
+				usuarioJaVotou = true;
+			}
 		}
 		
 		//TODO: Quando for pegar as opcoes de voto para a eleicao,
@@ -244,21 +228,14 @@ import fbv.com.util.TipoEleicao;
 		
 		Eleicao eleicao = new Eleicao();
 		
-		if (tipoDeEleicao.equals("PONTUACAO"))
-		{
-
-		eleicao.setId(Integer.valueOf(idEleicao));
-		
-		EleicaoPontuacao eleicaoPontuacao = new EleicaoPontuacao();
-//@Rodrigo		
-//		eleicaoPontuacao = fachada.consultarEleicaoPontuacaoPelaChave(eleicao);
-		
-		
-		
-		 intervaloPontuacao = eleicaoPontuacao.getIntervaloPontuacao();
-		 valorMaximoPontuacao = eleicaoPontuacao.getPontuacaoMaxima();
-		 valorMinimoPontuacao = eleicaoPontuacao.getPontuacaoMinima();
-		
+		if (tipoDeEleicao.equals("PONTUACAO")){
+			eleicao.setId(Integer.valueOf(idEleicao));
+			EleicaoPontuacao eleicaoPontuacao = new EleicaoPontuacao();			
+			 eleicaoPontuacao = (EleicaoPontuacao)fachada.consultarEleicaoPelaChave(eleicao);
+			
+			 intervaloPontuacao = eleicaoPontuacao.getIntervaloPontuacao();
+			 valorMaximoPontuacao = eleicaoPontuacao.getPontuacaoMaxima();
+			 valorMinimoPontuacao = eleicaoPontuacao.getPontuacaoMinima();
 		}
 		
 		request.setAttribute(ID_REQ_INTERVALO_PONTUACAO_ELEICAO, intervaloPontuacao);
@@ -270,12 +247,11 @@ import fbv.com.util.TipoEleicao;
 		request.setAttribute(ID_REQ_ID_ELEICAO, idEleicao);
 		request.setAttribute(ID_REQ_DESCRICAO_ELEICAO, descEleicao);
 		//Se multiplos votos for falso e usuario já tiver votado, voltar para tela principal
-		if(!votosPorUsuario){
-			if(usuarioJaVotou){
+		if(usuarioJaVotou){
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/principal.jsp");
 				requestDispatcher.forward(request, response);
 				
-			}
+
 		}else{
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/inclusao_voto.jsp");
 			requestDispatcher.forward(request, response);
@@ -295,21 +271,20 @@ import fbv.com.util.TipoEleicao;
 		String tipoDeEleicao = "";
 		Voto voto = null;	
 		OpcaoVoto opcaoVotoEleicao = null;
-//		ArrayList<Usuario> usuario = new ArrayList<Usuario>();
 		
 		//Obtendo dados da tela via request
 		nomeServlet = ID_REQ_NOME_SERVLET_VOTO;
-//		idUsuario = request.getParameter(ServletVoto.ID_REQ_ID_USUARIO);
 		
 		tipoDeEleicao = this.getAtributoOuParametroStringOpcional(ServletLogin.ID_REQ_TIPO_DE_ELEICAO, request);
 		idEleicao = this.getAtributoOuParametroStringOpcional(ServletLogin.ID_REQ_ID_ELEICAO, request);
 		usuario = (Usuario)request.getSession().getAttribute("usuario");
 		
-//		tipoDeEleicao = request.getSession().getAttribute(ServletLogin.ID_REQ_TIPO_DE_ELEICAO).toString();
-//		idEleicao = request.getSession().getAttribute(ServletVoto.ID_REQ_CODIGO_ELEICAO).toString();
-//		idUsuario = request.getSession().getAttribute(ServletVoto.ID_REQ_ID_USUARIO).toString();
+		if(usuario == null){
+			usuario = new Usuario();
+			usuario.setId(0);
+		}
 		
-		if(tipoDeEleicao.equals("OPCAO_UNICA")){
+		if(!tipoDeEleicao.equals("PONTUACAO")){
 		opcaoVoto = request.getParameter(ServletVoto.ID_REQ_CODIGO_OPCAO_VOTO);
 		
 		if(usuario == null){
