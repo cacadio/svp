@@ -45,7 +45,7 @@ public class Fachada {
 		controladorEleicao.excluirEleicao(pEleicao);
 	}
 	
-	public Eleicao consultarEleicaoPelaChave(Eleicao eleicao) throws SQLException, ExcecaoRegistroNaoExistente{
+	public Object consultarEleicaoPelaChave(Eleicao eleicao) throws SQLException, ExcecaoRegistroNaoExistente{
 		return controladorEleicao.consultarEleicaoPelaChave(eleicao);
 	}
 	
