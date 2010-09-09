@@ -76,7 +76,6 @@ function eventoExcluir(){
 			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
-			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
 		</ul>
 	</div>
 	<!-- end #menu -->
@@ -177,10 +176,6 @@ function eventoExcluir(){
 			}
 		}else if (arrayListEleicao != null){
 		%>
-		<tr>
-			<td colspan="5">Nenhum Registro Encontrado</td>
-		</tr>	
-		
 		<%
 		}
 		%>		
