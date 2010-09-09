@@ -1,3 +1,8 @@
+<%@page import="fbv.com.util.TipoEleicao"%>
+<%@page import="fbv.com.negocio.EleicaoPontuacao"%>
+<%@page import="fbv.com.negocio.EleicaoEscolhaUnica"%>
+<%@page import="fbv.com.negocio.Eleicao"%>
+<%@page import="fbv.com.servlets.ServletEleicao"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -26,12 +31,20 @@
 	ArrayList<OpcaoVoto> arrayListVoto = null;
 	String pathImage = "";	
 	int contador = 0;
+	ArrayList vlVoto = null;
+	Integer intervaloPontuacao = null;
+	Integer valorMaximoPontuacao = null;
+	Integer valorMinimoPontuacao = null;
 
 	//Obtem Parâmetros do request	
 	arrayListVoto = (ArrayList<OpcaoVoto>) request.getAttribute(ServletVoto.ID_REQ_OBJETO_VOTO);
 	tipoDeEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_TIPO_DE_ELEICAO);
 	idEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_ID_ELEICAO);
 	descEleicao = (String)request.getAttribute(ServletVoto.ID_REQ_DESCRICAO_ELEICAO);
+	
+	intervaloPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_INTERVALO_PONTUACAO_ELEICAO);
+	valorMaximoPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_PONTUACAO_MAXIMA_ELEICAO);
+	valorMinimoPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_PONTUACAO_MINIMA_ELEICAO);
 
 	try{
 %>
@@ -40,13 +53,36 @@
 function eventoProcessarInclusao(){
 	
 	document.forms.form_principal.<%=ServletVoto.ID_REQ_EVENTO%>.value = "<%=ServletVoto.ID_REQ_EVENTO_PROCESSAR_INCLUSAO%>";
-	document.forms.form_principal.submit();
+
+	validaCheckbox();
+
+	if(validaCheckbox())
+	{
+		document.forms.form_principal.submit();
+	}
+}
+
+function validaCheckbox()
+{ 	
+	var frm = document.forms.form1;
+	for(i=0; i < frm.length; i++){
+	    
+        //Verifica se o elemento do formulário corresponde a um checkbox e se é o checkbox desejado
+        if (frm.elements[i].type == "checkbox") {
+                //Verifica se o checkbox foi selecionado
+                if(!frm.elements[i].checked) {
+                    alert("Selecione todas as opcoes de voto!");
+                    return false;
+                }                    
+        }    
+    } 
+   		return true;
 }
 
 
 </script>
 <body>
-	<form action="/ProjetoEleicaoWeb/ServletVoto" method="post" id="form_principal">
+	<form action="/ProjetoEleicaoWeb/ServletVoto" method="post" id="form_principal" name="form1">
 	<input type="hidden" id="<%=ServletVoto.ID_REQ_EVENTO%>" name="<%=ServletVoto.ID_REQ_EVENTO%>" value="">
 	<input type="hidden" id="<%=ServletVoto.ID_REQ_ID_ELEICAO%>" name="<%=ServletVoto.ID_REQ_ID_ELEICAO%>" value="<%=idEleicao%>">
 	<input type="hidden" id="<%=ServletVoto.ID_REQ_TIPO_DE_ELEICAO%>" name="<%=ServletVoto.ID_REQ_TIPO_DE_ELEICAO%>" value="<%=tipoDeEleicao%>">
@@ -123,7 +159,7 @@ function eventoProcessarInclusao(){
 		     %>
 				<tr>
 				<td class="valordado" width="30%">
-				<input type="checkbox" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO + opcaoVoto.getId()%>" value= <%=opcaoVoto.getId()%>>
+				<input type="checkbox" id=""<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO + opcaoVoto.getId()%>" value= <%=opcaoVoto.getId()%>>
 				<input type="text" id="descOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value=<%=descricao%> readonly="readonly"></td>
 				</tr>
 				<tr>
@@ -132,13 +168,12 @@ function eventoProcessarInclusao(){
 				<tr>
 				<td class="valordado" height="22%"><select name="<%=ServletVoto.ID_REQ_VALOR_VOTO + opcaoVoto.getId()%>"> 
 				<% 
-						ArrayList vlVoto = new ArrayList();
-						vlVoto.add(0,"Selecionar Valor");
-						vlVoto.add(1,"2");
-						vlVoto.add(2,"4");
-						vlVoto.add(3,"6");
-						vlVoto.add(4,"8");
-						vlVoto.add(5,"10");
+				
+				vlVoto = new ArrayList();
+				for(int k= valorMinimoPontuacao.intValue(); k <= valorMaximoPontuacao.intValue(); k= k + intervaloPontuacao.intValue()){
+						
+						vlVoto.add(k);
+		    	}
 						
 						Iterator iteraValorVoto = null;
 						iteraValorVoto = vlVoto.iterator(); 
