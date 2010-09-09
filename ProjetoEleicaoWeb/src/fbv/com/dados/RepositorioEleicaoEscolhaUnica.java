@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;
 import fbv.com.excecoes.ExcecaoRegistroNaoExistente;
+import fbv.com.negocio.Eleicao;
 import fbv.com.negocio.EleicaoEscolhaUnica;
 import fbv.com.util.EstadoEleicao;
 import fbv.com.util.GerenciadorConexaoBDR;
@@ -159,7 +160,7 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
     //BUSCA PELA CHAVE PRIMÁRIA
 	//-------------------
 	public EleicaoEscolhaUnica consultarPelaChave(Object pEleicao) throws ExcecaoRegistroNaoExistente {
-		EleicaoEscolhaUnica eleicao = (EleicaoEscolhaUnica)pEleicao;
+		Eleicao eleicao = (Eleicao)pEleicao;
 		int codigo = eleicao.getId();
 		try
 	        {
