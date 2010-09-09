@@ -18,7 +18,9 @@
 			$('#<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>').mask('99/99/9999',{placeholder:' '});
 		});
 	</script>
+	<script type="text/javascript" src="js/biblioteca_funcoes_eleicao.js" ></script>
 	<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
+	
 </head>
 <%
 	try{
@@ -75,7 +77,7 @@
 	}
 	
 	</script>
-<body>
+<body onload="setarFoco(document.forms.form_principal.<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>)">
 	<form action="/ProjetoEleicaoWeb/ServletEleicao" method="post" id="form_principal">
 	<input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
 <div id="header">

@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
+<script type="text/javascript" src="js/biblioteca_funcoes_eleicao.js" ></script>
 
 <title>Consulta Usuário</title>
 </head>
@@ -21,16 +22,6 @@
 %>
 
 <script type="text/javascript" >
-
-function eventoConsultar(){
-	document.forms.form_principal.<%=ServletUsuario.ID_REQ_EVENTO%>.value = "<%=ServletUsuario.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA%>";
-	document.forms.form_principal.submit();
-}
-
-function eventoIncluir(){
-	document.forms.form_principal.<%=ServletUsuario.ID_REQ_EVENTO%>.value = "<%=ServletUsuario.ID_REQ_EVENTO_EXIBIR_INCLUSAO%>";
-	document.forms.form_principal.submit();
-}
 
 function eventoAlterar(){
 	<%
@@ -65,15 +56,8 @@ function eventoExcluir(){
 	}
 	%>
 }
-
-function setFocus(){
-    
-	document.forms.form_principal.cpfName.focus();
-
- }
-
 </script>
-<body onLoad="setFocus();">
+<body onload="setarFoco(document.forms.form_principal.<%=ServletUsuario.ID_REQ_CPF_USUARIO%>)">
 <form action="/ProjetoEleicaoWeb/ServletUsuario" method="post" id="form_principal">
 <div id="header">
 	<div id="logo">

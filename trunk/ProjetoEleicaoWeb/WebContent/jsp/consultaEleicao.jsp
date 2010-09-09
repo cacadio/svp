@@ -12,6 +12,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
+	<script type="text/javascript" src="js/biblioteca_funcoes_eleicao.js" ></script>
 </head>
 <%
 	try{
@@ -23,16 +24,6 @@
 %>
 
 <script type="text/javascript" >
-
-function eventoConsultar() {
-	document.forms.form_principal.<%=ServletEleicao.ID_REQ_EVENTO%>.value = "<%=ServletEleicao.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA%>";
-	document.forms.form_principal.submit();
-}
-
-function eventoIncluir() {
-	document.forms.form_principal.<%=ServletEleicao.ID_REQ_EVENTO%>.value = "<%=ServletEleicao.ID_REQ_EVENTO_EXIBIR_INCLUSAO%>";
-	document.forms.form_principal.submit();
-}
 
 function eventoAlterar() {
 	<%
@@ -69,7 +60,7 @@ function eventoExcluir(){
 }
 
 </script>
-<body>
+<body onload="setarFoco(document.forms.form_principal.<%=ServletEleicao.ID_REQ_CODIGO_ELEICAO%>)">
 <form action="/ProjetoEleicaoWeb/ServletEleicao" method="post" id="form_principal">
 <input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
 <div id="header">

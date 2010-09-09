@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Efetuar login</title>
 <link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
+	<script type="text/javascript" src="js/biblioteca_funcoes_eleicao.js" ></script>
 </head>
 <%
 try{
@@ -20,7 +21,7 @@ function eventoLogar() {
 }
 
 </script>
-<body vlink="center">
+<body vlink="center" onload="setarFoco(document.forms.form_principal.<%=ServletLogin.ID_REQ_LOGIN %>)">
 <form action="/ProjetoEleicaoWeb/ServletLogin" method="post" id="form_principal"> 
 <input type="hidden" id="<%=ServletLogin.ID_REQ_EVENTO%>" name="<%=ServletLogin.ID_REQ_EVENTO%>" value="">
 <input type="hidden" id="<%=ServletLogin.ID_REQ_ID_ELEICAO%>" name="<%=ServletLogin.ID_REQ_ID_ELEICAO%>" value="<%=idEleicao%>">

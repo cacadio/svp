@@ -11,6 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
+<script type="text/javascript" src="js/biblioteca_funcoes_eleicao.js" ></script>
 <title>Inclusão Usuário</title>
 </head>
 <%
@@ -81,13 +82,8 @@ function vercpf (cpf) {
 				return true;
 }
 
-function setFocus(){
-	document.forms.form_principal.cpfName.focus();
-
- }
-
 </script>
-<body  onLoad="setFocus();">
+<body  onload="setarFoco(document.forms.form_principal.<%=ServletUsuario.ID_REQ_CPF_USUARIO%>)">
 <form action="/ProjetoEleicaoWeb/ServletUsuario" method="post" id="form_principal">
 <input type="hidden" id="<%=ServletUsuario.ID_REQ_EVENTO%>" name="<%=ServletUsuario.ID_REQ_EVENTO%>" value="">	
 <div id="header">

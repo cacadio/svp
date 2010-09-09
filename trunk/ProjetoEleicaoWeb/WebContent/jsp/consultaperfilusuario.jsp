@@ -13,6 +13,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
+<script type="text/javascript" src="js/biblioteca_funcoes_eleicao.js" ></script>
 <title>Consulta Perfil de Usuário</title>
 </head>
 <%
@@ -30,16 +31,6 @@
 %>
 
 <script type="text/javascript" >
-
-function eventoConsultar() {
-	document.forms.form_principal.<%=ServletPerfilUsuario.ID_REQ_EVENTO%>.value = "<%=ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA%>";
-	document.forms.form_principal.submit();
-}
-
-function eventoIncluir() {
-	document.forms.form_principal.<%=ServletPerfilUsuario.ID_REQ_EVENTO%>.value = "<%=ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_INCLUSAO%>";
-	document.forms.form_principal.submit();
-}
 
 function eventoAlterar() {
 	<%
@@ -76,7 +67,7 @@ function eventoExcluir(){
 }
 
 </script>
-<body>
+<body onload="setarFoco(document.forms.form_principal.<%=ServletPerfilUsuario.ID_REQ_CODIGO_PERFIL_USUARIO%>)">
 <form action="/ProjetoEleicaoWeb/ServletPerfilUsuario" method="post" id="form_principal">
 	<input type="hidden" id="<%=ServletPerfilUsuario.ID_REQ_EVENTO%>" name="<%=ServletPerfilUsuario.ID_REQ_EVENTO%>" value="">
 <div id="header">
