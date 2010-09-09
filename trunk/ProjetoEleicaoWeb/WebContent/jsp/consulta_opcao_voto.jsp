@@ -144,17 +144,25 @@ function eventoExcluir() {
 	</div>
 		<div id="sidebar-bgbtm"></div>
 		</div>
-		<tr>
+		<!--<tr>
 			<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
 			<td class="linhabotao"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
 			<td class="linhabotao"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
-		</tr>
+		</tr>-->
 		</div>
 		<div id="sidebar-bgbtm"></div>
 		</div>
 	</table>
+	<table width="80%" border="0" align="center">
+		<tr>
+			<td class="linhabotao" align="right"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
+			<td class="linhabotao" align="center"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
+			<td class="linhabotao" align="left"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
+		</tr>
+	
+	</table>
 	<div id="footer">
-		<p>&copy; 2008. All Rights Reserved.</p>
+		<p>&copy; 2010. All Rights Reserved.</p>
 	</div>
 	
 </form>

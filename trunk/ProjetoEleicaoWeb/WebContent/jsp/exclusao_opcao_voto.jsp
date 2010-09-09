@@ -90,7 +90,7 @@ function eventoProcessarExclusao(){
 		</div>
 	</table>
 	<div id="footer">
-		<p>&copy; 2008. All Rights Reserved.</p>
+		<p>&copy; 2010. All Rights Reserved.</p>
 	</div>
 </form>
 <% 

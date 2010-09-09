@@ -98,10 +98,10 @@ function eventoExcluir(){
 		</table>
 		<table width="80%" align="center" border="0">
 				<th class="td" align="center"><b>#</b></th>
-				<th class="td"><b>CPF:</b></td>
-				<th class="td"><b>Login:</b></td>
-				<th class="td"><b>Nome:</b></td>
-				<th class="td"><b>Perfil:</b></td>
+				<th class="td"><b>CPF</b></td>
+				<th class="td"><b>Login</b></td>
+				<th class="td"><b>Nome</b></td>
+				<th class="td"><b>Perfil</b></td>
 			</tr>
 		<%
 		//Exibindo dados
@@ -139,18 +139,20 @@ function eventoExcluir(){
 		<%
 		}
 		%>
-		<tr>
-			<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
-			<td class="linhabotao"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
-			<td class="linhabotao"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
-		</tr>
-	
 	</div>
 		<div id="sidebar-bgbtm"></div>
-		</div>
+		</div>		
+	</table>
+	<table width="80%" border="0" align="center">
+		<tr>
+			<td class="linhabotao" align="right"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
+			<td class="linhabotao" align="center"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
+			<td class="linhabotao" align="left"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
+		</tr>
+	
 	</table>
 	<div id="footer">
-		<p>&copy; 2008. All Rights Reserved.</p>
+		<p>&copy; 2010. All Rights Reserved.</p>
 	</div>
 </form>
 

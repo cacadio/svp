@@ -153,7 +153,7 @@ function validaCheckbox()
 				<tr>
 				<td class="valordado" width="30%">
 				<input type="checkbox" id=""<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO + opcaoVoto.getId()%>" value= <%=opcaoVoto.getId()%>>
-				<input type="text" id="descOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value=<%=descricao%> readonly="readonly"></td>
+				<input type="text" id="descOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value="<%=descricao%>" readonly="readonly"></td>
 				</tr>
 				<tr>
 				<td class="valordado" height="50%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="<%=pathImage%>" width="120" height="60" border="1"></td>
@@ -196,7 +196,7 @@ function validaCheckbox()
 					<td class="valordado" height="10%"><input type="radio" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" value= <%=opcaoVoto.getId()%>></td>
 				</tr>
 				<tr>
-					<td class="valordado" height="18%"><input type="text" id="descOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value=<%=descricao%> readonly="readonly"></td>
+					<td class="valordado" height="18%"><input type="text" id="descOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value="<%=descricao%>" readonly="readonly"></td>
 				</tr>
 				<tr>
 					<td class="valordado" height="50%">&nbsp;<img src="<%=pathImage%>" width="120" height="60" border="1" ></td>
