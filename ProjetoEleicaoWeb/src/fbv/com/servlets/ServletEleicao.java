@@ -87,7 +87,8 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 		Fachada fachada = Fachada.getInstancia();
 
-		String idEleicao = request.getParameter(ID_REQ_CODIGO_ELEICAO);
+		String idEleicao = request
+				.getParameter(ID_REQ_CODIGO_ELEICAO);
 		TipoEleicao tipoEleicao;
 		if (request.getParameter(ID_REQ_TIPO_ELEICAO) != null){
 			if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1"))
@@ -106,10 +107,9 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 				eleicao = new EleicaoPontuacao();
 			
 			eleicao.setId(Integer.valueOf(idEleicao));
-			if (eleicao instanceof EleicaoEscolhaUnica)
-				eleicao = (EleicaoEscolhaUnica)fachada.consultarEleicaoPelaChave(eleicao);
-			else
-				eleicao = (EleicaoPontuacao)fachada.consultarEleicaoPelaChave(eleicao);
+
+			eleicao = fachada
+					.consultarEleicaoPelaChave(eleicao);
 
 			if (eleicao != null) {
 				arrayEleicao.add(eleicao);
@@ -119,9 +119,11 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 			arrayEleicao = fachada.consultarTodasEleicoes(tipoEleicao);
 		}
 		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
-		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, arrayEleicao);
+		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO,
+				arrayEleicao);
 
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consultaEleicao.jsp");
+		RequestDispatcher requestDispatcher = request
+				.getRequestDispatcher("jsp/consultaEleicao.jsp");
 		requestDispatcher.forward(request, response);
 
 	}
@@ -246,10 +248,8 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 			eleicao.setId(Integer.valueOf(chavePrimaria));
 
-			if (eleicao instanceof EleicaoEscolhaUnica)
-				eleicao = (EleicaoEscolhaUnica)fachada.consultarEleicaoPelaChave(eleicao);
-			else
-				eleicao = (EleicaoPontuacao)fachada.consultarEleicaoPelaChave(eleicao);
+			eleicao = fachada
+					.consultarEleicaoPelaChave(eleicao);
 
 			request.setAttribute(
 					ServletEleicao.ID_REQ_OBJETO_ELEICAO,
@@ -294,10 +294,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		
 		eleicao.setId(new Integer(idEleicao));
 		
-		if (eleicao instanceof EleicaoEscolhaUnica)
-			eleicao = (EleicaoEscolhaUnica)fachada.consultarEleicaoPelaChave(eleicao);
-		else
-			eleicao = (EleicaoPontuacao)fachada.consultarEleicaoPelaChave(eleicao);
+		eleicao = fachada.consultarEleicaoPelaChave(eleicao);
 				
 		if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA){
 			if ((request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI) != null) && (!request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI).equals("0")))
@@ -362,10 +359,8 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 			eleicao.setId(Integer.valueOf(chavePrimaria));
 
-			if (eleicao instanceof EleicaoEscolhaUnica)
-				eleicao = (EleicaoEscolhaUnica)fachada.consultarEleicaoPelaChave(eleicao);
-			else
-				eleicao = (EleicaoPontuacao)fachada.consultarEleicaoPelaChave(eleicao);
+			eleicao = fachada
+					.consultarEleicaoPelaChave(eleicao);
 
 			request.setAttribute(
 					ID_REQ_OBJETO_ELEICAO,
