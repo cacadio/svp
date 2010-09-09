@@ -156,4 +156,17 @@ public class ControladorEleicao {
 	public ArrayList<Voto> consultarTodosVoto() throws SQLException, ExcecaoRegistroNaoExistente{
 		return cadastroVoto.consultarTodos();
 	}
+	
+	public ArrayList<Voto> consultarVotoPorUsuarioEleicao(int idUsuario, int idEleicao) throws SQLException, ExcecaoRegistroNaoExistente{
+		ArrayList<Voto> arrRetornoVotos = new ArrayList<Voto>();
+		ArrayList<Voto> arrVotos = cadastroVoto.consultarTodos();
+		
+		for(Voto vt : arrVotos){
+			if(vt.getIdEleicao() == idEleicao && vt.getIdUsuario() == idUsuario){
+				arrRetornoVotos.add(vt);
+			}
+		}
+		
+		return arrRetornoVotos;
+	}
 }
