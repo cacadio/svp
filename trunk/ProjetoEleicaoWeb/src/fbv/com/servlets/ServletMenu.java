@@ -16,6 +16,7 @@ import fbv.com.negocio.EleicaoEscolhaUnica;
 import fbv.com.negocio.EleicaoPontuacao;
 import fbv.com.negocio.Fachada;
 import fbv.com.negocio.PerfilUsuario;
+import fbv.com.negocio.Usuario;
 import fbv.com.util.InterfacePrincipal;
 import fbv.com.util.TipoEleicao;
 
@@ -136,7 +137,7 @@ public class ServletMenu extends HttpServlet implements
 		Eleicao eleicao = null;
 		String idEleicao = request.getParameter(ServletMenu.ID_REQ_ID_ELEICAO);
 		String tpEleicao = request.getParameter(ServletMenu.ID_REQ_TIPO_DE_ELEICAO);
-		
+		Usuario usuario = null;
 		if(tpEleicao.equals(TipoEleicao.ESCOLHA_UNICA.toString())){
 			eleicao = new EleicaoEscolhaUnica();
 		}else{
@@ -150,6 +151,11 @@ public class ServletMenu extends HttpServlet implements
 		request.setAttribute(ID_REQ_EVENTO, ID_REQ_EVENTO_EXIBIR_INCLUSAO);
 		
 		if(((Eleicao)fachada.consultarEleicaoPelaChave(eleicao)).isPublica()){
+			usuario = new Usuario();
+			usuario.setId(0);
+			request.getSession(true).setAttribute("idEleicao", idEleicao);
+			request.getSession(true).setAttribute("tpEleicao", tpEleicao);
+			
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/ServletVoto");
 			requestDispatcher.forward(request, response);
 		}else if(!((Eleicao)fachada.consultarEleicaoPelaChave(eleicao)).isPublica()){
