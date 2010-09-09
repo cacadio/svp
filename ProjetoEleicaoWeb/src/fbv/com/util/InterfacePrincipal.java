@@ -89,6 +89,7 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_LOGIN = "login";
 	public static final String ID_REQ_PASSWORD = "password";
 	
-	
+	//Resultado Eleição
+	public static final String ID_REQ_ARRAY_LIST_RESULTADO = "ArrayListResultado";
 
 }
