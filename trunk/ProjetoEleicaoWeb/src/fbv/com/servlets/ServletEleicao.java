@@ -138,10 +138,11 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 	private void exibirInclusao(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		ArrayList<EleicaoEscolhaUnica> eleicoes = Fachada.getInstancia().consultarTodasEleicoes(TipoEleicao.ESCOLHA_UNICA);
-		
-		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, eleicoes);
-		
+		if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1")){
+			ArrayList<EleicaoEscolhaUnica> eleicoes = Fachada.getInstancia().consultarTodasEleicoes(TipoEleicao.ESCOLHA_UNICA);
+			
+			request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, eleicoes);
+		}
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 		request.setAttribute(ID_REQ_TIPO_ELEICAO, Integer.parseInt(request.getParameter(ID_REQ_TIPO_ELEICAO)));
@@ -236,8 +237,12 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 			else
 				tipoEleicao = TipoEleicao.PONTUACAO;
 
-			if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA)
+			if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA){
 				eleicao = new EleicaoEscolhaUnica();
+				ArrayList<EleicaoEscolhaUnica> eleicoes = Fachada.getInstancia().consultarTodasEleicoes(TipoEleicao.ESCOLHA_UNICA);
+				
+				request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, eleicoes);
+			}
 			else
 				eleicao = new EleicaoPontuacao();
 
@@ -292,6 +297,8 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		eleicao = fachada.consultarEleicaoPelaChave(eleicao);
 				
 		if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA){
+			if ((request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI) != null) && (!request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI).equals("0")))
+				((EleicaoEscolhaUnica)eleicao).setEleicaoPai(new EleicaoEscolhaUnica(Integer.parseInt(request.getParameter(ID_REQ_CODIGO_ELEICAO_PAI))));
 			((EleicaoEscolhaUnica)eleicao).setCampoNulo(request.getParameter(ID_REQ_IN_CAMPO_NULO_ELEICAO).equals("1"));
 			((EleicaoEscolhaUnica)eleicao).setPercentualVitoria(Double.valueOf(request.getParameter(ID_REQ_PERCENTUAL_VITORIA_ELEICAO)));
 		}
