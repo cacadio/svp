@@ -40,8 +40,9 @@ function eventoProcessarAlteracao() {
 			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletVoto">Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletResultado">Resultado</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
-			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfis</a></li>
 		</ul>
 	</div>
 	<!-- end #menu -->

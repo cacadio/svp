@@ -6,7 +6,9 @@
 <%@page import="fbv.com.negocio.OpcaoVoto"%>
 <%@page import="fbv.com.servlets.ServletOpcaoVoto"%>
 
-<html>
+
+<%@page import="fbv.com.negocio.Eleicao"%>
+<%@page import="fbv.com.servlets.ServletEleicao"%><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
@@ -18,6 +20,7 @@
 try{
 	//Obtem Parâmetros do request	
 	ArrayList<OpcaoVoto> arrayListOpcaoVoto = (ArrayList<OpcaoVoto>) request.getAttribute(ServletOpcaoVoto.ID_REQ_ARRAY_LIST_OPCAO_VOTO);
+	ArrayList<Eleicao> arrayEleicao = (ArrayList<Eleicao>) request.getAttribute(ServletEleicao.ID_REQ_ARRAY_LIST_ELEICAO);
 	
 %>
 
@@ -71,8 +74,9 @@ function eventoExcluir() {
 			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletVoto">Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletResultado">Resultado</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
-			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfis</a></li>
 		</ul>
 	</div>
 	<!-- end #menu -->
@@ -90,15 +94,50 @@ function eventoExcluir() {
 			</td>
 		</tr>
 		<tr>
-			<td class="td" width="12%">Código:</th>
-			<td colspan="4"><input type="text" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" value="" size="8" maxlength="10">
-								  <input type="button" id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  ></td>
+			<td class="td" width="15%" colspan="2">Eleição:</td>
+			<td colspan="6">
+				<select id="cboEleicao" name="cboEleicao">
+						<option value="0"></option>
+					<%
+					
+					if(arrayEleicao != null && !arrayEleicao.isEmpty()){
+						int idEleicao;
+						String Descricao = "";
+						Integer idEleicaoSelecionada = (Integer)request.getAttribute(ServletOpcaoVoto.ID_REQ_ID_ELEICAO);
+						for (Eleicao eleicao : arrayEleicao){
+							idEleicao = eleicao.getId();
+							Descricao = eleicao.getDescricao();
+							if(idEleicaoSelecionada != null && idEleicao == idEleicaoSelecionada.intValue()){
+							%>
+								<option value="<%= idEleicao%>" selected="selected"> <%=eleicao.getDescricao()%> </option>
+							<%
+							} else {
+							%>
+								<option value="<%= idEleicao%>" selected=""> <%=eleicao.getDescricao()%> </option>
+							<%
+							}
+						}
+					}
+	
+					%>
+				</select>
+			</td>
 		</tr>
+		
+		<tr>
+			<td class="td" width="15%" colspan="2">Código da Opção:</th>
+			<td colspan="3">
+				<input type="text" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" value="" size="8" 
+				maxlength="10">
+			<input type="button" id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar"  >
+			</td>
+		</tr>
+		
 		<tr>
 			<th class="td" width="3%">&nbsp;&nbsp;&nbsp;#</th>
 			<th class="td" width="12%">Código</th>
 			<th class="td" width="40%">Descrição</th>
-			<th class="td" width="10">Eleição</th>
+			<th class="td" width="10"> Eleição</th>
 			<th class="td" width="35%">Foto</th>
 		</tr>
 	<%
