@@ -115,7 +115,8 @@ public class RepositorioOpcaoVoto implements IRepositorioBD, IRepositorioGeneric
             {
                 try
                 {
-                   	statement.executeUpdate("DELETE FROM opcao_voto WHERE id_opcao_voto = " + codigo + ";");
+                	String sql = "DELETE FROM opcao_voto WHERE id_opcao_voto = " + codigo + ";";
+                   	statement.executeUpdate(sql);
                 }
                 catch (Exception e)
                 {

@@ -50,15 +50,18 @@ public class ServletOpcaoVoto extends HttpServlet implements
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		
+		String idOpcaoVoto = "";
+		String formulario = "";
+		String dsOpcaoVoto = "";
+		String cdEleicao = "";
 		//Codigo que salva link no banco
 		boolean isMultiPart = FileUpload.isMultipartContent(request);
+		String idEvento = request.getParameter(ServletOpcaoVoto.ID_REQ_EVENTO);
 		if (isMultiPart) {
 			FileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
-			String formulario = "";
-			String dsOpcaoVoto = "";
-			String cdEleicao = "";
+			
+			
 			try {
 				List items = upload.parseRequest(request);
 				Iterator iter = items.iterator();
@@ -75,9 +78,15 @@ public class ServletOpcaoVoto extends HttpServlet implements
 					if (item.getFieldName().equals(this.ID_REQ_CODIGO_ELEICAO)) {
 						cdEleicao = item.getString();
 					}
+					if (item.getFieldName().equals(this.ID_REQ_EVENTO)) {
+						idEvento = item.getString();
+					}
+					if (item.getFieldName().equals(this.ID_REQ_CODIGO_OPCAO_VOTO)) {
+						idOpcaoVoto = item.getString();
+					}
 					if (!item.isFormField()) {
 						if (item.getName().length() > 0) {
-							this.inserirImagemDiretorio(dsOpcaoVoto, cdEleicao, item);
+							this.inserirImagemDiretorio(dsOpcaoVoto, cdEleicao, item, idOpcaoVoto, idEvento);
 						}
 					}
 				}
@@ -89,7 +98,7 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		}
 
 		try {
-			String idEvento = request.getParameter(ServletOpcaoVoto.ID_REQ_EVENTO);
+			
 			if (idEvento != null && !idEvento.equals("")) {
 				if (idEvento.equals(ServletOpcaoVoto.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
 					processarFiltroConsulta(request, response);
@@ -104,7 +113,7 @@ public class ServletOpcaoVoto extends HttpServlet implements
 					exibirAlteracao(request, response);
 					
 				} else if(idEvento.equals(ServletOpcaoVoto.ID_REQ_EVENTO_PROCESSAR_ALTERACAO)) {
-					processarAlteracao(request,response);
+					processarAlteracao(request,response, idOpcaoVoto, formulario, cdEleicao, dsOpcaoVoto);
 					
 				} else if(idEvento.equals(ServletOpcaoVoto.ID_REQ_EVENTO_EXIBIR_EXCLUSAO)) {
 					exibirExclusao(request,response);
@@ -121,7 +130,7 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		}
 	}
 	
-	private void inserirImagemDiretorio(String pDsOpcaoVoto, String pCdEleicao, FileItem item) throws IOException, SQLException {  
+	private void inserirImagemDiretorio(String pDsOpcaoVoto, String pCdEleicao, FileItem item, String idOpcaoVoto, String cdEvento) throws IOException, SQLException {  
 		
 		String caminho = "";
 		// Cria o diretorio caso ele nao exista
@@ -151,9 +160,15 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		
 		caminho =  "./img/" + nome;
 		
-		OpcaoVoto op = new OpcaoVoto(0, Integer.parseInt(pCdEleicao), pDsOpcaoVoto, caminho);
+		OpcaoVoto op = null;//new OpcaoVoto(0, Integer.parseInt(pCdEleicao), pDsOpcaoVoto, caminho);
 		try {
-			Fachada.getInstancia().incluirOpcaoVoto(op);
+			if(cdEvento.equalsIgnoreCase(this.ID_REQ_EVENTO_PROCESSAR_INCLUSAO)){
+				op = new OpcaoVoto(0, Integer.parseInt(pCdEleicao), pDsOpcaoVoto, caminho);
+				Fachada.getInstancia().incluirOpcaoVoto(op);
+			}else if(cdEvento.equalsIgnoreCase(this.ID_REQ_EVENTO_PROCESSAR_ALTERACAO)){
+				op = new OpcaoVoto(Integer.parseInt(idOpcaoVoto), Integer.parseInt(pCdEleicao), pDsOpcaoVoto, caminho);
+				Fachada.getInstancia().alterarOpcaoVoto(op);
+			}
 		} catch (ExcecaoRegistroJaExistente e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,28 +232,28 @@ public class ServletOpcaoVoto extends HttpServlet implements
 	private void processarInclusao(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
 		
-		Fachada fachada = Fachada.getInstancia();
+//		Fachada fachada = Fachada.getInstancia();
 		String mensagem = "";
 		String nomeServlet = ID_REQ_NOME_SERVLET_OPCAO_VOTO;
-		String descricaoOpcaoVoto = request.getParameter(ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO);
-		String cdEleicao = request.getParameter(ID_REQ_CODIGO_ELEICAO);
-		String pathFoto = request.getParameter(ID_REQ_PATH_FOTO);
-		
-		OpcaoVoto opcaoVoto = new OpcaoVoto();
-
-		if ((descricaoOpcaoVoto != null) && (!descricaoOpcaoVoto.equals(""))) {
-			opcaoVoto.setDescricao(descricaoOpcaoVoto);
-		}
-		
-		if ((cdEleicao != null) && (!cdEleicao.equals(""))) {
-			opcaoVoto.setIdEleicao(Integer.valueOf(cdEleicao.trim()));
-		}
-		
-		if ((pathFoto != null) && (!pathFoto.equals(""))) {
-			opcaoVoto.setPath_foto(pathFoto);
-		}
-
-		fachada.incluirOpcaoVoto(opcaoVoto);
+//		String descricaoOpcaoVoto = request.getParameter(ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO);
+//		String cdEleicao = request.getParameter(ID_REQ_CODIGO_ELEICAO);
+//		String pathFoto = request.getParameter(ID_REQ_PATH_FOTO);
+//		
+//		OpcaoVoto opcaoVoto = new OpcaoVoto();
+//
+//		if ((descricaoOpcaoVoto != null) && (!descricaoOpcaoVoto.equals(""))) {
+//			opcaoVoto.setDescricao(descricaoOpcaoVoto);
+//		}
+//		
+//		if ((cdEleicao != null) && (!cdEleicao.equals(""))) {
+//			opcaoVoto.setIdEleicao(Integer.valueOf(cdEleicao.trim()));
+//		}
+//		
+//		if ((pathFoto != null) && (!pathFoto.equals(""))) {
+//			opcaoVoto.setPath_foto(pathFoto);
+//		}
+//
+//		fachada.incluirOpcaoVoto(opcaoVoto);
 		mensagem = "Opção de Voto Cadastrada com Sucesso";
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
@@ -267,33 +282,10 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		requestDispatcher.forward(request, response);
 	}
 	
-	private void processarAlteracao(HttpServletRequest request, HttpServletResponse response) 
+	private void processarAlteracao(HttpServletRequest request, HttpServletResponse response, String pIdOpcaoVoto, String formulario, String pcdEleicao, String dsOpcaoVoto) 
 			throws Exception {
-		Fachada fachada = Fachada.getInstancia();
-		
-		String idOpcaoVoto = request.getParameter(ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO);
 		String mensagem = "";
 		String nomeServlet = ID_REQ_NOME_SERVLET_OPCAO_VOTO;
-		String descricaoOpcaoVoto = request.getParameter(ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO);
-		String cdEleicao = request.getParameter(ID_REQ_CODIGO_ELEICAO);
-		String pathFoto = request.getParameter(ID_REQ_PATH_FOTO);
-
-		OpcaoVoto opcaoVoto = new OpcaoVoto();
-		opcaoVoto.setId(Integer.valueOf(idOpcaoVoto.trim()));
-
-		if ((descricaoOpcaoVoto != null) && (!descricaoOpcaoVoto.equals(""))) {
-			opcaoVoto.setDescricao(descricaoOpcaoVoto);
-		}
-		
-		if ((cdEleicao != null) && (!cdEleicao.equals(""))) {
-			opcaoVoto.setIdEleicao(Integer.valueOf(cdEleicao.trim()));
-		}
-		
-		if ((pathFoto != null) && (!pathFoto.equals(""))) {
-			opcaoVoto.setPath_foto(pathFoto);
-		}
-
-		fachada.alterarOpcaoVoto(opcaoVoto);
 
 		mensagem = "Opção de Voto Alterada com Sucesso";
 

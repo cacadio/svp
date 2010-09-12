@@ -148,7 +148,7 @@ function validaCheckbox()
 				<td>
 	 		<table width="100%">
 	 		 <%
-		    if(tipoDeEleicao.equals(ServletEleicao.ID_REQ_PONTUACAO_TIPO_ELEICAO_PONTUACAO)){
+		    	if(tipoDeEleicao.equals("PONTUACAO")){
 		     %>
 				<tr>
 				<td class="valordado" width="30%">

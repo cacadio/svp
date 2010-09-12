@@ -1,12 +1,7 @@
 package fbv.com.servlets;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,11 +14,9 @@ import fbv.com.negocio.EleicaoEscolhaUnica;
 import fbv.com.negocio.EleicaoPontuacao;
 import fbv.com.negocio.Fachada;
 import fbv.com.negocio.OpcaoVoto;
-import fbv.com.negocio.PerfilUsuario;
 import fbv.com.negocio.Usuario;
 import fbv.com.negocio.Voto;
 import fbv.com.util.InterfacePrincipal;
-import fbv.com.util.TipoEleicao;
 
 /**
  * Servlet implementation class for Servlet: ServletVoto
@@ -231,7 +224,7 @@ import fbv.com.util.TipoEleicao;
 		if (tipoDeEleicao.equals("PONTUACAO")){
 			eleicao.setId(Integer.valueOf(idEleicao));
 			EleicaoPontuacao eleicaoPontuacao = new EleicaoPontuacao();			
-			 eleicaoPontuacao = (EleicaoPontuacao)fachada.consultarEleicaoPelaChave(eleicao);
+			eleicaoPontuacao = (EleicaoPontuacao)fachada.consultarEleicaoPelaChave(eleicao);
 			
 			 intervaloPontuacao = eleicaoPontuacao.getIntervaloPontuacao();
 			 valorMaximoPontuacao = eleicaoPontuacao.getPontuacaoMaxima();
@@ -302,6 +295,8 @@ import fbv.com.util.TipoEleicao;
 	
 		if(valorVoto != null && !valorVoto.equals("")){
 			voto.setValorVoto(Integer.valueOf(valorVoto.trim()));
+		}else{
+			voto.setValorVoto(1);
 		}
 		
 			fachada.incluirVoto(voto);
