@@ -54,8 +54,10 @@ public class RepositorioVoto implements IRepositorioBD {
             	}else{
             		codigo = 1;
             	}
-
-            	statement.executeUpdate("INSERT INTO Voto (ID_VOTO,ID_USUARIO,ID_ELEICAO,ID_OPCAO_VOTO,VALOR_VOTO) VALUES("+ codigo + ","  + idUsuario + "," + idEleicao + ","+ idOpcaoVoto + "," + vlVoto +");");
+            	
+            	String sql = 
+            		"INSERT INTO Voto (ID_VOTO,ID_USUARIO,ID_ELEICAO,ID_OPCAO_VOTO,VALOR_VOTO) VALUES("+ codigo + ","  + idUsuario + "," + idEleicao + ","+ idOpcaoVoto + "," + vlVoto +");";
+            	statement.executeUpdate(sql);
             
             	
             }

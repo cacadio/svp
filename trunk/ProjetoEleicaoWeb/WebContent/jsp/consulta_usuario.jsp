@@ -70,6 +70,7 @@ function eventoExcluir(){
 			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletVoto">Voto</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
 		</ul>

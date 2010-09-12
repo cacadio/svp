@@ -38,7 +38,7 @@ function eventoProcessarAlteracao(){
 </script>
 
 <body>
-<form action="/ProjetoEleicaoWeb/ServletOpcaoVoto" method="post" id="form_principal">
+<form action="/ProjetoEleicaoWeb/ServletOpcaoVoto" method="post" id="form_principal" enctype="multipart/form-data">
 	<input type="hidden" id="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" name="<%=ServletOpcaoVoto.ID_REQ_EVENTO%>" value="">
 <div id="header">
 	<div id="logo">
@@ -51,9 +51,9 @@ function eventoProcessarAlteracao(){
 			<li class="first"><a href="/ProjetoEleicaoWeb/ServletMenu">Home</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletEleicao">Eleição</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletOpcaoVoto">Opções de Voto</a></li>
+			<li><a href="/ProjetoEleicaoWeb/ServletVoto">Voto</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletUsuario">Usuário</a></li>
 			<li><a href="/ProjetoEleicaoWeb/ServletPerfilUsuario">Perfil de Usuário</a></li>
-			<li><a href="/ProjetoEleicaoWeb/ServletLogin">Login</a></li>
 		</ul>
 	</div>
 	<!-- end #menu -->
