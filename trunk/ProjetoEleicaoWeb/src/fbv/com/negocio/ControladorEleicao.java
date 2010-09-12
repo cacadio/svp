@@ -71,8 +71,16 @@ public class ControladorEleicao {
 	public Object consultarEleicaoPelaChave(Eleicao eleicao) throws SQLException, ExcecaoRegistroNaoExistente{
 		if (eleicao instanceof EleicaoEscolhaUnica)
 			return cadastroEleicaoEscolhaUnica.consultarPelaChave(eleicao);
-		else
+		else if(eleicao instanceof EleicaoPontuacao)
 			return cadastroEleicaoPontuacao.consultarPelaChave(eleicao);
+		else{
+			Eleicao eleicaoAux = cadastroEleicaoEscolhaUnica.consultarPelaChave(eleicao);
+			if(eleicaoAux == null)
+				eleicaoAux = cadastroEleicaoPontuacao.consultarPelaChave(eleicao);
+			
+			return eleicaoAux;
+		}
+			
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -83,30 +91,7 @@ public class ControladorEleicao {
 			return (ArrayList<T>) cadastroEleicaoPontuacao.consultarTodos();
 	}
 	
-	/*
-	 * EleicaoPontuacao
-	 * **/
-	
-	/*public void incluirEleicaoPontuacao(EleicaoPontuacao pEleicaoPontuacao) throws SQLException, ExcecaoRegistroJaExistente{
-		cadastroEleicaoPontuacao.incluir(pEleicaoPontuacao);
-	}
-	
-	public void alterarEleicaoPontuacao(EleicaoPontuacao pEleicaoPontuacao) throws SQLException, ExcecaoAcessoRepositorio{
-		cadastroEleicaoPontuacao.alterar(pEleicaoPontuacao);
-	}
-	
-	public void excluirEleicaoPontuacao(EleicaoPontuacao pEleicaoPontuacao) throws SQLException, ExcecaoAcessoRepositorio{
-		cadastroEleicaoPontuacao.excluir(pEleicaoPontuacao);
-	}
-	
-	public EleicaoPontuacao consultarEleicaoPelaChave(EleicaoPontuacao pEleicaoPontuacao) throws SQLException, ExcecaoRegistroNaoExistente{
-		return cadastroEleicaoPontuacao.consultarPelaChave(pEleicaoPontuacao);
-	}
-	
-	public ArrayList<EleicaoPontuacao> consultarTodosEleicaoPontuacao() throws SQLException, ExcecaoRegistroNaoExistente{
-		return cadastroEleicaoPontuacao.consultarTodos();
-	}
-	*/
+
 	/*
 	 * Opcao de voto
 	 * **/

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,6 +25,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;
+import fbv.com.negocio.Eleicao;
 import fbv.com.negocio.Fachada;
 import fbv.com.negocio.OpcaoVoto;
 import fbv.com.util.InterfacePrincipal;
@@ -58,7 +60,6 @@ public class ServletOpcaoVoto extends HttpServlet implements
 			FileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			
-			
 			try {
 				List<FileItem> items = upload.parseRequest(request);
 				Iterator iter = items.iterator();
@@ -82,9 +83,7 @@ public class ServletOpcaoVoto extends HttpServlet implements
 						idOpcaoVoto = item.getString();
 					}
 					if (!item.isFormField()) {
-						if (item.getName().length() > 0) {
-							this.inserirImagemDiretorio(dsOpcaoVoto, cdEleicao, item, idOpcaoVoto, idEvento);
-						}
+						this.inserirImagemDiretorio(dsOpcaoVoto, cdEleicao, item, idOpcaoVoto, idEvento);
 					}
 				}
 			} catch (FileUploadException ex) {
@@ -130,32 +129,35 @@ public class ServletOpcaoVoto extends HttpServlet implements
 	private void inserirImagemDiretorio(String pDsOpcaoVoto, String pCdEleicao, FileItem item, String idOpcaoVoto, String cdEvento) throws IOException, SQLException {  
 		
 		String caminho = "";
-		// Cria o diretorio caso ele nao exista
-		File diretorio = new File(this.getServletContext().getRealPath("") + "\\img\\");
-		if (!diretorio.exists()) {
-			diretorio.mkdir();
-		}
-
-		// Mandar o arquivo para o diretorio informado
-		String nome = item.getName();
-		String arq[] = nome.split("\\\\");
-		for (int i = 0; i < arq.length; i++) {
-			nome = arq[i];
-		}
-
-		File file = new File(diretorio, nome);
-		FileOutputStream output = new FileOutputStream(file);
-		InputStream is = item.getInputStream();
-		byte[] buffer = new byte[2048];
-		int nLidos;
-		while ((nLidos = is.read(buffer)) >= 0) {
-			output.write(buffer, 0, nLidos);
-		}
-
-		output.flush();
-		output.close();
 		
-		caminho =  "./img/" + nome;
+		if(item.getName().length() > 0){
+			// Cria o diretorio caso ele nao exista
+			File diretorio = new File(this.getServletContext().getRealPath("") + "\\img\\");
+			if (!diretorio.exists()) {
+				diretorio.mkdir();
+			}
+
+			// Mandar o arquivo para o diretorio informado
+			String nome = item.getName();
+			String arq[] = nome.split("\\\\");
+			for (int i = 0; i < arq.length; i++) {
+				nome = arq[i];
+			}
+
+			File file = new File(diretorio, nome);
+			FileOutputStream output = new FileOutputStream(file);
+			InputStream is = item.getInputStream();
+			byte[] buffer = new byte[2048];
+			int nLidos;
+			while ((nLidos = is.read(buffer)) >= 0) {
+				output.write(buffer, 0, nLidos);
+			}
+
+			output.flush();
+			output.close();
+
+			caminho =  "./img/" + nome;
+		}
 		
 		OpcaoVoto op = null;
 		try {
@@ -178,10 +180,16 @@ public class ServletOpcaoVoto extends HttpServlet implements
 			throws Exception {
 		ArrayList<OpcaoVoto> arrayOpcaoVoto = new ArrayList<OpcaoVoto>();
 		Fachada fachada = Fachada.getInstancia();
+		
+		Integer idEleicao  = new Integer(request.getParameter(ID_REQ_SELECT_ELEICOES));
+		String idOpcaoVoto = request.getParameter(ID_REQ_CODIGO_OPCAO_VOTO);
+		
+		if(idEleicao != null && idEleicao > 0){
+			OpcaoVoto opcaoVoto = new OpcaoVoto();
+			opcaoVoto.setIdEleicao(idEleicao);
 
-		String idOpcaoVoto = request.getParameter(ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO);
-
-		if ((idOpcaoVoto != null) && (!idOpcaoVoto.equals(""))) {
+			arrayOpcaoVoto = fachada.consultarPeloIDEleicao(opcaoVoto);
+		} else if ((idOpcaoVoto != null) && (!idOpcaoVoto.equals(""))) {
 			OpcaoVoto opcaoVoto = new OpcaoVoto();
 			opcaoVoto.setId(Integer.valueOf(idOpcaoVoto));
 
@@ -195,30 +203,56 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		}
 		
 		request.setAttribute(ID_REQ_ARRAY_LIST_OPCAO_VOTO, arrayOpcaoVoto);
-
+		request.setAttribute(ID_REQ_ID_ELEICAO, idEleicao);
+		
+		carregarComboEleicao(request, response);
+		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consulta_opcao_voto.jsp");
 		requestDispatcher.forward(request, response);
 	}
 
 	private void exibirFiltroConsulta(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
+		
+		carregarComboEleicao(request, response);
+		
+		// Redireciona para a página de consulta		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consulta_opcao_voto.jsp");
 		requestDispatcher.forward(request, response);
+	}
+	
+	private void carregarComboEleicao(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Fachada fachada = Fachada.getInstancia();
+		ArrayList<OpcaoVoto> arrayOpcaoVoto = new ArrayList<OpcaoVoto>();
+		TreeSet<Integer> listaCodigosEleicoes = new TreeSet<Integer>();
+		ArrayList<Eleicao> eleicoes = null;
+		
+		// consulta todas as opções de voto
+		arrayOpcaoVoto = fachada.consultarTodosOpcaoVoto();
+		
+		// Obtém os códigos das eleições
+		if(arrayOpcaoVoto != null){
+			// Monta um lista com os códigos das eleições sem repetir valores.
+			for (OpcaoVoto opcaoVoto : arrayOpcaoVoto) {
+				listaCodigosEleicoes.add(opcaoVoto.getIdEleicao());
+			}
+			// Criando a lista de eleições com base na lista de códigos obtidas
+			eleicoes = new ArrayList<Eleicao>();
+			Eleicao eleicaoAux;
+			for (Integer codigoLido : listaCodigosEleicoes) {
+				eleicaoAux = new Eleicao(codigoLido);
+				eleicaoAux = (Eleicao)fachada.consultarEleicaoPelaChave(eleicaoAux);
+				if(eleicaoAux != null)
+					eleicoes.add(eleicaoAux);
+			}	
+		}
+		
+		// Seta a coleção no request
+		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, eleicoes);
 	}
 
 	private void exibirInclusao(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
-		
-//		String localReal = new File(this.getServletContext().getRealPath("")).getAbsolutePath();
-//		System.out.println(localReal);
-//		
-//		File[] files = new File(localReal).listFiles();
-//		if(files == null)
-//			System.out.println("fudeu");
-//		System.out.println(files.length);
-//		for(File fl : files){
-//			System.out.println(fl.getCanonicalPath());
-//		}
 		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/inclusao_opcao_voto.jsp");
 		requestDispatcher.forward(request, response);
@@ -227,28 +261,8 @@ public class ServletOpcaoVoto extends HttpServlet implements
 	private void processarInclusao(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
 		
-//		Fachada fachada = Fachada.getInstancia();
 		String mensagem = "";
 		String nomeServlet = ID_REQ_NOME_SERVLET_OPCAO_VOTO;
-//		String descricaoOpcaoVoto = request.getParameter(ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO);
-//		String cdEleicao = request.getParameter(ID_REQ_CODIGO_ELEICAO);
-//		String pathFoto = request.getParameter(ID_REQ_PATH_FOTO);
-//		
-//		OpcaoVoto opcaoVoto = new OpcaoVoto();
-//
-//		if ((descricaoOpcaoVoto != null) && (!descricaoOpcaoVoto.equals(""))) {
-//			opcaoVoto.setDescricao(descricaoOpcaoVoto);
-//		}
-//		
-//		if ((cdEleicao != null) && (!cdEleicao.equals(""))) {
-//			opcaoVoto.setIdEleicao(Integer.valueOf(cdEleicao.trim()));
-//		}
-//		
-//		if ((pathFoto != null) && (!pathFoto.equals(""))) {
-//			opcaoVoto.setPath_foto(pathFoto);
-//		}
-//
-//		fachada.incluirOpcaoVoto(opcaoVoto);
 		mensagem = "Opção de Voto Cadastrada com Sucesso";
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);

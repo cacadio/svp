@@ -32,9 +32,8 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_OPCAO_VOTO = "opcaoVoto";
 	public static final String ID_REQ_NOME_SERVLET_VOTO = "ServletVoto";
 	public static final String ID_REQ_OBJETO_VOTO = "objetoVoto";
-
 	
-	//identificadores caso de uso usu‡rio
+	//identificadores caso de uso usuário
 	public static final String ID_REQ_ARRAY_LIST_USUARIO = "arrayListUsuario";
 	public static final String ID_REQ_LOGIN_USUARIO = "loginUsuario";
 	public static final String ID_REQ_SENHA_USUARIO = "senhaUsuario";
@@ -66,6 +65,7 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_TITULO_PAGINA = "tituloPagina";
 	public static final String ID_REQ_ARRAY_LIST_ELEICAO_PRIVADA = "ArrayListEleicaoPrivada";
 	public static final String ID_REQ_ARRAY_LIST_ELEICAO_PUBLICA = "ArrayListEleicaoPublica";
+	public static final String ID_REQ_SELECT_ELEICOES = "cboEleicao";
 	
 	/*
 	 * Escolha Única

@@ -144,8 +144,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 		request.setAttribute(ID_REQ_TIPO_ELEICAO, Integer.parseInt(request.getParameter(ID_REQ_TIPO_ELEICAO)));
-		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/inclusaoEleicao.jsp");
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/inclusaoEleicao.jsp");
 		requestDispatcher.forward(request, response);
 	}
 
@@ -155,9 +154,6 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		SimpleDateFormat sdt = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Fachada fachada = Fachada.getInstancia();
-		//Eleicao EleicaoBase = null;
-		//String idEleicao = request
-				//.getParameter(ServletEleicao.ID_REQ_CODIGO_ELEICAO);
 		String mensagem = "";
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		String descricaoEleicao = request
