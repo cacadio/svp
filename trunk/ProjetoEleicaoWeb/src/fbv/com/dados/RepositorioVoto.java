@@ -21,7 +21,6 @@ pOpcaovoto = Parâmetro da entidade
 
 public class RepositorioVoto implements IRepositorioBD {
 	
-	private GerenciadorConexaoBDR banco;
 	private Connection conexao;
 	private Statement statement; 
 	
@@ -141,7 +140,7 @@ public class RepositorioVoto implements IRepositorioBD {
 	}
 
 
-	public ArrayList consultarTodos() throws SQLException, ExcecaoRegistroNaoExistente {
+	public ArrayList<Voto> consultarTodos() throws SQLException, ExcecaoRegistroNaoExistente {
 		ArrayList<Voto> colecaoVoto = new ArrayList<Voto>();
 		Voto voto = null;
 		try

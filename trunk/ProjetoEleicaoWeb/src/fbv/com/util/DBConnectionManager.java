@@ -25,9 +25,9 @@ public class DBConnectionManager {
     static private DBConnectionManager instance;       // The single instance
     static private int clients;
 
-    private Vector drivers = new Vector();
+	private Vector<Driver> drivers = new Vector<Driver>();
     private PrintWriter log;
-    private Hashtable pools = new Hashtable();
+	private Hashtable<String, DBConnectionPool> pools = new Hashtable<String, DBConnectionPool>();
     
     /**
      * Returns the single instance, creating one if it's the
@@ -100,20 +100,20 @@ public class DBConnectionManager {
     /**
      * Closes all open connections and deregisters all drivers.
      */
-    public synchronized void release() {
+	public synchronized void release() {
         // Wait until called by the last client
         if (--clients != 0) {
             return;
         }
         
-        Enumeration allPools = pools.elements();
+        Enumeration<DBConnectionPool> allPools = pools.elements();
         while (allPools.hasMoreElements()) {
             DBConnectionPool pool = (DBConnectionPool) allPools.nextElement();
             pool.release();
         }
-        Enumeration allDrivers = drivers.elements();
+        Enumeration<Driver> allDrivers = drivers.elements();
         while (allDrivers.hasMoreElements()) {
-            Driver driver = (Driver) allDrivers.nextElement();
+            Driver driver = allDrivers.nextElement();
             try {
                 DriverManager.deregisterDriver(driver);
                 log("Deregistered JDBC driver " + driver.getClass().getName());
@@ -136,7 +136,8 @@ public class DBConnectionManager {
      *
      * @param props The connection pool properties
      */
-    private void createPools(Properties props) {
+    @SuppressWarnings("unchecked")
+	private void createPools(Properties props) {
         Enumeration propNames = props.propertyNames();
         while (propNames.hasMoreElements()) {
             String name = (String) propNames.nextElement();
@@ -199,7 +200,7 @@ public class DBConnectionManager {
      *
      * @param props The connection pool properties
      */
-    private void loadDrivers(Properties props) {
+	private void loadDrivers(Properties props) {
         String driverClasses = props.getProperty("drivers");
         StringTokenizer st = new StringTokenizer(driverClasses);
         while (st.hasMoreElements()) {
@@ -241,7 +242,7 @@ public class DBConnectionManager {
      */
     class DBConnectionPool {
         private int checkedOut;
-        private Vector freeConnections = new Vector();
+        private Vector<Connection> freeConnections = new Vector<Connection>();
         private int maxConn;
         private String name;
         private String password;
@@ -349,7 +350,7 @@ public class DBConnectionManager {
          * Closes all available connections.
          */
         public synchronized void release() {
-            Enumeration allConnections = freeConnections.elements();
+            Enumeration<Connection> allConnections = freeConnections.elements();
             while (allConnections.hasMoreElements()) {
                 Connection con = (Connection) allConnections.nextElement();
                 try {

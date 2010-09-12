@@ -3,8 +3,6 @@ package fbv.com.negocio;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import fbv.com.dados.IRepositorioBD;
-import fbv.com.dados.IRepositorioGenericoBD;
 import fbv.com.dados.RepositorioOpcaoVoto;
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;

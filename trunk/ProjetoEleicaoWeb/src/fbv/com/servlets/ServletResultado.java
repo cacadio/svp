@@ -15,7 +15,6 @@ import fbv.com.excecoes.ExcecaoRegistroNaoExistente;
 import fbv.com.negocio.Eleicao;
 import fbv.com.negocio.EleicaoEscolhaUnica;
 import fbv.com.negocio.EleicaoPontuacao;
-import fbv.com.negocio.EstadoConcluida;
 import fbv.com.negocio.Fachada;
 import fbv.com.negocio.ResultadoEleicao;
 import fbv.com.util.InterfacePrincipal;

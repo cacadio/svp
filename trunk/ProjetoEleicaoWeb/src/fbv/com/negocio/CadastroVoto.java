@@ -34,6 +34,7 @@ private IRepositorioBD repositorioBD;
 		return (Voto) repositorioBD.consultarPelaChave(pVoto);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<Voto> consultarTodos() throws SQLException, ExcecaoRegistroNaoExistente{
 		return repositorioBD.consultarTodos();
 	}
