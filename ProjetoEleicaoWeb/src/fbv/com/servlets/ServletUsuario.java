@@ -77,7 +77,6 @@ import fbv.com.util.InterfacePrincipal;
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -331,7 +330,6 @@ import fbv.com.util.InterfacePrincipal;
 		String nomeUsuario = "";
 		String loginUsuario = "";
 		String senhaUsuario = "";
-		String perfilUsuario = "";
 		String nomeServlet = "";
 		String mensagem = "";
 		
@@ -339,10 +337,7 @@ import fbv.com.util.InterfacePrincipal;
 		cpfUsuario = request.getParameter(ServletUsuario.ID_REQ_CPF_USUARIO);
 		nomeUsuario = request.getParameter(ServletUsuario.ID_REQ_NOME_USUARIO);
 		loginUsuario = request.getParameter(ServletUsuario.ID_REQ_LOGIN_USUARIO);
-		senhaUsuario = request.getParameter(ServletUsuario.ID_REQ_SENHA_USUARIO);
-		perfilUsuario = request.getParameter(ServletUsuario.ID_REQ_ID_PERFIL_USUARIO);
-		
-		
+		senhaUsuario = request.getParameter(ServletUsuario.ID_REQ_SENHA_USUARIO);		
 
 		Usuario usuario = new Usuario();
 		usuario.setCpf(cpfUsuario); 
@@ -350,17 +345,13 @@ import fbv.com.util.InterfacePrincipal;
 		usuario.setLogin(loginUsuario);
 		usuario.setSenha(senhaUsuario);
 
-		
-
 		fachada.excluirUsuario(usuario);
 
 		mensagem = "Usuário Excluido com Sucesso";
-		
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
-		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/mensagens.jsp");
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mensagens.jsp");
 		requestDispatcher.forward(request, response);
 
 	}

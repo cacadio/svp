@@ -34,6 +34,7 @@ public class CadastroPerfilUsuario {
 		return (PerfilUsuario) repositorioBD.consultarPelaChave(pPerfilUsuario);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<PerfilUsuario> consultarTodos() throws SQLException, ExcecaoRegistroNaoExistente{
 		return repositorioBD.consultarTodos();
 	}

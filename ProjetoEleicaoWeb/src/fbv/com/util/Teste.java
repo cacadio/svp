@@ -1,11 +1,9 @@
 package fbv.com.util;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;
-import fbv.com.excecoes.ExcecaoRegistroNaoExistente;
 import fbv.com.negocio.Fachada;
 import fbv.com.negocio.PerfilUsuario;
 import fbv.com.negocio.Usuario;
@@ -18,8 +16,6 @@ public class Teste {
 	public static void main(String[] args) {
 		PerfilUsuario pu = new PerfilUsuario();
 		Usuario us = new Usuario();
-		ArrayList<PerfilUsuario> colecaoPerfilUsuario = new ArrayList<PerfilUsuario>();
-		ArrayList<Usuario> colecaoUsuario = new ArrayList<Usuario>();
 		
 		pu.setId(1);
 		pu.setDescricao("Administrador");
@@ -49,16 +45,10 @@ public class Teste {
 			
 			System.out.println("Esta Funcionando...");
 		} catch (ExcecaoAcessoRepositorio e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
-//		} catch (ExcecaoRegistroJaExistente e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
 		} catch (ExcecaoRegistroJaExistente e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -1,7 +1,6 @@
 package fbv.com.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -9,11 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.RequestWrapper;
 
-import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
-
-import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.negocio.Fachada;
 import fbv.com.negocio.PerfilUsuario;
 import fbv.com.util.InterfacePrincipal;
@@ -30,7 +25,6 @@ public class ServletPerfilUsuario extends HttpServlet implements
 	 */
 	public ServletPerfilUsuario() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -82,7 +76,6 @@ public class ServletPerfilUsuario extends HttpServlet implements
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

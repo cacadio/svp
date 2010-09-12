@@ -20,7 +20,6 @@ pTipousuario = Parâmetro da entidade
 
 public class RepositorioPerfilUsuario implements IRepositorioBD {
 	
-	private GerenciadorConexaoBDR banco;
 	private Connection conexao;
 	private Statement statement;
 	
@@ -183,7 +182,7 @@ public class RepositorioPerfilUsuario implements IRepositorioBD {
 		
 	}
 
-	public ArrayList consultarTodos() throws ExcecaoRegistroNaoExistente {
+	public ArrayList<PerfilUsuario> consultarTodos() throws ExcecaoRegistroNaoExistente {
 		ArrayList<PerfilUsuario> colecaoPerfilUsuario = new ArrayList<PerfilUsuario>();
 		PerfilUsuario perfilUsuario = null;
 		try

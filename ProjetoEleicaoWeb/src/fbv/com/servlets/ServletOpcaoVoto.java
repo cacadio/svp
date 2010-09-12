@@ -35,10 +35,6 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		InterfacePrincipal {
 	private static final long serialVersionUID = 1L;
 	
-	// Local onde será armazenado as imagens
-	//private static final String TMP_DIR_PATH = "/Users/rodrigosantosbb";
-	private static final String PASTA_SALVAR_IMG = "C:\\Img_Eleicao\\";
-	
 	public void init(ServletOpcaoVoto config) throws ServletException{
 		super.init(config);
 	}	
@@ -48,6 +44,7 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		doPost(request, response);
 	}
 
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		String idOpcaoVoto = "";
@@ -63,7 +60,7 @@ public class ServletOpcaoVoto extends HttpServlet implements
 			
 			
 			try {
-				List items = upload.parseRequest(request);
+				List<FileItem> items = upload.parseRequest(request);
 				Iterator iter = items.iterator();
 				//aqui iremos saber os nomes dos campos que 
 				//vieram do form
@@ -72,16 +69,16 @@ public class ServletOpcaoVoto extends HttpServlet implements
 					if (item.getFieldName().equals("pathFoto")) {
 						formulario = item.getString();
 					}
-					if (item.getFieldName().equals(this.ID_REQ_DESCRICAO_OPCAO_VOTO)) {
+					if (item.getFieldName().equals(ID_REQ_DESCRICAO_OPCAO_VOTO)) {
 						dsOpcaoVoto = item.getString();
 					}
-					if (item.getFieldName().equals(this.ID_REQ_CODIGO_ELEICAO)) {
+					if (item.getFieldName().equals(ID_REQ_CODIGO_ELEICAO)) {
 						cdEleicao = item.getString();
 					}
-					if (item.getFieldName().equals(this.ID_REQ_EVENTO)) {
+					if (item.getFieldName().equals(ID_REQ_EVENTO)) {
 						idEvento = item.getString();
 					}
-					if (item.getFieldName().equals(this.ID_REQ_CODIGO_OPCAO_VOTO)) {
+					if (item.getFieldName().equals(ID_REQ_CODIGO_OPCAO_VOTO)) {
 						idOpcaoVoto = item.getString();
 					}
 					if (!item.isFormField()) {
@@ -160,20 +157,18 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		
 		caminho =  "./img/" + nome;
 		
-		OpcaoVoto op = null;//new OpcaoVoto(0, Integer.parseInt(pCdEleicao), pDsOpcaoVoto, caminho);
+		OpcaoVoto op = null;
 		try {
-			if(cdEvento.equalsIgnoreCase(this.ID_REQ_EVENTO_PROCESSAR_INCLUSAO)){
+			if(cdEvento.equalsIgnoreCase(ID_REQ_EVENTO_PROCESSAR_INCLUSAO)){
 				op = new OpcaoVoto(0, Integer.parseInt(pCdEleicao), pDsOpcaoVoto, caminho);
 				Fachada.getInstancia().incluirOpcaoVoto(op);
-			}else if(cdEvento.equalsIgnoreCase(this.ID_REQ_EVENTO_PROCESSAR_ALTERACAO)){
+			}else if(cdEvento.equalsIgnoreCase(ID_REQ_EVENTO_PROCESSAR_ALTERACAO)){
 				op = new OpcaoVoto(Integer.parseInt(idOpcaoVoto), Integer.parseInt(pCdEleicao), pDsOpcaoVoto, caminho);
 				Fachada.getInstancia().alterarOpcaoVoto(op);
 			}
 		} catch (ExcecaoRegistroJaExistente e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExcecaoAcessoRepositorio e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

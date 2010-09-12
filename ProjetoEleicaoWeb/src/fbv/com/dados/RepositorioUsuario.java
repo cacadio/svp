@@ -21,7 +21,6 @@ pUsuario = Parâmetro da entidade
 
 public class RepositorioUsuario implements IRepositorioBD {
 	
-	private GerenciadorConexaoBDR banco;
 	private Connection conexao;
 	private Statement statement; 
 	
@@ -177,8 +176,7 @@ public class RepositorioUsuario implements IRepositorioBD {
     //BUSCA PELA CHAVE PRIMÁRIA
 	//-------------------
 	public Usuario consultarPelaChave(Object pUsuario) throws ExcecaoRegistroNaoExistente {
-		Usuario usuario = (Usuario)pUsuario;
-		int codigo = usuario.getId();
+		Usuario usuario = (Usuario)pUsuario;;
 		String cpf = usuario.getCpf();
 		try
         {
@@ -242,7 +240,7 @@ public class RepositorioUsuario implements IRepositorioBD {
 		
 	}
 
-	public ArrayList consultarTodos() throws ExcecaoRegistroNaoExistente {
+	public ArrayList<Usuario> consultarTodos() throws ExcecaoRegistroNaoExistente {
 		ArrayList<Usuario> colecaoUsuario = new ArrayList<Usuario>();
 		Usuario usuario = null;
 		try

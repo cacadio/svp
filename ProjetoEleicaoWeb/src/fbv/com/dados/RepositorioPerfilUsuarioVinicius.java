@@ -226,7 +226,7 @@ public class RepositorioPerfilUsuarioVinicius implements IRepositorioBD {
 		
 	}
 
-	public ArrayList consultarTodos() throws ExcecaoRegistroNaoExistente {
+	public ArrayList<PerfilUsuario> consultarTodos() throws ExcecaoRegistroNaoExistente {
 		ArrayList<PerfilUsuario> colecaoPerfilUsuario = new ArrayList<PerfilUsuario>();
 		PerfilUsuario perfilUsuario = null;
 		Connection con = conMang.getConnection("access");

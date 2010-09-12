@@ -6,6 +6,7 @@ import fbv.com.excecoes.ExcecaoRegistroNaoExistente;
 
 public interface IRepositorioGenericoBD {
 		 
+	@SuppressWarnings("unchecked")
 	public ArrayList consultarPeloIDEleicao(Object pChave) throws SQLException, ExcecaoRegistroNaoExistente;
 }
 	 

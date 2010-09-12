@@ -194,7 +194,7 @@ public class RepositorioOpcaoVoto implements IRepositorioBD, IRepositorioGeneric
 //	------------------	
     //BUSCA PELO ID ELEICAO
 	//-------------------
-	public  ArrayList consultarPeloIDEleicao(Object pOpcaoVoto) throws ExcecaoRegistroNaoExistente {
+	public  ArrayList<OpcaoVoto> consultarPeloIDEleicao(Object pOpcaoVoto) throws ExcecaoRegistroNaoExistente {
 		OpcaoVoto opcaoVoto = (OpcaoVoto)pOpcaoVoto;
 		ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
 		int idEleicao = opcaoVoto.getIdEleicao();
@@ -248,7 +248,7 @@ public class RepositorioOpcaoVoto implements IRepositorioBD, IRepositorioGeneric
 			
 		}
 
-	public ArrayList consultarTodos() throws SQLException, ExcecaoRegistroNaoExistente {
+	public ArrayList<OpcaoVoto> consultarTodos() throws SQLException, ExcecaoRegistroNaoExistente {
 		ArrayList<OpcaoVoto> colecaoOpcaoVoto = new ArrayList<OpcaoVoto>();
 		OpcaoVoto opcaoVoto = null;
 		try

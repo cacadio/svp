@@ -34,6 +34,7 @@ public class CadastroEleicaoPontuacao {
 		return (EleicaoPontuacao) repositorioBD.consultarPelaChave(pEleicaoPontuacao);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<EleicaoPontuacao> consultarTodos() throws SQLException, ExcecaoRegistroNaoExistente{
 		return repositorioBD.consultarTodos();
 	}

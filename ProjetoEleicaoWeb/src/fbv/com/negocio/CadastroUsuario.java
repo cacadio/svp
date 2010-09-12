@@ -34,6 +34,7 @@ public class CadastroUsuario {
 		return (Usuario) repositorioBD.consultarPelaChave(pUsuario);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<Usuario> consultarTodos() throws SQLException, ExcecaoRegistroNaoExistente{
 		return repositorioBD.consultarTodos();
 	}
