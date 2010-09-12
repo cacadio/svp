@@ -197,7 +197,7 @@ import fbv.com.util.InterfacePrincipal;
 		
 		//Verifica pelo tipo de usuario se o mesmo pode votar mais de uma vez, se não puder voltar para tela de login
 		if(!eleicaoVoto.isPublica() && eleicaoVoto.isMultiplosVotos()){
-			ArrayList respostaVotoUsuario = null;
+			ArrayList<Voto> respostaVotoUsuario = null;
 			respostaVotoUsuario = fachada.consultarVotoPorUsuarioEleicao(new Integer(usuario.getId()).intValue(),new Integer(idEleicao).intValue());
 		
 			if(respostaVotoUsuario != null && respostaVotoUsuario.size() != 0){
@@ -280,11 +280,6 @@ import fbv.com.util.InterfacePrincipal;
 		if(!tipoDeEleicao.equals("PONTUACAO")){
 		opcaoVoto = request.getParameter(ServletVoto.ID_REQ_CODIGO_OPCAO_VOTO);
 		
-		if(usuario == null){
-			
-			usuario.setId(0);
-		}
-		
 		valorVoto = request.getParameter(ServletVoto.ID_REQ_VALOR_VOTO + opcaoVoto);
 		
 		//Montando o Objeto Voto
@@ -317,11 +312,6 @@ import fbv.com.util.InterfacePrincipal;
 					opcaoVotoCheck = colecaoOpcaoVoto.get(i);
 				
 				opcaoVoto = request.getParameter(ServletVoto.ID_REQ_CODIGO_OPCAO_VOTO + opcaoVotoCheck.getId());
-				if(usuario == null){
-					
-					usuario.setId(0);
-				}
-
 				valorVoto = request.getParameter(ServletVoto.ID_REQ_VALOR_VOTO + opcaoVotoCheck.getId());
 				
 				//Montando o Objeto Voto
