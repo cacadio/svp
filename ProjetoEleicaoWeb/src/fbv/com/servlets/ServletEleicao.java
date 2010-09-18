@@ -50,17 +50,13 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 			if (idEvento != null && !idEvento.equals("")) {
 
-				if (idEvento
-						.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
+				if (idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
 					processarFiltroConsulta(request, response);
-				} else if (idEvento
-						.equals(ServletEleicao.ID_REQ_EVENTO_EXIBIR_INCLUSAO)) {
+				} else if (idEvento.equals(ServletEleicao.ID_REQ_EVENTO_EXIBIR_INCLUSAO)) {
 					exibirInclusao(request, response);
-				} else if (idEvento
-						.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_INCLUSAO)) {
+				} else if (idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_INCLUSAO)) {
 					processarInclusao(request, response);
-				} else if (idEvento
-						.equals(ServletEleicao.ID_REQ_EVENTO_EXIBIR_ALTERACAO)) {
+				} else if (idEvento.equals(ServletEleicao.ID_REQ_EVENTO_EXIBIR_ALTERACAO)) {
 					exibirAlteracao(request, response);
 				}else if(idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_ALTERACAO)){
 					processarAlteracao(request,response);
@@ -72,7 +68,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 				}
 
 			} else {
-				exibirFiltroConsulta(request, response);
+				processarFiltroConsulta(request, response);
 			}
 
 		} catch (Exception e) {
@@ -88,17 +84,16 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		Fachada fachada = Fachada.getInstancia();
 
 		String idEleicao = request.getParameter(ID_REQ_CODIGO_ELEICAO);
-		TipoEleicao tipoEleicao;
-		if (request.getParameter(ID_REQ_TIPO_ELEICAO) != null){
-			if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1"))
+		TipoEleicao tipoEleicao = null;
+		if (request.getParameter(ID_REQ_TIPO_ELEICAO) != null && !request.getParameter(ID_REQ_TIPO_ELEICAO).equals("")){
+			int idTipoEleicao = new Integer(request.getParameter(ID_REQ_TIPO_ELEICAO)).intValue();
+			if (idTipoEleicao == TipoEleicao.ESCOLHA_UNICA.value())
 				tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
 			else
 				tipoEleicao = TipoEleicao.PONTUACAO;
 		}
-		else
-			tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
 		
-		if (idEleicao != null && !idEleicao.equals("")) {
+		if (tipoEleicao != null && idEleicao != null && !idEleicao.equals("")) {
 			Eleicao eleicao = null;
 			if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA)
 				eleicao = new EleicaoEscolhaUnica();
@@ -118,7 +113,9 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		} else {
 			arrayEleicao = fachada.consultarTodasEleicoes(tipoEleicao);
 		}
-		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
+		if(tipoEleicao != null)
+			request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
+		
 		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, arrayEleicao);
 
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consultaEleicao.jsp");
@@ -126,12 +123,6 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 	}
 
-	private void exibirFiltroConsulta(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		
-		processarFiltroConsulta(request, response);
-
-	}
 
 	private void exibirInclusao(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

@@ -82,6 +82,9 @@ public class ServletOpcaoVoto extends HttpServlet implements
 					if (item.getFieldName().equals(ID_REQ_CODIGO_OPCAO_VOTO)) {
 						idOpcaoVoto = item.getString();
 					}
+					if(item.getFieldName().equals(ID_REQ_SELECT_ELEICOES)){
+						cdEleicao = item.getString();
+					}
 					if (!item.isFormField()) {
 						this.inserirImagemDiretorio(dsOpcaoVoto, cdEleicao, item, idOpcaoVoto, idEvento);
 					}
@@ -118,7 +121,7 @@ public class ServletOpcaoVoto extends HttpServlet implements
 					processarExclusao(request,response);
 				}
 			} else {
-				exibirFiltroConsulta(request, response);
+				processarFiltroConsulta(request, response);
 			}
 
 		} catch (Exception e) {
@@ -180,8 +183,12 @@ public class ServletOpcaoVoto extends HttpServlet implements
 			throws Exception {
 		ArrayList<OpcaoVoto> arrayOpcaoVoto = new ArrayList<OpcaoVoto>();
 		Fachada fachada = Fachada.getInstancia();
+		Integer idEleicao = null;
 		
-		Integer idEleicao  = new Integer(request.getParameter(ID_REQ_SELECT_ELEICOES));
+		String strIDEleicao = request.getParameter(ID_REQ_SELECT_ELEICOES);
+		if(strIDEleicao != null && !strIDEleicao.equals(""))
+			idEleicao  = new Integer(strIDEleicao);
+		
 		String idOpcaoVoto = request.getParameter(ID_REQ_CODIGO_OPCAO_VOTO);
 		
 		if(idEleicao != null && idEleicao > 0){
@@ -207,16 +214,6 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		
 		carregarComboEleicao(request, response);
 		
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consulta_opcao_voto.jsp");
-		requestDispatcher.forward(request, response);
-	}
-
-	private void exibirFiltroConsulta(HttpServletRequest request, HttpServletResponse response) 
-			throws Exception {
-		
-		carregarComboEleicao(request, response);
-		
-		// Redireciona para a página de consulta		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consulta_opcao_voto.jsp");
 		requestDispatcher.forward(request, response);
 	}
@@ -254,6 +251,8 @@ public class ServletOpcaoVoto extends HttpServlet implements
 	private void exibirInclusao(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
 		
+		carregarComboEleicao(request, response);
+		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/inclusao_opcao_voto.jsp");
 		requestDispatcher.forward(request, response);
 	}
@@ -287,6 +286,8 @@ public class ServletOpcaoVoto extends HttpServlet implements
 			request.setAttribute(ServletOpcaoVoto.ID_REQ_OBJETO_OPCAO_VOTO, opcaoVoto);
 		}
 
+		carregarComboEleicao(request, response);
+		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/alteracao_opcao_voto.jsp");
 		requestDispatcher.forward(request, response);
 	}

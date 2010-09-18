@@ -51,12 +51,11 @@ public class ServletResultado extends HttpServlet implements InterfacePrincipal{
 
 			if (idEvento != null && !idEvento.equals("")) {
 
-				if (idEvento
-						.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
+				if (idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
 					processarFiltroConsulta(request, response);
 				}
 			} else {
-				exibirFiltroConsulta(request, response);
+				processarFiltroConsulta(request, response);
 			}
 
 		} catch (Exception e) {
@@ -118,16 +117,6 @@ public class ServletResultado extends HttpServlet implements InterfacePrincipal{
 		
 		return arrayEleicao;
 		
-	}
-
-	private void exibirFiltroConsulta(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		
-		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, listarEleicoesConcluidas());
-		
-		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/consultaresultado.jsp");
-		requestDispatcher.forward(request, response);
 	}
 	
 }
