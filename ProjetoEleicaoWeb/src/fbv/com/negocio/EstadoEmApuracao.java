@@ -4,10 +4,17 @@ import java.text.SimpleDateFormat;
 
 public class EstadoEmApuracao implements IEstado {
 
+	private static final int valor = 4;
+	private static final String descricao = "Em Apuracao";
+	
 	public int getValor() {
-		return 4;
+		return valor;
 	}
 
+	public String getDescricao() {
+		return descricao;
+	}
+	
 	public String getUpdateSQL(Eleicao eleicao) {
 		SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -18,5 +25,7 @@ public class EstadoEmApuracao implements IEstado {
     	
 		return sql;
 	}
+
+
 
 }

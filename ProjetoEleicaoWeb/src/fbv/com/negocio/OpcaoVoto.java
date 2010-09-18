@@ -11,7 +11,10 @@ public class OpcaoVoto {
 	private String path_foto;
 	
 	public OpcaoVoto(){
-		
+	}
+	
+	public OpcaoVoto(int id){
+		this.id = id;
 	}
 
 	public OpcaoVoto(int id, int idEleicao, String descricao, String pathFoto) {

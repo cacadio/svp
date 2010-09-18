@@ -15,7 +15,10 @@ public class Usuario {
 	private PerfilUsuario perfilUsuario;
 	
 	public Usuario(){
-		
+	}
+	
+	public Usuario(int id){
+		this.id = id;
 	}
 
 	public Usuario(String cpf){

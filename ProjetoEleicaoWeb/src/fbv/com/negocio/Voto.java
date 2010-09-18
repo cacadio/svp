@@ -6,32 +6,26 @@ public class Voto {
 	
 	private int idVoto;
 	
-	private int idEleicao;
+	private Eleicao eleicao;
 	
-	private int idUsuario;
+	private Usuario usuario;
 	
-	private int idOpcaoVoto;
+	private OpcaoVoto opcaoVoto;
 	
 	private double valorVoto;
 	
-	//@Rodrigo
-	private String nomeUsuario;
-	
-	private String descricaoOpcaoVoto;
-	
 	private Timestamp dataHora;
 	
-	public Voto(){
-		
+	public Voto(){	
 	}
 
-	public Voto(int idVoto, int idEleicao, int idUsuario, int idOpcaoVoto,
+	public Voto(int idVoto, Eleicao pEleicao, Usuario pUsuario, OpcaoVoto pOpcaoVoto,
 			double valorVoto, Timestamp dataHora) {
 		super();
 		this.idVoto = idVoto;
-		this.idEleicao = idEleicao;
-		this.idUsuario = idUsuario;
-		this.idOpcaoVoto = idOpcaoVoto;
+		this.eleicao = pEleicao;
+		this.usuario = pUsuario;
+		this.opcaoVoto = pOpcaoVoto;
 		this.valorVoto = valorVoto;
 		this.dataHora = dataHora;
 	}
@@ -44,28 +38,28 @@ public class Voto {
 		this.idVoto = idVoto;
 	}
 
-	public int getIdEleicao() {
-		return idEleicao;
+	public Eleicao getEleicao() {
+		return eleicao;
 	}
 
-	public void setIdEleicao(int idEleicao) {
-		this.idEleicao = idEleicao;
+	public void setEleicao(Eleicao eleicao) {
+		this.eleicao = eleicao;
 	}
 
-	public int getIdUsuario() {
-		return idUsuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public int getIdOpcaoVoto() {
-		return idOpcaoVoto;
+	public OpcaoVoto getOpcaoVoto() {
+		return opcaoVoto;
 	}
 
-	public void setIdOpcaoVoto(int idOpcaoVoto) {
-		this.idOpcaoVoto = idOpcaoVoto;
+	public void setOpcaoVoto(OpcaoVoto pOpcaoVoto) {
+		this.opcaoVoto = pOpcaoVoto;
 	}
 
 	public double getValorVoto() {
@@ -83,22 +77,5 @@ public class Voto {
 	public void setDataHora(Timestamp dataHora) {
 		this.dataHora = dataHora;
 	}
-	
-	//@Rodrigo
-	public String getNomeUsuario() {
-		return nomeUsuario;
-	}
-
-	public void setNomeUsuario(String nomeUsuario) {
-		this.nomeUsuario = nomeUsuario;
-	}
-	
-	public String getDescricaoOpcaoVoto() {
-		return descricaoOpcaoVoto;
-	}
-
-	public void setDescricaoOpcaoVoto(String descricaoOpcaoVoto) {
-		this.descricaoOpcaoVoto = descricaoOpcaoVoto;
-	}
-	
+		
 }
