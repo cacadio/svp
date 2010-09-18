@@ -109,11 +109,11 @@ function eventoExcluir() {
 							Descricao = eleicao.getDescricao();
 							if(idEleicaoSelecionada != null && idEleicao == idEleicaoSelecionada.intValue()){
 							%>
-								<option value="<%= idEleicao%>" selected="selected"> <%=eleicao.getDescricao()%> </option>
+								<option value="<%= idEleicao%>" selected> <%=eleicao.getDescricao()%> </option>
 							<%
 							} else {
 							%>
-								<option value="<%= idEleicao%>" selected=""> <%=eleicao.getDescricao()%> </option>
+								<option value="<%= idEleicao%>" > <%=eleicao.getDescricao()%> </option>
 							<%
 							}
 						}

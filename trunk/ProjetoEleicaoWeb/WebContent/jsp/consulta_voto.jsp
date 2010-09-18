@@ -62,12 +62,16 @@
 		</table>
 	
 	<table width="80%" border="0" align="center">
-		<th class="td" width="3%">&nbsp;&nbsp;&nbsp;#</th>
-		<th class="td" align="right">Usuário</td>
-		<th class="td" align="right">Código Eleição</td>
-		<th class="td" align="right">Opção de Voto</td>
-		<th class="td" align="right">Valor Voto</td>
-		<th class="td" align="right">Data</td>
+		<div id="sidebar">
+		<td class="td" width="3%">&nbsp;&nbsp;&nbsp;#</th>
+		<td class="td" align="center">Código</td>
+		<td class="td" align="center">Usuário</td>
+		<td class="td" align="center">Código Eleição</td>
+		<td class="td" align="center">Descrição Eleição</td>
+		<td class="td" align="center">Opção de Voto</td>
+		<td class="td" align="center">Valor Voto</td>
+		<td class="td" align="center">Data</td>
+		
 		<%
 		//Exibindo dados
 		if(arrayListVoto != null && !arrayListVoto.isEmpty()){
@@ -88,32 +92,31 @@
 				}
 				
 		%>
-			<tr>
-				<td class="<%=classeLinha%>"><input type="radio" id="<%=ServletVoto.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletVoto.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=voto.getIdVoto()%>"> </td>
-				<td class="<%=classeLinha%>"><%=voto.getNomeUsuario()%></td>
-				<td class="<%=classeLinha%>"><%=voto.getIdEleicao()%></td>
-				<td class="<%=classeLinha%>"><%=voto.getDescricaoOpcaoVoto()%></td>
-				<td class="<%=classeLinha%>"><%=voto.getValorVoto()%></td>
-				<td class="<%=classeLinha%>"><%=voto.getDataHora()%></td>
-				
-			</tr>
+		<tr>
+			<td class="<%=classeLinha%>" align="center"><input type="radio" id="<%=ServletVoto.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletVoto.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=voto.getIdVoto()%>"> </td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getIdVoto()%></td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getUsuario().getNome()%></td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getEleicao().getId()%></td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getEleicao().getDescricao()%></td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getOpcaoVoto().getDescricao()%></td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getValorVoto()%></td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getDataHora()%></td>
+			
+		</tr>
 		<%
 			}
-		}else{
-			%>
-			<%
 		}
 		%>
-			<tr align="center">
-				<td class="linhabotao"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Votar" onclick="eventoIncluir()"> </td>
-			</tr>
-			</div>
-		<div id="sidebar-bgbtm"></div>
+		<tr>
+			<td class="linhabotao">
+				<input type="button" id="botaoVoltar" name="botaoVoltar" value="Voltar" onclick="eventoIncluir()">
+			</td>
+		</tr>
 		</div>
+		
+		<div id="sidebar-bgbtm"></div>
 		</table>
-		<div id="footer">
-		<p>&copy; 2010. All Rights Reserved.</p>
-	</div>
+		<div id="footer"><p>&copy; 2010. All Rights Reserved.</p></div>
 
 </form>
 

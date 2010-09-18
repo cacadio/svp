@@ -4,7 +4,9 @@
 
 <%@page import="fbv.com.servlets.ServletOpcaoVoto"%>
 
-<html>
+
+<%@page import="fbv.com.negocio.Eleicao"%>
+<%@page import="java.util.ArrayList"%><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
@@ -23,7 +25,7 @@ function eventoProcessarInclusao() {
 		return false;
 	}
 
-	if (document.forms.form_principal.<%=ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO%>.value == "") {
+	if (document.forms.form_principal.<%=ServletOpcaoVoto.ID_REQ_SELECT_ELEICOES%>.selectedIndex.value == "") {
 		alert("Campo Obrigatório - Código da Eleição!");
 		return false;
 	}
@@ -70,10 +72,39 @@ function eventoProcessarInclusao() {
 			<th class="td" width="22%" align="right">Descrição:</th>
 			<td class="valordado"><input type="text" id="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value="" size="50" maxlength="45"></td>
 		</tr>
+		
 		<tr>
 			<th class="td" width="22%" align="right">Código da Eleição:</th>
-			<td class="valordado"><input type="text" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO%>" value="" size="8" maxlength="10"></td>
+			<td class="valordado">
+				<select id="cboEleicao" name="cboEleicao">
+			<%
+				ArrayList<Eleicao> arrayEleicao = (ArrayList<Eleicao>) request.getAttribute(ServletOpcaoVoto.ID_REQ_ARRAY_LIST_ELEICAO);
+				if(arrayEleicao != null && !arrayEleicao.isEmpty()){
+					int idEleicao;
+					String Descricao = "";
+					Integer idEleicaoSelecionada = (Integer)request.getAttribute(ServletOpcaoVoto.ID_REQ_ID_ELEICAO);
+					for (Eleicao eleicao : arrayEleicao){
+						idEleicao = eleicao.getId();
+						Descricao = eleicao.getDescricao();
+						if(idEleicaoSelecionada != null && idEleicao == idEleicaoSelecionada.intValue()){
+						%>
+							<option value="<%= idEleicao%>" selected> <%=eleicao.getDescricao()%> </option>
+						<%
+						} else {
+						%>
+							<option value="<%= idEleicao%>"> <%=eleicao.getDescricao()%> </option>
+						<%
+						}
+					}
+				}
+			%>
+				</select>
+			</td>
+			<!--  
+			<input type="text" id="<%//=ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO%>" name="<%//=ServletOpcaoVoto.ID_REQ_CODIGO_ELEICAO%>" value="" size="8" maxlength="10">
+			-->
 		</tr>
+		
 		<tr>
 			<th class="td" width="22%" align="right">Foto:</th>
 			<td class="valordado"><input type="file" id="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_PATH_FOTO%>" size="40" maxlength="45"></td>
