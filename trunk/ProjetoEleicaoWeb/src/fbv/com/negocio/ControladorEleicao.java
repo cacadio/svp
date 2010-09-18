@@ -85,10 +85,23 @@ public class ControladorEleicao {
 	
 	@SuppressWarnings("unchecked")
 	public <T> ArrayList<T> consultarTodasEleicoes(TipoEleicao tipo) throws SQLException, ExcecaoRegistroNaoExistente{
-		if (tipo == TipoEleicao.ESCOLHA_UNICA)
-			return (ArrayList<T>) cadastroEleicaoEscolhaUnica.consultarTodos();
-		else
-			return (ArrayList<T>) cadastroEleicaoPontuacao.consultarTodos();
+		if (tipo != null){
+			if (tipo == TipoEleicao.ESCOLHA_UNICA)
+				return (ArrayList<T>) cadastroEleicaoEscolhaUnica.consultarTodos();
+			else
+				return (ArrayList<T>) cadastroEleicaoPontuacao.consultarTodos();
+		} else {
+			// Monta uma coleção com todas as eleições
+			ArrayList<T> eleicoesEscolhaUnica = (ArrayList<T>) cadastroEleicaoEscolhaUnica.consultarTodos();
+			ArrayList<T> eleicoesPontuacao = (ArrayList<T>) cadastroEleicaoPontuacao.consultarTodos();
+			
+			ArrayList<T> todasEleicoes = new ArrayList<T>();
+			todasEleicoes.addAll(eleicoesEscolhaUnica);
+			todasEleicoes.addAll(eleicoesPontuacao);
+			
+			return todasEleicoes;
+		}
+
 	}
 	
 
@@ -150,7 +163,7 @@ public class ControladorEleicao {
 		ArrayList<Voto> arrVotos = cadastroVoto.consultarTodos();
 		
 		for(Voto vt : arrVotos){
-			if(vt.getIdEleicao() == idEleicao && vt.getIdUsuario() == idUsuario){
+			if(vt.getEleicao().getId() == idEleicao && vt.getUsuario().getId() == idUsuario){
 				arrRetornoVotos.add(vt);
 			}
 		}

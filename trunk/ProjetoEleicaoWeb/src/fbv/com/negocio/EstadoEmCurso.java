@@ -2,8 +2,15 @@ package fbv.com.negocio;
 
 public class EstadoEmCurso implements IEstado {
 
+	private static final int valor = 3;
+	private static final String descricao = "Em Curso";
+	
 	public int getValor() {
-		return 3;
+		return valor;
+	}
+
+	public String getDescricao() {
+		return descricao;
 	}
 
 	public String getUpdateSQL(Eleicao eleicao) {

@@ -4,8 +4,15 @@ import java.text.SimpleDateFormat;
 
 public class EstadoIniciada implements IEstado {
 
+	private static final int valor = 2;
+	private static final String descricao = "Iniciada";
+	
 	public int getValor() {
-		return 2;
+		return valor;
+	}
+
+	public String getDescricao() {
+		return descricao;
 	}
 
 	public String getUpdateSQL(Eleicao eleicao) {
