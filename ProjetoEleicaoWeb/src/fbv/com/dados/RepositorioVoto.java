@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;
 import fbv.com.excecoes.ExcecaoRegistroNaoExistente;
+import fbv.com.negocio.Eleicao;
+import fbv.com.negocio.OpcaoVoto;
+import fbv.com.negocio.Usuario;
 import fbv.com.negocio.Voto;
 import fbv.com.util.GerenciadorConexaoBDR;
 
@@ -39,9 +42,9 @@ public class RepositorioVoto implements IRepositorioBD {
         {
 			//Armazenando os valores do código e a Descrição do Voto para passar para o statement
         	int codigo = 0;
-			int idUsuario = voto.getIdUsuario();
-			int idEleicao = voto.getIdEleicao();
-			int idOpcaoVoto = voto.getIdOpcaoVoto();
+			int idUsuario = voto.getUsuario().getId();
+			int idEleicao = voto.getEleicao().getId();
+			int idOpcaoVoto = voto.getOpcaoVoto().getId();
 			double vlVoto = voto.getValorVoto();
 
             try
@@ -93,19 +96,10 @@ public class RepositorioVoto implements IRepositorioBD {
             {
             	Voto retorno = null;
             	rs = statement.executeQuery("SELECT  * from Voto WHERE ID_VOTO = " + codigo + ";");
+            	
                 while (rs.next())
                 {
-                	//Capturando os valores do result set
-                	int codVoto = rs.getInt ("ID_VOTO");
-                	int idUsuario = rs.getInt("ID_USUARIO");
-                	int idEleicao = rs.getInt("ID_ELEICAO");
-                	int idOpcaoVoto = rs.getInt("ID_OPCAO_VOTO");
-                	double vlVoto = rs.getDouble("VALOR_VOTO");
-                	Timestamp dhVoto = rs.getTimestamp("DH_VOTO");
-                	
-					//Criando uma nova instância de Voto com os parâmetros capturados
-                    //armanenando a instância em retorno
-					retorno = new Voto(codVoto, idEleicao, idUsuario, idOpcaoVoto, vlVoto, dhVoto);
+                	retorno = obterVoto(rs);
                 }
 
                 	return retorno;                               
@@ -151,17 +145,7 @@ public class RepositorioVoto implements IRepositorioBD {
             	rs = statement.executeQuery("SELECT * from voto;");
                 while (rs.next())
                 {
-                	//Capturando os valores do result set
-                	int codVoto = rs.getInt ("ID_VOTO");
-                	int idUsuario = rs.getInt("ID_USUARIO");
-                	int idEleicao = rs.getInt("ID_ELEICAO");
-                	int idOpcaoVoto = rs.getInt("ID_OPCAO_VOTO");
-                	double vlVoto = rs.getDouble("VALOR_VOTO");
-                	Timestamp dhVoto = rs.getTimestamp("DH_VOTO");
-                	
-					//Criando uma nova instância de Usuario com os parâmetros capturados
-					voto = new Voto(codVoto, idEleicao, idUsuario, idOpcaoVoto, vlVoto, dhVoto);
-					
+                	voto = obterVoto(rs);					
 					colecaoVoto.add(voto);                               
                 }
 
@@ -192,5 +176,41 @@ public class RepositorioVoto implements IRepositorioBD {
             throw new ExcecaoRegistroNaoExistente(e.getMessage() /*+ "/n" + e.toString()*/);
         }
 		return colecaoVoto;
+	}
+	
+	/**
+	 * Método auxiliar que obtém do resultSet os valores dos atributos trazidos na consulta e monta uma instância de voto
+	 * @param rs
+	 * @return
+	 * @throws Exception
+	 */
+	private Voto obterVoto(ResultSet rs) throws Exception{
+		Voto retorno = null;
+		int codVoto;
+		int idUsuario;
+		int idEleicao;
+		int idOpcaoVoto;
+
+		Usuario usuario = null;
+		Eleicao eleicao = null;
+		OpcaoVoto opcaoVoto = null;
+
+		//Capturando os valores do result set
+		codVoto = rs.getInt ("ID_VOTO");
+		idUsuario = rs.getInt("ID_USUARIO");
+		idEleicao = rs.getInt("ID_ELEICAO");
+		idOpcaoVoto = rs.getInt("ID_OPCAO_VOTO");
+		double vlVoto = rs.getDouble("VALOR_VOTO");
+		Timestamp dhVoto = rs.getTimestamp("DH_VOTO");
+		// Instânciando os objetos auxiliares para criar um voto com eles;
+		eleicao = new Eleicao(idEleicao);
+		usuario = new Usuario(idUsuario);
+		opcaoVoto = new OpcaoVoto(idOpcaoVoto);
+
+		//Criando uma nova instância de Voto com os parâmetros capturados
+		//armanenando a instância em retorno
+		retorno = new Voto(codVoto, eleicao, usuario, opcaoVoto, vlVoto, dhVoto);
+
+		return retorno;
 	}
 } 

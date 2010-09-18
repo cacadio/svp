@@ -178,13 +178,22 @@ public class RepositorioUsuario implements IRepositorioBD {
 	public Usuario consultarPelaChave(Object pUsuario) throws ExcecaoRegistroNaoExistente {
 		Usuario usuario = (Usuario)pUsuario;;
 		String cpf = usuario.getCpf();
+		Integer id = usuario.getId();
+		
 		try
         {
 			ResultSet rs = null;
             try
             {
             	Usuario retorno = null;
-            	rs = statement.executeQuery("SELECT  * from Usuario WHERE CPF_PESSOA like '" + cpf + "';");
+            	
+            	String sql = "";
+            	if(id != null)
+            		sql = "SELECT  * from Usuario WHERE id_usuario = " + id + " OR CPF_PESSOA = '"+ cpf +"';";
+            	else
+            		sql = "SELECT  * from Usuario WHERE CPF_PESSOA = '"+ cpf +"';";
+            	
+            	rs = statement.executeQuery(sql);
                 while (rs.next())
                 {
                 	//Capturando os valores do result set
@@ -239,7 +248,7 @@ public class RepositorioUsuario implements IRepositorioBD {
         }
 		
 	}
-
+	
 	public ArrayList<Usuario> consultarTodos() throws ExcecaoRegistroNaoExistente {
 		ArrayList<Usuario> colecaoUsuario = new ArrayList<Usuario>();
 		Usuario usuario = null;
