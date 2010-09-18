@@ -120,16 +120,16 @@ function validaCheckbox()
 	 <td>
 	 	<table height="100%">
 			<tr>
-			<th class="td" height="20%">Descrição:</th>
+				<th class="td" height="10%">Descrição:</th>
 			</tr>
 			<tr>
-			<th class="td" height="58%">Imagem:</th>
+				<th class="td" height="70%">Imagem:</th>
 			</tr>
 			<%
 				if(tipoDeEleicao.equals("OPCAO_UNICA")){
 			%>
 			<tr>
-			<th class="td" height="22%">Valor do Voto:</th>
+				<th class="td" height="20%">Valor do Voto:</th>
 			</tr>
 			<%	} %>	
 	 	</table>
@@ -152,43 +152,45 @@ function validaCheckbox()
 		    	if(tipoDeEleicao.equals("PONTUACAO")){
 		     %>
 				<tr>
-				<td class="valordado" width="30%">
-				<input type="checkbox" id=""<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO + opcaoVoto.getId()%>" value= <%=opcaoVoto.getId()%>>
-				<input type="text" id="descOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value="<%=descricao%>" readonly="readonly"></td>
+					<td class="valordado" width="10%">
+						<input type="checkbox" id=""<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO + opcaoVoto.getId()%>" value= <%=opcaoVoto.getId()%>>
+						<input type="text" id="descOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value="<%=descricao%>" readonly="readonly">
+					</td>
 				</tr>
 				<tr>
-				<td class="valordado" height="50%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="<%=pathImage%>" width="120" height="60" border="1"></td>
+					<td class="valordado" height="70%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="<%=pathImage%>" width="120" height="60" border="1"></td>
 				</tr>
 				<tr>
-				<td class="valordado" height="22%"><select name="<%=ServletVoto.ID_REQ_VALOR_VOTO + opcaoVoto.getId()%>"> 
-				<% 
-				
-				Integer intervaloPontuacao = null;
-				Integer valorMaximoPontuacao = null;
-				Integer valorMinimoPontuacao = null;
-				
-				intervaloPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_INTERVALO_PONTUACAO_ELEICAO);
-				valorMaximoPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_PONTUACAO_MAXIMA_ELEICAO);
-				valorMinimoPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_PONTUACAO_MINIMA_ELEICAO);
-				
-				if(intervaloPontuacao != null && valorMaximoPontuacao != null && valorMinimoPontuacao != null){
-					vlVoto = new ArrayList();
-					for(int k= valorMinimoPontuacao.intValue(); k <= valorMaximoPontuacao.intValue(); k= k + intervaloPontuacao.intValue()){	
-						vlVoto.add(k);
-			    	}
-							
-					Iterator iteraValorVoto = null;
-					iteraValorVoto = vlVoto.iterator(); 
-							
-					while(iteraValorVoto.hasNext()){
-							
-						Object vlVotoObj = iteraValorVoto.next();
-				%>           
-	  					<option value="<%= vlVotoObj %>"><%= vlVotoObj%></option>  
-	             <% } %>                                       
-	           			</select>  
-				<% } %> 
-
+					<td class="valordado" height="20%">
+						<select name="<%=ServletVoto.ID_REQ_VALOR_VOTO + opcaoVoto.getId()%>"> 
+						<% 
+						
+						Integer intervaloPontuacao = null;
+						Integer valorMaximoPontuacao = null;
+						Integer valorMinimoPontuacao = null;
+						
+						intervaloPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_INTERVALO_PONTUACAO_ELEICAO);
+						valorMaximoPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_PONTUACAO_MAXIMA_ELEICAO);
+						valorMinimoPontuacao = (Integer)request.getAttribute(ServletVoto.ID_REQ_PONTUACAO_MINIMA_ELEICAO);
+						
+						if(intervaloPontuacao != null && valorMaximoPontuacao != null && valorMinimoPontuacao != null){
+							vlVoto = new ArrayList();
+							for(int k= valorMinimoPontuacao.intValue(); k <= valorMaximoPontuacao.intValue(); k= k + intervaloPontuacao.intValue()){	
+								vlVoto.add(k);
+					    	}
+									
+							Iterator iteraValorVoto = null;
+							iteraValorVoto = vlVoto.iterator(); 
+									
+							while(iteraValorVoto.hasNext()){
+									
+								Object vlVotoObj = iteraValorVoto.next();
+						%>           
+			  					<option value="<%= vlVotoObj %>"><%= vlVotoObj%></option>  
+			             <% } %>                                       
+			           	</select>  
+						
+						<% } %> 
 				</td>
 	 			</tr>
 	 		<%}else{ %>
@@ -197,10 +199,10 @@ function validaCheckbox()
 					<td class="valordado" height="10%"><input type="radio" id="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" name="<%=ServletOpcaoVoto.ID_REQ_CODIGO_OPCAO_VOTO%>" value= <%=opcaoVoto.getId()%>></td>
 				</tr>
 				<tr>
-					<td class="valordado" height="18%"><input type="text" id="descOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value="<%=descricao%>" readonly="readonly"></td>
+					<td class="valordado" height="20%"><input type="text" id="descOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value="<%=descricao%>" readonly="readonly"></td>
 				</tr>
 				<tr>
-					<td class="valordado" height="50%">&nbsp;<img src="<%=pathImage%>" width="120" height="60" border="1" ></td>
+					<td class="valordado" height="70%">&nbsp;<img src="<%=pathImage%>" width="120" height="60" border="1" ></td>
 				</tr>
 	 		<% }%>
 	 		</table>

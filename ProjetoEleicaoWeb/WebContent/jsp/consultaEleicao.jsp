@@ -99,8 +99,9 @@ function eventoExcluir(){
 			</td>
 			<td width="100px">
 				<select id="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>" name="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>">
-					<option value="<%= TipoEleicao.ESCOLHA_UNICA.value() %>" <%= request.getAttribute(ServletEleicao.ID_REQ_TIPO_ELEICAO).equals(TipoEleicao.ESCOLHA_UNICA.value())? "selected": "" %>>Escolha Única</option>
-					<option value="<%= TipoEleicao.PONTUACAO.value() %>" <%= request.getAttribute(ServletEleicao.ID_REQ_TIPO_ELEICAO).equals(TipoEleicao.PONTUACAO.value())? "selected": "" %>>Pontuação</option>
+					<option>
+					<option value="<%= TipoEleicao.ESCOLHA_UNICA.value() %>" >Escolha Única</option>
+					<option value="<%= TipoEleicao.PONTUACAO.value() %>" >Pontuação</option>
 				</select>
 			</td>
 			<td></td>
@@ -150,27 +151,7 @@ function eventoExcluir(){
 			<td class="<%= classeLinha %>"><input type="radio" id="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=eleicao.getId()%>"> </td>
 			<td class="<%= classeLinha %>" align="left"><%=eleicao.getId()%></td>
 			<td class="<%= classeLinha %>" align="left"><%=eleicao.getDescricao()%></td>
-			<td class="<%= classeLinha %>" align="left">
-			<%
-			switch (eleicao.getEstado().getValor()){
-			case 1:
-				out.print("NOVA");
-				break;
-			case 2:
-				out.print("INICIADA");
-				break;
-			case 3:
-				out.print("EM CURSO");
-				break;
-			case 4:
-				out.print("EM APURACAO");
-				break;
-			case 5:
-				out.print("CONCLUIDA");
-				break;
-			}
-			%>
-			</td>
+			<td class="<%= classeLinha %>" align="left"><%=eleicao.getEstado().getDescricao()%></td>
 			<td class="<%= classeLinha %>" align="center"><%= eleicao.getDataAbertura() != null ? sdf.format(eleicao.getDataAbertura()) : "" %></td>
 			<td class="<%= classeLinha %>" align="center"><%= eleicao.getDataEncerramento() != null ? sdf.format(eleicao.getDataEncerramento()) : "" %></td>
 		</tr>
