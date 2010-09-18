@@ -50,17 +50,13 @@ public class ServletPerfilUsuario extends HttpServlet implements
 
 			if (idEvento != null && !idEvento.equals("")) {
 
-				if (idEvento
-						.equals(ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
+				if (idEvento.equals(ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
 					processarFiltroConsulta(request, response);
-				} else if (idEvento
-						.equals(ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_INCLUSAO)) {
+				} else if (idEvento.equals(ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_INCLUSAO)) {
 					exibirInclusao(request, response);
-				} else if (idEvento
-						.equals(ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_INCLUSAO)) {
+				} else if (idEvento.equals(ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_INCLUSAO)) {
 					processarInclusao(request, response);
-				} else if (idEvento
-						.equals(ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_ALTERACAO)) {
+				} else if (idEvento.equals(ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_ALTERACAO)) {
 					exibirAlteracao(request, response);
 				}else if(idEvento.equals(ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_ALTERACAO)){
 					processarAlteracao(request,response);
@@ -72,7 +68,7 @@ public class ServletPerfilUsuario extends HttpServlet implements
 				}
 
 			} else {
-				exibirFiltroConsulta(request, response);
+				processarFiltroConsulta(request, response);
 			}
 
 		} catch (Exception e) {
@@ -112,13 +108,6 @@ public class ServletPerfilUsuario extends HttpServlet implements
 				.getRequestDispatcher("jsp/consultaperfilusuario.jsp");
 		requestDispatcher.forward(request, response);
 
-	}
-
-	private void exibirFiltroConsulta(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/consultaperfilusuario.jsp");
-		requestDispatcher.forward(request, response);
 	}
 
 	private void exibirInclusao(HttpServletRequest request,

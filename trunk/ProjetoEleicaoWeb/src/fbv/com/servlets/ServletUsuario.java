@@ -51,17 +51,13 @@ import fbv.com.util.InterfacePrincipal;
 
 			if (idEvento != null && !idEvento.equals("")) {
 
-				if (idEvento
-						.equals(ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
+				if (idEvento.equals(ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
 					processarFiltroConsulta(request, response);
-				} else if (idEvento
-						.equals(ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_INCLUSAO)) {
+				} else if (idEvento.equals(ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_INCLUSAO)) {
 					exibirInclusao(request, response);
-				} else if (idEvento
-						.equals(ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_INCLUSAO)) {
+				} else if (idEvento.equals(ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_INCLUSAO)) {
 					processarInclusao(request, response);
-				} else if (idEvento
-						.equals(ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_ALTERACAO)) {
+				} else if (idEvento.equals(ServletPerfilUsuario.ID_REQ_EVENTO_EXIBIR_ALTERACAO)) {
 					exibirAlteracao(request, response);
 				}else if(idEvento.equals(ServletPerfilUsuario.ID_REQ_EVENTO_PROCESSAR_ALTERACAO)){
 					processarAlteracao(request,response);
@@ -73,7 +69,7 @@ import fbv.com.util.InterfacePrincipal;
 				}
 
 			} else {
-				exibirFiltroConsulta(request, response);
+				processarFiltroConsulta(request, response);
 			}
 
 		} catch (Exception e) {
@@ -119,13 +115,6 @@ import fbv.com.util.InterfacePrincipal;
 				.getRequestDispatcher("jsp/consulta_usuario.jsp");
 		requestDispatcher.forward(request, response);
 
-	}
-
-	private void exibirFiltroConsulta(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/consulta_usuario.jsp");
-		requestDispatcher.forward(request, response);
 	}
 
 	private void exibirInclusao(HttpServletRequest request,
@@ -252,8 +241,7 @@ import fbv.com.util.InterfacePrincipal;
 		senhaUsuario = request.getParameter(ServletUsuario.ID_REQ_SENHA_USUARIO);
 		perfilUsuario = request.getParameter(ServletUsuario.ID_REQ_ID_PERFIL_USUARIO);
 		
-		PerfilUsuario perfil = null;
-		perfil = new PerfilUsuario();
+		PerfilUsuario perfil = new PerfilUsuario();
 		perfil.setId(Integer.valueOf(perfilUsuario.trim()));
 		
 		usuarioAntigo = new Usuario();
@@ -266,14 +254,11 @@ import fbv.com.util.InterfacePrincipal;
 		usuario.setLogin(loginUsuario);
 		usuario.setSenha(senhaUsuario);
 		usuario.setId(usuarioAntigo.getId());
-		usuario.setPerfilUsuario(perfil);
-		
-		
+		usuario.setPerfilUsuario(perfil);		
 
 		fachada.alterarUsuario(usuario);
 
-		mensagem = "Usuário Alterado com Sucesso";
-		
+		mensagem = "Usuário Alterado com Sucesso";		
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);

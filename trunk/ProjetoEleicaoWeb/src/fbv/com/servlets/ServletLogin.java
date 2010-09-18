@@ -128,11 +128,15 @@ public class ServletLogin extends HttpServlet implements
 	private Usuario validarLoginUsuario(ArrayList<Usuario> arrUsuario, String login, String senha){
 		Usuario usuario = null;
 		for(Usuario usu : arrUsuario){
-			if(usu.getLogin().equals(login)){
-				if(usu.getSenha().equals(senha)){
-					usuario = usu;
-					break;
-				}
+			
+			String loginUsuarioLido = usu.getLogin();
+			String senhaUsuarioLido = usu.getSenha();
+			
+			if (loginUsuarioLido != null && loginUsuarioLido.equals(login) &&
+					senhaUsuarioLido != null && senhaUsuarioLido.equals(senha)){
+
+				usuario = usu;
+				break;
 			}
 		}
 		
