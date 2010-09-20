@@ -6,7 +6,12 @@
 <%@page import="fbv.com.negocio.Eleicao"%>
 <%@page import="fbv.com.servlets.ServletEleicao"%>
 <%@page import="fbv.com.util.TipoEleicao"%>
-<%@page import="java.text.SimpleDateFormat"%><html>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="fbv.com.util.InterfacePrincipal"%>
+<%@page import="fbv.com.negocio.EstadoNova"%>
+<%@page import="fbv.com.negocio.EstadoIniciada"%>
+<%@page import="fbv.com.negocio.EstadoEmCurso"%>
+<%@page import="fbv.com.negocio.EstadoConcluida"%><html>
 <head>
 	<title>Consulta Eleição</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -25,12 +30,11 @@
 
 <script type="text/javascript" >
 
-function eventoAlterar() {
+function submeter(evento){
 	<%
 	if (arrayListEleicao != null && arrayListEleicao.size() > 0) {
 	%>
-
-		document.forms.form_principal.<%=ServletEleicao.ID_REQ_EVENTO%>.value = "<%=ServletEleicao.ID_REQ_EVENTO_EXIBIR_ALTERACAO%>";
+		document.forms.form_principal.<%=ServletEleicao.ID_REQ_EVENTO%>.value = evento;
 		document.forms.form_principal.submit();
 	<%
 	} else {	
@@ -41,26 +45,82 @@ function eventoAlterar() {
 	}
 	%>
 }
-
-function eventoExcluir(){
-	<%
-	if(arrayListEleicao != null && arrayListEleicao.size() > 0){
-	%>
-
-		document.forms.form_principal.<%=ServletEleicao.ID_REQ_EVENTO%>.value = "<%=ServletEleicao.ID_REQ_EVENTO_EXIBIR_EXCLUSAO%>";
-		document.forms.form_principal.submit();
-	<%
-	}else{	
-	%>
-		alert("Nenhum Registro Selecionado!");
-		return false;
-	<%
-	}
-	%>
+function eventoAlterar() {
+	submeter("<%=ServletEleicao.ID_REQ_EVENTO_EXIBIR_ALTERACAO%>");
 }
 
+function eventoExcluir(){
+	submeter("<%=ServletEleicao.ID_REQ_EVENTO_EXIBIR_EXCLUSAO%>");
+}
+
+function eventoInicializar(){
+	submeter("<%=ServletEleicao.ID_REQ_EVENTO_PROCESSAR_INICIALIZACAO%>");
+}
+
+function eventoConcluir(){
+	submeter("<%=ServletEleicao.ID_REQ_EVENTO_PROCESSAR_CONCLUSÃO%>");
+}
+
+function eventoApurar(){
+	submeter("<%=ServletEleicao.ID_REQ_EVENTO_PROCESSAR_APURACAO%>");
+}
+
+
+
+function desabilitarBotoes(){
+	document.forms.form_principal.botaoAlterar.disabled = true;
+	document.forms.form_principal.botaoExcluir.disabled = true;
+	document.forms.form_principal.botaoInicializar.disabled = true;
+	document.forms.form_principal.botaoConcluir.disabled = true;
+	document.forms.form_principal.botaoApurar.disabled = true;
+}
+
+function carregarBotoes(){
+	listaChaves = document.forms.form_principal.<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>
+	achou = false;
+	if (listaChaves != null && listaChaves.length > 0){
+		for (i = 0; i < listaChaves.length; i++){
+			chaveLida = listaChaves[i];
+			if (chaveLida.checked == true){
+				achou = true;
+				strValores = chaveLida.value;
+				valores = strValores.split("<%=ServletEleicao.ID_REQ_SEPARADOR_PADRAO%>");
+				dsEstado = valores[3];
+				if (dsEstado == "<%=EstadoNova.getInstancia().getDescricao()%>"){
+					document.forms.form_principal.botaoAlterar.disabled = false;
+					document.forms.form_principal.botaoInicializar.disabled = false;
+					document.forms.form_principal.botaoConcluir.disabled = true;
+					document.forms.form_principal.botaoApurar.disabled = true;
+				} else if (dsEstado == "<%=EstadoEmCurso.getInstancia().getDescricao()%>"){
+					document.forms.form_principal.botaoAlterar.disabled = false;
+					document.forms.form_principal.botaoInicializar.disabled = true;
+					document.forms.form_principal.botaoConcluir.disabled = false;
+					document.forms.form_principal.botaoApurar.disabled = true;
+				} else if (dsEstado == "<%=EstadoConcluida.getInstancia().getDescricao()%>"){
+					document.forms.form_principal.botaoAlterar.disabled = true;
+					document.forms.form_principal.botaoInicializar.disabled = true;
+					document.forms.form_principal.botaoConcluir.disabled = true;
+					document.forms.form_principal.botaoApurar.disabled = false;
+				} else {
+					document.forms.form_principal.botaoAlterar.disabled = false;
+					document.forms.form_principal.botaoInicializar.disabled = true;
+					document.forms.form_principal.botaoConcluir.disabled = true;
+					document.forms.form_principal.botaoApurar.disabled = true;
+				}
+				break;
+			}
+			
+		}
+	}
+
+	if (achou == true){
+		document.forms.form_principal.botaoExcluir.disabled = false;
+	} else {
+		desabilitarBotoes();
+	}
+}
 </script>
-<body onload="setarFoco(document.forms.form_principal.<%=ServletEleicao.ID_REQ_CODIGO_ELEICAO%>)">
+<body onload="setarFoco(document.forms.form_principal.<%=ServletEleicao.ID_REQ_CODIGO_ELEICAO%>);carregarBotoes();">
 <form action="/ProjetoEleicaoWeb/ServletEleicao" method="post" id="form_principal">
 <input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
 <div id="header">
@@ -124,7 +184,7 @@ function eventoExcluir(){
 			<th class="td" width="40%" align="center">Descrição</th>
 			<th class="td" width="10px" align="center">Estado</th>
 			<th class="td" width="10px" align="center">Data Abertura</th>
-			<th class="td" width="10px" align="center">Data Encerramento</th>
+			<th class="td" width="10px" align="center">Data Prevista Encerramento</th>
 		</tr>
 		<%
 		//Exibindo dados
@@ -136,19 +196,28 @@ function eventoExcluir(){
 				checked = "";
 				Eleicao eleicao = arrayListEleicao.get(i);
 				
-				if(i == 0){
-					checked="checked";
-				}
-				
 				String classeLinha;
 				if (i % 2 == 0) {
 					classeLinha = "linhaimpar";
 				} else {
 					classeLinha = "linhapar";
 				}
+				// Obtém os dados da eleição 
+				int idEleicao = eleicao.getId();
+				String dsEleicao = eleicao.getDescricao();
+				String tpEleicao = eleicao.getClass().getSimpleName();
+				String idEstadodEleicao = eleicao.getEstado().getDescricao();
+				// Monta a chave primária
+				String chavePrimaria = idEleicao + ServletEleicao.ID_REQ_SEPARADOR_PADRAO 
+									 + dsEleicao + ServletEleicao.ID_REQ_SEPARADOR_PADRAO 
+									 + tpEleicao + ServletEleicao.ID_REQ_SEPARADOR_PADRAO 
+									 + idEstadodEleicao;
 		%>
 		<tr>
-			<td class="<%= classeLinha %>"><input type="radio" id="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=eleicao.getId()%>"> </td>
+			<td class="<%= classeLinha %>" align="center">
+				<input type="radio" id="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletEleicao.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> 
+				value="<%=chavePrimaria%>" onclick="carregarBotoes()" onchange="carregarBotoes()"> 
+			</td>
 			<td class="<%= classeLinha %>" align="left"><%=eleicao.getId()%></td>
 			<td class="<%= classeLinha %>" align="left"><%=eleicao.getDescricao()%></td>
 			<td class="<%= classeLinha %>" align="left"><%=eleicao.getEstado().getDescricao()%></td>
@@ -157,17 +226,18 @@ function eventoExcluir(){
 		</tr>
 		<%
 			}
-		}else if (arrayListEleicao != null){
-		%>
-		<%
 		}
-		%>		
+		%>
+	
 	</table>
 	<table width="80%" border="0" align="center">
 		<tr>
 			<td class="linhabotao" align="right"><input type="button" id="botaoIncluir" name="botaoIncluir" value="Incluir" onclick="eventoIncluir()"> </td>
 			<td class="linhabotao" align="center"><input type="button" id="botaoAlterar" name="botaoAlterar" value="Alterar" onclick="eventoAlterar()"> </td>
 			<td class="linhabotao" align="left"><input type="button" id="botaoExcluir" name="botaoExcluir" value="Excluir" onclick="eventoExcluir()"> </td>
+			<td class="linhabotao" align="right"><input type="button" id="botaoInicializar" name="botaoInicializar" value="Inicializar" onclick="eventoInicializar()"> </td>
+			<td class="linhabotao" align="center"><input type="button" id="botaoConcluir" name="botaoConcluir" value="Concluir" onclick="eventoConcluir()"> </td>
+			<td class="linhabotao" align="left"><input type="button" id="botaoApurar" name="botaoApurar" value="Apurar" onclick="eventoApurar()"> </td>
 		</tr>
 	
 	</table>

@@ -90,6 +90,16 @@
 				<input type="text" id="<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>" value="<%= eleicao.getDescricao() %>" title="Descrição" readonly="readonly"></input>
 			</td>
 		</tr>
+		
+		</tr>
+			<tr>
+			<th class="td" width="12%">
+				Estado:
+			</th>
+			<td class="valordado">
+				<input type="text" id="<%=ServletEleicao.ID_REQ_ESTADO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_ESTADO_ELEICAO%>" value="<%= eleicao.getEstado().getDescricao() %>" title="Estado" obrigatorio="1" disabled="disabled"></input>
+			</td>
+		</tr>
 		<tr>
 			<th class="td">
 				Pública?
@@ -110,7 +120,7 @@
 		</tr>
 		<tr>
 			<th class="td">
-				Múltiplos Votos?
+				Múltiplos Votos ?
 			</th>
 			<td class="valordado">
 				<input type="radio" id="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>_Sim" name="<%= ServletEleicao.ID_REQ_IN_VOTO_MULTIPLO_ELEICAO %>" value="1" title="Múltiplos Votos" <%= eleicao.isMultiplosVotos()? "checked=\"checked\"": ""  %> disabled="disabled">Sim&nbsp;
@@ -125,7 +135,7 @@
 				Data Abertura:
 			</th>
 			<td class="valordado">
-				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" value="<%= sdt.format(eleicao.getDataAbertura()) %>" title="Data Abertura" readonly="readonly"></input>
+				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>" value="<%= eleicao.getDataAbertura() != null ? sdt.format(eleicao.getDataAbertura()) : "" %>" title="Data Abertura" readonly="readonly"></input>
 			</td>
 		</tr>
 		<%
@@ -136,7 +146,7 @@
 				Data Encerramento:
 			</th>
 			<td class="valordado">
-				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="<%= sdt.format(eleicao.getDataEncerramento()) %>" title="Data Encerramento" readonly="readonly"></input>
+				<input type="text" id="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>" value="<%= eleicao.getDataEncerramento() != null ? sdt.format(eleicao.getDataEncerramento()) : "" %>" title="Data Encerramento" readonly="readonly"></input>
 			</td>
 		</tr>
 		<%

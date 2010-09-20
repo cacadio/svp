@@ -5,7 +5,10 @@
 <%@page import="fbv.com.servlets.ServletEleicao"%>
 <%@page import="fbv.com.util.TipoEleicao"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="fbv.com.negocio.EleicaoEscolhaUnica"%><html>
+<%@page import="fbv.com.negocio.EleicaoEscolhaUnica"%>
+<%@page import="fbv.com.util.EstadoEleicao"%>
+<%@page import="fbv.com.negocio.EstadoNova"%>
+<%@page import="fbv.com.negocio.EstadoConcluida"%><html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Inclusão Perfil Usuário</title>
@@ -77,7 +80,7 @@
 	}
 	
 	</script>
-<body onload="setarFoco(document.forms.form_principal.<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>)">
+<body onload="setarFoco(document.forms.form_principal.<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>); exibirCampos('1');">
 	<form action="/ProjetoEleicaoWeb/ServletEleicao" method="post" id="form_principal">
 	<input type="hidden" id="<%=ServletEleicao.ID_REQ_EVENTO%>" name="<%=ServletEleicao.ID_REQ_EVENTO%>" value="">
 <div id="header">
@@ -111,7 +114,7 @@
 		<div id="sidebar-bgtop"></div>
 		<div id="sidebar-content">
 		<tr>
-			<th class="td" width="22%" align="right">
+			<th class="td" width="22%" align="center">
 				Tipo:
 			</th>
 			<td class="valordado">
@@ -122,11 +125,19 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="td" width="22%" align="right">
+			<th class="td" width="22%" align="center">
 				Descrição:
 			</th>
 			<td class="valordado">
 				<input type="text" id="<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>" value="" title="Descrição" obrigatorio="1"></input>
+			</td>
+		</tr>
+		<tr>
+			<th class="td" width="22%" align="center">
+				Estado:
+			</th>
+			<td class="valordado">
+				<input type="text" id="<%=ServletEleicao.ID_REQ_ESTADO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_ESTADO_ELEICAO%>" value="<%=EstadoNova.getInstancia().getDescricao() %>" title="Estado" obrigatorio="1" disabled="true"></input>
 			</td>
 		</tr>
 		<tr>
@@ -177,7 +188,7 @@
 					ArrayList<EleicaoEscolhaUnica> eleicoes = (ArrayList<EleicaoEscolhaUnica>)request.getAttribute(ServletEleicao.ID_REQ_ARRAY_LIST_ELEICAO);
 					if (eleicoes != null){
 						for(EleicaoEscolhaUnica eleicao : eleicoes){
-							if (eleicao.getEstado().getValor() == 5){
+							if (eleicao.getEstado() instanceof EstadoConcluida){
 					%>
 						<option value="<%= eleicao.getId() %>"><%= eleicao.getDescricao() %></option>
 					<%
@@ -206,6 +217,7 @@
 				</td>
 			</tr>
 		</tbody>
+		
 		<tbody id="trPontuacao" style="display: <%= (tipo == TipoEleicao.PONTUACAO)? "": "none" %>">
 			<tr>
 				<th class="td">

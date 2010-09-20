@@ -57,7 +57,7 @@ public class ControladorEleicao {
 	public void alterarEleicao(Eleicao pEleicao) throws SQLException, ExcecaoAcessoRepositorio{
 		if (pEleicao instanceof EleicaoEscolhaUnica)
 			cadastroEleicaoEscolhaUnica.alterar((EleicaoEscolhaUnica)pEleicao);
-		else
+		else 
 			cadastroEleicaoPontuacao.alterar((EleicaoPontuacao)pEleicao);
 	}
 	

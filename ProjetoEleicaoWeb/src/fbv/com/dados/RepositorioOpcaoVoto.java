@@ -50,7 +50,7 @@ public class RepositorioOpcaoVoto implements IRepositorioBD, IRepositorioGeneric
             {
                 try
                 {
-                	statement.executeUpdate("INSERT INTO opcao_voto VALUES(null, " + id_eleicao + ",'" + desc + "', '"+ caminhoImagem+"');");
+                	statement.executeUpdate("INSERT INTO opcao_voto(ELEICAO_ID_ELEICAO, DESCRICAO, CAMINHO_IMAGEM) VALUES(" + id_eleicao + ",'" + desc + "', '"+ caminhoImagem+"');");
                 }
                 catch (Exception e)
                 {

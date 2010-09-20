@@ -4,6 +4,16 @@ public class EstadoEmCurso implements IEstado {
 
 	private static final int valor = 3;
 	private static final String descricao = "Em Curso";
+	private static IEstado instancia;
+	
+	private EstadoEmCurso(){
+	}
+	
+	public static IEstado getInstancia() {
+		if(instancia == null)
+			instancia = new EstadoEmCurso();
+		return instancia;
+	}
 	
 	public int getValor() {
 		return valor;

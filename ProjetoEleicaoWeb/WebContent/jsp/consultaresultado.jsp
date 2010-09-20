@@ -77,7 +77,7 @@
 		</table>
 	
 	<table width="80%" border="0" align="center">
-		<th class="td" width="3%">&nbsp;&nbsp;&nbsp;#</th>
+		<th class="td" width="3%" align="center">&nbsp;&nbsp;&nbsp;#</th>
 		<th class="td" align="right">Opção de Voto</td>
 		<th class="td" align="right">Total de Votos</td>
 		<%

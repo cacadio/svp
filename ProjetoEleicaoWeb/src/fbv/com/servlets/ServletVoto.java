@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import fbv.com.negocio.Eleicao;
 import fbv.com.negocio.EleicaoEscolhaUnica;
 import fbv.com.negocio.EleicaoPontuacao;
+import fbv.com.negocio.EstadoEmCurso;
 import fbv.com.negocio.Fachada;
 import fbv.com.negocio.OpcaoVoto;
 import fbv.com.negocio.Usuario;
@@ -279,6 +280,12 @@ public class ServletVoto extends HttpServlet implements InterfacePrincipal {
 				mensagem = "Voto Cadastrado com Sucesso";
 			}
 		}
+		
+		Eleicao eleicao = new Eleicao(Integer.parseInt(idEleicao));
+		// Ao incluir uma opção de voto a eleição passa a estar em curso
+		eleicao = (Eleicao) Fachada.getInstancia().consultarEleicaoPelaChave(eleicao);
+		eleicao.setEstado(EstadoEmCurso.getInstancia());
+		Fachada.getInstancia().alterarEleicao(eleicao);
 
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
