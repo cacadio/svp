@@ -95,10 +95,10 @@
 		<tr>
 			<td class="<%=classeLinha%>" align="center"><input type="radio" id="<%=ServletVoto.ID_REQ_CHAVE_PRIMARIA%>" name="<%=ServletVoto.ID_REQ_CHAVE_PRIMARIA%>" <%=checked%> value="<%=voto.getIdVoto()%>"> </td>
 			<td class="<%=classeLinha%>" align="center"><%=voto.getIdVoto()%></td>
-			<td class="<%=classeLinha%>" align="center"><%=voto.getUsuario().getNome()%></td>
-			<td class="<%=classeLinha%>" align="center"><%=voto.getEleicao().getId()%></td>
-			<td class="<%=classeLinha%>" align="center"><%=voto.getEleicao().getDescricao()%></td>
-			<td class="<%=classeLinha%>" align="center"><%=voto.getOpcaoVoto().getDescricao()%></td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getUsuario() != null ? voto.getUsuario().getNome() : ""%></td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getEleicao() != null ? voto.getEleicao().getId() : ""%></td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getEleicao() != null ? voto.getEleicao().getDescricao() : ""%></td>
+			<td class="<%=classeLinha%>" align="center"><%=voto.getOpcaoVoto() != null ? voto.getOpcaoVoto().getDescricao() : ""%></td>
 			<td class="<%=classeLinha%>" align="center"><%=voto.getValorVoto()%></td>
 			<td class="<%=classeLinha%>" align="center"><%=voto.getDataHora()%></td>
 			

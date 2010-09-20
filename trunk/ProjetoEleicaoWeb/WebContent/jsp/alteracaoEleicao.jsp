@@ -111,6 +111,14 @@
 				<input type="text" id="<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_DESCRICAO_ELEICAO%>" value="<%= eleicao.getDescricao() %>" title="Descrição" obrigatorio="1"></input>
 			</td>
 		</tr>
+			<tr>
+			<th class="td" width="22%">
+				Estado:
+			</th>
+			<td class="valordado">
+				<input type="text" id="<%=ServletEleicao.ID_REQ_ESTADO_ELEICAO%>" name="<%=ServletEleicao.ID_REQ_ESTADO_ELEICAO%>" value="<%= eleicao.getEstado().getDescricao() %>" title="Estado" obrigatorio="1" disabled="disabled"></input>
+			</td>
+		</tr>
 		<tr>
 			<th class="td">
 				Pública?

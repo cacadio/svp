@@ -14,11 +14,12 @@ public class Eleicao {
 	private IEstado estado;
 	private boolean multiplosVotos;
 
-	public static final IEstado NOVA = new EstadoNova();
-	public static final IEstado INICIADA = new EstadoIniciada();
-	public static final IEstado EMCURSO = new EstadoEmCurso();
-	public static final IEstado EMAPURACAO = new EstadoEmApuracao();
-	public static final IEstado CONCLUIDA = new EstadoConcluida();
+	public static final IEstado NOVA = EstadoNova.getInstancia();
+	public static final IEstado INICIADA = EstadoIniciada.getInstancia();
+	public static final IEstado EMCURSO = EstadoEmCurso.getInstancia();
+	public static final IEstado CONCLUIDA = EstadoConcluida.getInstancia();
+	public static final IEstado EMAPURACAO = EstadoApurada.getInstancia();
+
 	
 	public Eleicao(){
 		

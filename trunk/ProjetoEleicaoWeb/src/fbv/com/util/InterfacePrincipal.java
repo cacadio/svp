@@ -10,6 +10,11 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_EVENTO_PROCESSAR_ALTERACAO = "processarAlteracao";
 	public static final String ID_REQ_EVENTO_EXIBIR_EXCLUSAO = "exibirExclusao";
 	public static final String ID_REQ_EVENTO_PROCESSAR_EXCLUSAO = "processarExclusao";
+	// Alterações de estado
+	public static final String ID_REQ_EVENTO_PROCESSAR_INICIALIZACAO = "processarInicializacao";
+	public static final String ID_REQ_EVENTO_PROCESSAR_CONCLUSÃO = "processarConclusao";
+	public static final String ID_REQ_EVENTO_PROCESSAR_APURACAO = "processarApuracao";
+	
 	public static final String ID_REQ_EVENTO = "idEvento";
 	public static final String ID_REQ_MENSAGEM = "idMensagem";
 	public static final String ID_REQ_NOME_SERVLET = "nomeServlet";
@@ -57,6 +62,7 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_TIPO_ELEICAO = "tipoEleicao";
 	public static final String ID_REQ_CODIGO_ELEICAO = "codigoEleicao";
 	public static final String ID_REQ_DESCRICAO_ELEICAO = "descricaoEleicao";
+	public static final String ID_REQ_ESTADO_ELEICAO = "estadoEleicao";
 	public static final String ID_REQ_IN_PUBLICA_ELEICAO = "inPublicaEleicao";
 	public static final String ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO = "inVisibilidadeAbertaEleicao";
 	public static final String ID_REQ_IN_VOTO_MULTIPLO_ELEICAO = "inVotoMultiploEleicao";
@@ -91,5 +97,8 @@ public interface InterfacePrincipal {
 	
 	//Resultado Eleição
 	public static final String ID_REQ_ARRAY_LIST_RESULTADO = "ArrayListResultado";
+	
+	//Separador da chave primária
+	public static final String ID_REQ_SEPARADOR_PADRAO = "/";
 
 }

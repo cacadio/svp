@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
@@ -21,7 +20,7 @@ Eleicao = Nome da classe de entidade
 pEleicao = Parâmetro da entidade
 */
 
-public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
+public class RepositorioEleicaoEscolhaUnica extends RepositorioEleicao implements IRepositorioBD {
 	
 	//private GerenciadorConexaoBDR banco;
 	private Connection conexao;
@@ -39,37 +38,26 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
 	
 	public void incluir(Object pEleicao) throws ExcecaoRegistroJaExistente {
 		EleicaoEscolhaUnica eleicao = (EleicaoEscolhaUnica)pEleicao;
-		SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
         try
         {
             try
             {
-             	String sql = "INSERT INTO eleicao " +
-	            				 "(ID_ESTADO, DESCRICAO, IN_PUBLICA, IN_VISIBILIDADE_ABERTA, " +
-	            				  "IN_MAIS_DE_UM_VOTO, DT_FIM, DT_INICIO)" +
-            				 "VALUES(" + eleicao.getEstado().getValor() + ", '" + eleicao.getDescricao() + "', " + 
-	            				 (eleicao.isPublica()? "1": "0") + ", " + 
-	            				 (eleicao.isVisibilidadeVoto()? "1": "0") + ", " + 
-	            				 (eleicao.isMultiplosVotos()? "1": "0") + ", " + 
-	            				 (eleicao.getDataEncerramento() != null ? "'" + sdt.format(eleicao.getDataEncerramento()) + "'" : "null") + ", " +
-	    						 (eleicao.getDataAbertura() != null ? "'" + sdt.format(eleicao.getDataAbertura()) + "'" : "null")+ ");";
-            	
-            	statement.executeUpdate(sql);
+            	super.incluir(pEleicao);
             	
             	int codigo = -1;
             	
-            	ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID()");
+            	ResultSet rs = statement.executeQuery("SELECT MAX(ID_ELEICAO) AS ID_ELEICAO FROM eleicao");
             	
             	if (rs.next())
             		codigo = rs.getInt(1);
             	
-            	sql = "INSERT INTO escolha_unica " +
-	   				 "(ID_ELEICAO_ESCOLHA_UNICA, ID_ELEICAO_PAI, " +
-	   				  "BRANCO_NULO, PERCENT_VITORIA)" +
-	   				 "VALUES(" + codigo + ", " + 
-	   				 (eleicao.getEleicaoPai() != null? eleicao.getEleicaoPai().getId(): "null") + ", " + 
-	   				(eleicao.isCampoNulo()? "1": "0") + ", " +
-	   				eleicao.getPercentualVitoria() + ");";
+            	String sql = "INSERT INTO escolha_unica " +
+			   				 "(ID_ELEICAO_ESCOLHA_UNICA, ID_ELEICAO_PAI, " +
+			   				 "BRANCO_NULO, PERCENT_VITORIA)" +
+			   				 "VALUES(" + codigo + ", " + 
+			   				 (eleicao.getEleicaoPai() != null? eleicao.getEleicaoPai().getId(): "null") + ", " + 
+			   				 (eleicao.isCampoNulo()? "1": "0") + ", " +
+			   				 eleicao.getPercentualVitoria() + ");";
             	
             	statement.executeUpdate(sql);
             	
@@ -96,16 +84,14 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
             {
                 try
                 {
-                	String sql = eleicao.getEstado().getUpdateSQL(eleicao);
-   	
-                	statement.executeUpdate(sql);
-				   	
+                	super.alterar(pEleicao);
+	            	
                 	if (eleicao.getEstado().getValor() == 1){
-		            	sql = "UPDATE escolha_unica SET " +
-		   				 		"ID_ELEICAO_PAI = " + (eleicao.getEleicaoPai() != null? eleicao.getEleicaoPai().getId(): "null") + ", " +
-		   				 		"BRANCO_NULO = " + (eleicao.isCampoNulo()? "1": "0") + ", " +
-		   				 		"PERCENT_VITORIA = " + eleicao.getPercentualVitoria() + " " +
-		   				 	  "WHERE ID_ELEICAO_ESCOLHA_UNICA = " + codigo + ";";
+		            	String sql = "UPDATE escolha_unica SET " +
+		   				 		     "ID_ELEICAO_PAI = " + (eleicao.getEleicaoPai() != null? eleicao.getEleicaoPai().getId(): "null") + ", " +
+		   				 		     "BRANCO_NULO = " + (eleicao.isCampoNulo()? "1": "0") + ", " +
+		   				 		     "PERCENT_VITORIA = " + eleicao.getPercentualVitoria() + " " +
+		   				 		     "WHERE ID_ELEICAO_ESCOLHA_UNICA = " + codigo + ";";
 	           	
 		            	statement.executeUpdate(sql);
                 	}
@@ -136,8 +122,10 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
             {
                 try
                 {
+                	statement.executeUpdate("DELETE FROM voto WHERE ID_ELEICAO = " + codigo + ";");
+                	statement.executeUpdate("DELETE FROM opcao_voto WHERE ELEICAO_ID_ELEICAO = " + codigo + ";");
                    	statement.executeUpdate("DELETE FROM escolha_unica WHERE ID_ELEICAO_ESCOLHA_UNICA = " + codigo + ";");
-                   	statement.executeUpdate("DELETE FROM eleicao WHERE ID_ELEICAO = " + codigo + ";");                 	
+                   	super.excluir(pEleicao);                	
                 }
                 catch (Exception e)
                 {
@@ -156,9 +144,11 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
 
 	}
 	
-	//	------------------	
-    //BUSCA PELA CHAVE PRIMÁRIA
-	//-------------------
+
+	@Override
+	/**
+	 * BUSCA PELA CHAVE PRIMÁRIA
+	 */
 	public EleicaoEscolhaUnica consultarPelaChave(Object pEleicao) throws ExcecaoRegistroNaoExistente {
 		Eleicao eleicao = (Eleicao)pEleicao;
 		int codigo = eleicao.getId();
@@ -192,7 +182,7 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
 	                	retorno.setDataEncerramento(rs.getDate("DT_FIM"));
 	            		if (rs.getObject("ID_ELEICAO_PAI") != null){
 	            			try {
-	            				retorno.setEleicaoPai(consultarPelaChave(new EleicaoEscolhaUnica(rs.getInt("ID_ELEICAO_PAI"))));
+	            				retorno.setEleicaoPai(this.consultarPelaChave(new EleicaoEscolhaUnica(rs.getInt("ID_ELEICAO_PAI"))));
 	            			} catch (ExcecaoRegistroNaoExistente e) {
 	            				e.printStackTrace();
 	            			}
@@ -259,7 +249,7 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
             }
             catch (Exception e)
             {
-                throw new ExcecaoAcessoRepositorio("Erro ao buscar no banco de dados!" /*+ "/n" + e.toString()*/);
+                throw new ExcecaoAcessoRepositorio("Erro ao buscar no banco de dados!");
             }
             
 			finally
@@ -284,27 +274,30 @@ public class RepositorioEleicaoEscolhaUnica implements IRepositorioBD {
 	    }
 	}
 	
-	private EleicaoEscolhaUnica preencherObjeto(ResultSet rs) throws SQLException{
-		
-    	EleicaoEscolhaUnica eleicao = new EleicaoEscolhaUnica();
-    	//Capturando os valores do result set
-    	eleicao.setId(rs.getInt("ID_ELEICAO"));
-    	eleicao.setEstado(EstadoEleicao.getEstado(rs.getInt("ID_ESTADO")));
-		eleicao.setDescricao(rs.getString ("DESCRICAO"));
-		eleicao.setPublica(rs.getBoolean("IN_PUBLICA"));
-		eleicao.setVisibilidadeVoto(rs.getBoolean("IN_VISIBILIDADE_ABERTA"));
-		eleicao.setMultiplosVotos(rs.getBoolean("IN_MAIS_DE_UM_VOTO"));
-		eleicao.setDataAbertura(rs.getDate("DT_INICIO"));
-		eleicao.setDataEncerramento(rs.getDate("DT_FIM"));
-		if (rs.getObject("ID_ELEICAO_PAI") != null)
+	@Override
+	EleicaoEscolhaUnica preencherObjeto(ResultSet rs) throws SQLException{
+		Eleicao eleicao = super.preencherObjeto(rs);
+		// Monta uma eleiçãoEscolhaUnica com base na eleicao retornada
+    	EleicaoEscolhaUnica eleicaoEscolhaUnica = new EleicaoEscolhaUnica(eleicao.getId());
+    	eleicaoEscolhaUnica.setDataAbertura(eleicao.getDataAbertura());
+    	eleicaoEscolhaUnica.setDataEncerramento(eleicao.getDataEncerramento());
+    	eleicaoEscolhaUnica.setDescricao(eleicao.getDescricao());
+    	eleicaoEscolhaUnica.setEstado(eleicao.getEstado());
+    	eleicaoEscolhaUnica.setMultiplosVotos(eleicao.isMultiplosVotos());
+    	eleicaoEscolhaUnica.setPublica(eleicao.isPublica());
+    	eleicaoEscolhaUnica.setVisibilidadeVoto(eleicao.isVisibilidadeVoto());
+    	
+		if (rs.getObject("ID_ELEICAO_PAI") != null){
 			try {
-				eleicao.setEleicaoPai(consultarPelaChave(new EleicaoEscolhaUnica(rs.getInt("ID_ELEICAO_PAI"))));
+				eleicaoEscolhaUnica.setEleicaoPai(consultarPelaChave(new EleicaoEscolhaUnica(rs.getInt("ID_ELEICAO_PAI"))));
 			} catch (ExcecaoRegistroNaoExistente e) {
 				e.printStackTrace();
 			}
-		eleicao.setCampoNulo(rs.getBoolean("BRANCO_NULO"));
-		eleicao.setPercentualVitoria(rs.getDouble("PERCENT_VITORIA"));
+		}
+		
+		eleicaoEscolhaUnica.setCampoNulo(rs.getBoolean("BRANCO_NULO"));
+		eleicaoEscolhaUnica.setPercentualVitoria(rs.getDouble("PERCENT_VITORIA"));
 
-		return eleicao;
+		return eleicaoEscolhaUnica;
 	}
 } 

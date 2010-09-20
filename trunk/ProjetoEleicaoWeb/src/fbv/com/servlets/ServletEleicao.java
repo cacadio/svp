@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fbv.com.negocio.Eleicao;
 import fbv.com.negocio.EleicaoEscolhaUnica;
 import fbv.com.negocio.EleicaoPontuacao;
+import fbv.com.negocio.EstadoConcluida;
+import fbv.com.negocio.EstadoIniciada;
 import fbv.com.negocio.EstadoNova;
 import fbv.com.negocio.Fachada;
-import fbv.com.negocio.Eleicao;
+import fbv.com.negocio.ResultadoEleicao;
 import fbv.com.util.InterfacePrincipal;
 import fbv.com.util.TipoEleicao;
 
@@ -58,13 +61,18 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 					processarInclusao(request, response);
 				} else if (idEvento.equals(ServletEleicao.ID_REQ_EVENTO_EXIBIR_ALTERACAO)) {
 					exibirAlteracao(request, response);
-				}else if(idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_ALTERACAO)){
+				} else if(idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_ALTERACAO)){
 					processarAlteracao(request,response);
-				}else if(idEvento.equals(ServletEleicao.ID_REQ_EVENTO_EXIBIR_EXCLUSAO)){
+				} else if(idEvento.equals(ServletEleicao.ID_REQ_EVENTO_EXIBIR_EXCLUSAO)){
 					exibirExclusao(request,response);
-				}
-				else if(idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_EXCLUSAO)){
+				} else if(idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_EXCLUSAO)){
 					processarExclusao(request,response);
+				} else if(idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_INICIALIZACAO)){
+					processarInicializacao(request, response);
+				} else if(idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_CONCLUSÃO)){
+					processarConclusao(request, response);
+				} else if(idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_APURACAO)){
+					processarApuracao(request, response);
 				}
 
 			} else {
@@ -127,20 +135,24 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 	private void exibirInclusao(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1")){
-			ArrayList<EleicaoEscolhaUnica> eleicoes = Fachada.getInstancia().consultarTodasEleicoes(TipoEleicao.ESCOLHA_UNICA);
-			
-			request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, eleicoes);
+		if (request.getParameter(ID_REQ_TIPO_ELEICAO) != null && !request.getParameter(ID_REQ_TIPO_ELEICAO).equals("")){
+			if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1")){
+				ArrayList<EleicaoEscolhaUnica> eleicoes = Fachada.getInstancia().consultarTodasEleicoes(TipoEleicao.ESCOLHA_UNICA);
+				
+				request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, eleicoes);
+			}
+			request.setAttribute(ID_REQ_TIPO_ELEICAO, Integer.parseInt(request.getParameter(ID_REQ_TIPO_ELEICAO)));
+		} else {
+			request.setAttribute(ID_REQ_TIPO_ELEICAO, "");
 		}
+
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
-		request.setAttribute(ID_REQ_TIPO_ELEICAO, Integer.parseInt(request.getParameter(ID_REQ_TIPO_ELEICAO)));
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/inclusaoEleicao.jsp");
 		requestDispatcher.forward(request, response);
 	}
 
-	private void processarInclusao(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	private void processarInclusao(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		SimpleDateFormat sdt = new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -176,13 +188,11 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 			eleicao = eleicaoP;
 		}
 		
-		//eleicao.setId(Integer.valueOf(idEleicao.trim()));
-
 		if (descricaoEleicao != null
 				&& !descricaoEleicao.equals("")) {
 			eleicao.setDescricao(descricaoEleicao);
 		}
-		eleicao.setEstado(new EstadoNova());
+		eleicao.setEstado(EstadoNova.getInstancia());
 		eleicao.setPublica(request.getParameter(ID_REQ_IN_PUBLICA_ELEICAO).equals("1"));
 		eleicao.setVisibilidadeVoto(request.getParameter(ID_REQ_IN_VISIBILIDADE_ABERTA_ELEICAO).equals("1"));
 		eleicao.setMultiplosVotos(request.getParameter(ID_REQ_IN_VOTO_MULTIPLO_ELEICAO).equals("1"));
@@ -204,68 +214,39 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 
 	}
 
-	private void exibirAlteracao(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	private void exibirAlteracao(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		Fachada fachada = Fachada.getInstancia();
-
-		String chavePrimaria = request
-				.getParameter(ServletEleicao.ID_REQ_CHAVE_PRIMARIA);
-
-		TipoEleicao tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
-		if (chavePrimaria != null) {
-			
-			Eleicao eleicao = null;
-			
-			if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1"))
-				tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
-			else
-				tipoEleicao = TipoEleicao.PONTUACAO;
-
-			if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA){
-				eleicao = new EleicaoEscolhaUnica();
-				ArrayList<EleicaoEscolhaUnica> eleicoes = Fachada.getInstancia().consultarTodasEleicoes(TipoEleicao.ESCOLHA_UNICA);
-				
-				request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, eleicoes);
-			}
-			else
-				eleicao = new EleicaoPontuacao();
-
-			eleicao.setId(Integer.valueOf(chavePrimaria));
-
-			if (eleicao instanceof EleicaoEscolhaUnica)
-				eleicao = (EleicaoEscolhaUnica)fachada.consultarEleicaoPelaChave(eleicao);
-			else
-				eleicao = (EleicaoPontuacao)fachada.consultarEleicaoPelaChave(eleicao);
-
-			request.setAttribute(
-					ServletEleicao.ID_REQ_OBJETO_ELEICAO,
-					eleicao); 
-
-		}
+		obterDadosDaChavePrimaria(request, response);		
 		
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
-		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
-		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/alteracaoEleicao.jsp");
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/alteracaoEleicao.jsp");
 		requestDispatcher.forward(request, response);
 
 	}
 	
-	private void processarAlteracao(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	private void processarAlteracao(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String mensagem = "Eleição Alterada com Sucesso";
+		Eleicao eleicao = montarEleicaoParaAlteracao(request, response);
+		
+		realizarAlteracao(request, response, eleicao, mensagem);
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	private Eleicao montarEleicaoParaAlteracao(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		SimpleDateFormat sdt = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Fachada fachada = Fachada.getInstancia();
 		
 		String idEleicao = request.getParameter(ServletEleicao.ID_REQ_CODIGO_ELEICAO);
-		
-		String mensagem = "";
-		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
-		String descricaoEleicao = request
-				.getParameter(ID_REQ_DESCRICAO_ELEICAO);
+		String descricaoEleicao = request.getParameter(ID_REQ_DESCRICAO_ELEICAO);
 
 		TipoEleicao tipoEleicao;
 		if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1"))
@@ -298,8 +279,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 			((EleicaoPontuacao)eleicao).setIntervaloPontuacao(Integer.valueOf(request.getParameter(ID_REQ_INTERVALO_PONTUACAO_ELEICAO)));
 		}
 
-		if (descricaoEleicao != null
-				&& !descricaoEleicao.equals("")) {
+		if (descricaoEleicao != null && !descricaoEleicao.equals("")) {
 			eleicao.setDescricao(descricaoEleicao);
 		}
 		eleicao.setPublica(request.getParameter(ID_REQ_IN_PUBLICA_ELEICAO).equals("1"));
@@ -309,73 +289,29 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 			eleicao.setDataAbertura(sdt.parse(request.getParameter(ID_REQ_DATA_INICIO_ELEICAO)));
 		if (request.getParameter(ID_REQ_DATA_FIM_ELEICAO) != null && !request.getParameter(ID_REQ_DATA_FIM_ELEICAO).equals(""))
 			eleicao.setDataEncerramento(sdt.parse(request.getParameter(ID_REQ_DATA_FIM_ELEICAO)));
-
-		fachada.alterarEleicao(eleicao);
-
-		mensagem = "Eleição Alterada com Sucesso";		
-
+		
 		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
-		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
-		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
-		request.setAttribute(ID_REQ_TITULO_PAGINA, "Eleição");
-		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/mensagens.jsp");
-		requestDispatcher.forward(request, response);
-
+		
+		return eleicao;
 	}
 	
-	private void exibirExclusao(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	private void exibirExclusao(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		Fachada fachada = Fachada.getInstancia();
-
-		String chavePrimaria = request
-				.getParameter(ID_REQ_CHAVE_PRIMARIA);
-
-		if (chavePrimaria != null) {
-
-			Eleicao eleicao = null;
-			
-			TipoEleicao tipoEleicao;
-			if (request.getParameter(ID_REQ_TIPO_ELEICAO).equals("1"))
-				tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
-			else
-				tipoEleicao = TipoEleicao.PONTUACAO;
-
-			if (tipoEleicao == TipoEleicao.ESCOLHA_UNICA)
-				eleicao = new EleicaoEscolhaUnica();
-			else
-				eleicao = new EleicaoPontuacao();
-
-			eleicao.setId(Integer.valueOf(chavePrimaria));
-
-			if (eleicao instanceof EleicaoEscolhaUnica)
-				eleicao = (EleicaoEscolhaUnica)fachada.consultarEleicaoPelaChave(eleicao);
-			else
-				eleicao = (EleicaoPontuacao)fachada.consultarEleicaoPelaChave(eleicao);
-
-			request.setAttribute(
-					ID_REQ_OBJETO_ELEICAO,
-					eleicao);
-
-		}
+		obterDadosDaChavePrimaria(request, response);
 
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
 
-		RequestDispatcher requestDispatcher = request
-				.getRequestDispatcher("jsp/exclusaoEleicao.jsp");
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/exclusaoEleicao.jsp");
 		requestDispatcher.forward(request, response);
 
 	}
 	
-	private void processarExclusao(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	private void processarExclusao(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		Fachada fachada = Fachada.getInstancia();
 		
-		String idEleicao = request
-				.getParameter(ID_REQ_CODIGO_ELEICAO);
+		String idEleicao = request.getParameter(ID_REQ_CODIGO_ELEICAO);
 		String mensagem = "";
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 
@@ -405,6 +341,115 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 				.getRequestDispatcher("jsp/mensagens.jsp");
 		requestDispatcher.forward(request, response);
 
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	private void processarInicializacao(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String mensagem = "Eleição Inicializada com Sucesso";
+		obterDadosDaChavePrimaria(request, response);
+		Eleicao eleicao = (Eleicao) request.getAttribute(ID_REQ_OBJETO_ELEICAO);
+		eleicao.setEstado(EstadoIniciada.getInstancia());
+		realizarAlteracao(request, response, eleicao, mensagem);
+
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	private void processarConclusao(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String mensagem = "Eleição Concluída com Sucesso";
+		obterDadosDaChavePrimaria(request, response);
+		Eleicao eleicao = (Eleicao) request.getAttribute(ID_REQ_OBJETO_ELEICAO);
+		eleicao.setEstado(EstadoConcluida.getInstancia());
+		realizarAlteracao(request, response, eleicao, mensagem);
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	private void processarApuracao(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		obterDadosDaChavePrimaria(request, response);
+		Eleicao eleicao = (Eleicao) request.getAttribute(ID_REQ_OBJETO_ELEICAO);
+		
+		ArrayList<ResultadoEleicao> resultado = Fachada.getInstancia().consultarResultadoEleicao(eleicao.getId());
+		for (ResultadoEleicao resultadoEleicao : resultado) {
+			System.out.println(resultadoEleicao.toString());
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	private void realizarAlteracao(HttpServletRequest request, HttpServletResponse response, Eleicao pEleicao, String msg) throws Exception {
+		Fachada fachada = Fachada.getInstancia();
+
+		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
+
+		fachada.alterarEleicao(pEleicao);		
+
+		request.setAttribute(ID_REQ_MENSAGEM, msg);
+		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
+		request.setAttribute(ID_REQ_TITULO_PAGINA, "Eleição");
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/mensagens.jsp");
+		requestDispatcher.forward(request, response);
+	}
+	/**
+	 * Captura a chave primária do request e monta o evento e seu respectivo tipo apartir dos dados da chave, colocando-os no request.
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	private void obterDadosDaChavePrimaria(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		Fachada fachada = Fachada.getInstancia();
+		TipoEleicao tipoEleicao = null;
+		// Obtém chave primária do request
+		String chavePrimaria = request.getParameter(ID_REQ_CHAVE_PRIMARIA);
+		
+		if (chavePrimaria != null) {
+			String[] dadosEleicao = chavePrimaria.split(ID_REQ_SEPARADOR_PADRAO, 4);
+			
+			Eleicao eleicao = null;
+			
+			int idEleicao = new Integer(dadosEleicao[0]);
+			String dsEleicao = dadosEleicao[1];
+			String nmTpEleicao = dadosEleicao[2];
+			
+			if (nmTpEleicao != null && !nmTpEleicao.equals("")){
+				if(nmTpEleicao.equals(EleicaoEscolhaUnica.class.getSimpleName()) ){
+					eleicao = new EleicaoEscolhaUnica();
+					eleicao.setId(idEleicao);
+					eleicao.setDescricao(dsEleicao);
+					eleicao = (EleicaoEscolhaUnica)fachada.consultarEleicaoPelaChave(eleicao);
+					tipoEleicao = TipoEleicao.ESCOLHA_UNICA;
+				}else{
+					eleicao = new EleicaoPontuacao();
+					eleicao.setId(idEleicao);
+					eleicao.setDescricao(dsEleicao);
+					eleicao = (EleicaoPontuacao)fachada.consultarEleicaoPelaChave(eleicao);
+					tipoEleicao = TipoEleicao.PONTUACAO;
+				}
+
+			}
+			
+			request.setAttribute(ID_REQ_OBJETO_ELEICAO, eleicao);
+			request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
+		}
 	}
 
 }

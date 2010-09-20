@@ -129,8 +129,8 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		}
 	}
 	
-	private void inserirImagemDiretorio(String pDsOpcaoVoto, String pCdEleicao, FileItem item, String idOpcaoVoto, String cdEvento) throws IOException, SQLException {  
-		
+	private void inserirImagemDiretorio(String pDsOpcaoVoto, String pIdEleicao, FileItem item, String idOpcaoVoto, String cdEvento) throws IOException, SQLException {  
+	
 		String caminho = "";
 		
 		if(item.getName().length() > 0){
@@ -161,16 +161,19 @@ public class ServletOpcaoVoto extends HttpServlet implements
 
 			caminho =  "./img/" + nome;
 		}
-		
-		OpcaoVoto op = null;
+	
+		OpcaoVoto op = null;		
 		try {
+			
 			if(cdEvento.equalsIgnoreCase(ID_REQ_EVENTO_PROCESSAR_INCLUSAO)){
-				op = new OpcaoVoto(0, Integer.parseInt(pCdEleicao), pDsOpcaoVoto, caminho);
+				op = new OpcaoVoto(0, Integer.parseInt(pIdEleicao), pDsOpcaoVoto, caminho);
 				Fachada.getInstancia().incluirOpcaoVoto(op);
 			}else if(cdEvento.equalsIgnoreCase(ID_REQ_EVENTO_PROCESSAR_ALTERACAO)){
-				op = new OpcaoVoto(Integer.parseInt(idOpcaoVoto), Integer.parseInt(pCdEleicao), pDsOpcaoVoto, caminho);
+				op = new OpcaoVoto(Integer.parseInt(idOpcaoVoto), Integer.parseInt(pIdEleicao), pDsOpcaoVoto, caminho);
 				Fachada.getInstancia().alterarOpcaoVoto(op);
 			}
+
+			
 		} catch (ExcecaoRegistroJaExistente e) {
 			e.printStackTrace();
 		} catch (ExcecaoAcessoRepositorio e) {
@@ -212,36 +215,48 @@ public class ServletOpcaoVoto extends HttpServlet implements
 		request.setAttribute(ID_REQ_ARRAY_LIST_OPCAO_VOTO, arrayOpcaoVoto);
 		request.setAttribute(ID_REQ_ID_ELEICAO, idEleicao);
 		
-		carregarComboEleicao(request, response);
+		carregarComboEleicao(request, response, false);
 		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consulta_opcao_voto.jsp");
 		requestDispatcher.forward(request, response);
 	}
 	
-	private void carregarComboEleicao(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	/**
+	 * Obtem uma lista das eleições a serem carregadas nas telas de opção de voto. Pode retornar todas as eleições existentes ou apenas as que já possuem
+	 * opções de voto cadastradas.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param isTodasEleicoes - flag que indica se serão carregadas todas as eleições
+	 * @throws Exception
+	 */
+	private void carregarComboEleicao(HttpServletRequest request, HttpServletResponse response, boolean isTodasEleicoes) throws Exception {
 		Fachada fachada = Fachada.getInstancia();
 		ArrayList<OpcaoVoto> arrayOpcaoVoto = new ArrayList<OpcaoVoto>();
 		TreeSet<Integer> listaCodigosEleicoes = new TreeSet<Integer>();
-		ArrayList<Eleicao> eleicoes = null;
+		ArrayList<Eleicao> eleicoes = new ArrayList<Eleicao>();
 		
 		// consulta todas as opções de voto
 		arrayOpcaoVoto = fachada.consultarTodosOpcaoVoto();
 		
-		// Obtém os códigos das eleições
-		if(arrayOpcaoVoto != null){
-			// Monta um lista com os códigos das eleições sem repetir valores.
-			for (OpcaoVoto opcaoVoto : arrayOpcaoVoto) {
-				listaCodigosEleicoes.add(opcaoVoto.getIdEleicao());
+		if (isTodasEleicoes){
+			eleicoes = fachada.consultarTodasEleicoes(null);
+		} else {
+			// Obtém os códigos das eleições
+			if(arrayOpcaoVoto != null){
+				// Monta um lista com os códigos das eleições sem repetir valores.
+				for (OpcaoVoto opcaoVoto : arrayOpcaoVoto) {
+					listaCodigosEleicoes.add(opcaoVoto.getIdEleicao());
+				}
+				// Criando a lista de eleições com base na lista de códigos obtidas
+				Eleicao eleicaoAux;
+				for (Integer codigoLido : listaCodigosEleicoes) {
+					eleicaoAux = new Eleicao(codigoLido);
+					eleicaoAux = (Eleicao)fachada.consultarEleicaoPelaChave(eleicaoAux);
+					if(eleicaoAux != null)
+						eleicoes.add(eleicaoAux);
+				}	
 			}
-			// Criando a lista de eleições com base na lista de códigos obtidas
-			eleicoes = new ArrayList<Eleicao>();
-			Eleicao eleicaoAux;
-			for (Integer codigoLido : listaCodigosEleicoes) {
-				eleicaoAux = new Eleicao(codigoLido);
-				eleicaoAux = (Eleicao)fachada.consultarEleicaoPelaChave(eleicaoAux);
-				if(eleicaoAux != null)
-					eleicoes.add(eleicaoAux);
-			}	
 		}
 		
 		// Seta a coleção no request
@@ -251,7 +266,7 @@ public class ServletOpcaoVoto extends HttpServlet implements
 	private void exibirInclusao(HttpServletRequest request, HttpServletResponse response) 
 			throws Exception {
 		
-		carregarComboEleicao(request, response);
+		carregarComboEleicao(request, response, true);
 		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/inclusao_opcao_voto.jsp");
 		requestDispatcher.forward(request, response);
@@ -286,7 +301,7 @@ public class ServletOpcaoVoto extends HttpServlet implements
 			request.setAttribute(ServletOpcaoVoto.ID_REQ_OBJETO_OPCAO_VOTO, opcaoVoto);
 		}
 
-		carregarComboEleicao(request, response);
+		carregarComboEleicao(request, response, false);
 		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/alteracao_opcao_voto.jsp");
 		requestDispatcher.forward(request, response);
