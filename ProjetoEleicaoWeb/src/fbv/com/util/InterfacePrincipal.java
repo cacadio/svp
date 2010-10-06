@@ -96,7 +96,7 @@ public interface InterfacePrincipal {
 	public static final String ID_REQ_PASSWORD = "password";
 	
 	//Resultado Eleição
-	public static final String ID_REQ_ARRAY_LIST_RESULTADO = "ArrayListResultado";
+	public static final String ID_REQ_RESULTADO = "Resultado";
 	
 	//Separador da chave primária
 	public static final String ID_REQ_SEPARADOR_PADRAO = "/";

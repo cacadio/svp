@@ -12,9 +12,9 @@ public class EstadoEleicao {
 			return Eleicao.INICIADA;
 		case 3:
 			return Eleicao.EMCURSO;
-		case 4:
-			return Eleicao.EMAPURACAO;
 		case 5:
+			return Eleicao.APURADA;
+		case 4:
 			return Eleicao.CONCLUIDA;
 		default:
 			return Eleicao.NOVA;
