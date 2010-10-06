@@ -9,6 +9,12 @@ font-family: "Arial";
 font-size: 12px;
 }
 
+td.tdBottom{
+	font-size: 5px;
+	height: 15px;
+	background-color: #699C4D;
+}
+	
 th
 {
 padding-left: 3px;
