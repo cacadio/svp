@@ -1,7 +1,5 @@
 package fbv.com.negocio;
 
-import java.util.ArrayList;
-
 import fbv.com.dados.IRepositorioResultado;
 
 public class CadastroResultadoEleicao {
@@ -12,7 +10,7 @@ public class CadastroResultadoEleicao {
 			this.repositorio = repositorio;
 	}
 	
-	public ArrayList<ResultadoEleicao> consultar(int idEleicao) throws Exception{
-		return repositorio.consultar(idEleicao);
+	public ResultadoEleicao consultar(Eleicao eleicao) throws Exception{
+		return repositorio.consultar(eleicao);
 	}
 }

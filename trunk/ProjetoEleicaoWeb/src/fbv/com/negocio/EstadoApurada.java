@@ -30,7 +30,7 @@ public class EstadoApurada implements IEstado {
 		SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
 		
     	String sql = "UPDATE Eleicao SET " +
-			 "ID_ESTADO = 4, "+ 
+			 "ID_ESTADO = " + valor + ", "+ 
 			 "DT_FIM = '" + sdt.format(eleicao.getDataEncerramento()) + "' " +
 		 "WHERE ID_ELEICAO = " + eleicao.getId() + ";";
     	

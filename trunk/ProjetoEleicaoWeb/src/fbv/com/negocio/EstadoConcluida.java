@@ -18,7 +18,7 @@ public class EstadoConcluida implements IEstado {
 	public String getUpdateSQL(Eleicao eleicao) {
 		
     	String sql = "UPDATE Eleicao SET " +
-			 "ID_ESTADO = 5 "+ 
+			 "ID_ESTADO = " + valor + " " +
 		 "WHERE ID_ELEICAO = " + eleicao.getId() + ";";
     	
 		return sql;

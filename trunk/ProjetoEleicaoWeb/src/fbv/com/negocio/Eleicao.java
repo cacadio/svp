@@ -18,7 +18,7 @@ public class Eleicao {
 	public static final IEstado INICIADA = EstadoIniciada.getInstancia();
 	public static final IEstado EMCURSO = EstadoEmCurso.getInstancia();
 	public static final IEstado CONCLUIDA = EstadoConcluida.getInstancia();
-	public static final IEstado EMAPURACAO = EstadoApurada.getInstancia();
+	public static final IEstado APURADA = EstadoApurada.getInstancia();
 
 	
 	public Eleicao(){
