@@ -149,7 +149,7 @@ function validaCheckbox()
 				<td>
 	 		<table width="100%">
 	 		 <%
-		    	if(tipoDeEleicao.equals("PONTUACAO")){
+		   	 if(tipoDeEleicao.equals("PONTUACAO")){
 		     %>
 				<tr>
 					<td class="valordado" width="10%">

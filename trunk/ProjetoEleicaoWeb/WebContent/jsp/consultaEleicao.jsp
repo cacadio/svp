@@ -150,16 +150,13 @@ function carregarBotoes(){
 				</div>
 			</td>
 		</tr>
-		<div id="sidebar">
-		<div id="sidebar-bgtop"></div>
-		<div id="sidebar-content">
 		<tr>
 			<td width="80px" class="td" align="right">
 				Tipo:
 			</td>
 			<td width="100px">
 				<select id="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>" name="<%= ServletEleicao.ID_REQ_TIPO_ELEICAO %>">
-					<option>
+					<option></option>
 					<option value="<%= TipoEleicao.ESCOLHA_UNICA.value() %>" >Escolha Única</option>
 					<option value="<%= TipoEleicao.PONTUACAO.value() %>" >Pontuação</option>
 				</select>
@@ -228,7 +225,9 @@ function carregarBotoes(){
 			}
 		}
 		%>
-	
+		<tr>
+			<td class="tdBottom" colspan="6">&nbsp;</td>
+		</tr>	
 	</table>
 	<table width="80%" border="0" align="center">
 		<tr>
@@ -244,9 +243,6 @@ function carregarBotoes(){
 	<div id="footer">
 		<p>&copy; 2010. All Rights Reserved.</p>
 	</div>
-	</div>
-		<div id="sidebar-bgbtm"></div>
-		</div>
 </form>
 
 <%
