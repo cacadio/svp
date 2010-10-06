@@ -18,7 +18,6 @@ import fbv.com.negocio.EstadoConcluida;
 import fbv.com.negocio.EstadoIniciada;
 import fbv.com.negocio.EstadoNova;
 import fbv.com.negocio.Fachada;
-import fbv.com.negocio.ResultadoEleicao;
 import fbv.com.util.InterfacePrincipal;
 import fbv.com.util.TipoEleicao;
 
@@ -355,6 +354,7 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		obterDadosDaChavePrimaria(request, response);
 		Eleicao eleicao = (Eleicao) request.getAttribute(ID_REQ_OBJETO_ELEICAO);
 		eleicao.setEstado(EstadoIniciada.getInstancia());
+		eleicao.setDataAbertura(new Date());
 		realizarAlteracao(request, response, eleicao, mensagem);
 
 	}
@@ -383,11 +383,11 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		obterDadosDaChavePrimaria(request, response);
 		Eleicao eleicao = (Eleicao) request.getAttribute(ID_REQ_OBJETO_ELEICAO);
 		
-		ArrayList<ResultadoEleicao> resultado = Fachada.getInstancia().consultarResultadoEleicao(eleicao.getId());
-		for (ResultadoEleicao resultadoEleicao : resultado) {
-			System.out.println(resultadoEleicao.toString());
-		}
+		Fachada.getInstancia().processarResultadoEleicao(eleicao);
 		
+		//RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consultaresultado.jsp");
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("ServletResultado?" + ID_REQ_ID_ELEICAO + "=" + eleicao.getId() + "&" + ID_REQ_EVENTO + "=" + ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA);
+		requestDispatcher.forward(request, response);
 	}
 	
 	/**

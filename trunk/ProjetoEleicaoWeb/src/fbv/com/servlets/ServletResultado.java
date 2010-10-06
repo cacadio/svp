@@ -51,33 +51,47 @@ public class ServletResultado extends HttpServlet implements InterfacePrincipal{
 
 			if (idEvento != null && !idEvento.equals("")) {
 
-				if (idEvento.equals(ServletEleicao.ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
+				if (idEvento.equals(ID_REQ_EVENTO_PROCESSAR_FILTRO_CONSULTA)) {
 					processarFiltroConsulta(request, response);
 				}
 			} else {
-				processarFiltroConsulta(request, response);
+				if ((request.getParameter(ID_REQ_ID_ELEICAO) != null) && (!
+						request.getParameter(ID_REQ_ID_ELEICAO).equals("")))
+					processarFiltroConsulta(request, response);
+				else
+					prepararTelaConsulta(request, response);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private void prepararTelaConsulta(HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+		
+		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, listarEleicoesApuradas());
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consultaresultado.jsp");
+		requestDispatcher.forward(request, response);
+		
+	}
 
 	private void processarFiltroConsulta(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		ArrayList<ResultadoEleicao> arrayResultado = new ArrayList<ResultadoEleicao>();
+		ResultadoEleicao resultado = null;
 		
 		Fachada fachada = Fachada.getInstancia();
 
-		String idEleicao = request.getParameter(ID_REQ_CODIGO_ELEICAO);
+		String idEleicao = request.getParameter(ID_REQ_ID_ELEICAO);
 		
 		if (idEleicao != null && !idEleicao.equals("")) {
-			arrayResultado = fachada.consultarResultadoEleicao(Integer.parseInt(idEleicao));
+			Object eleicao = fachada.consultarEleicaoPelaChave(new Eleicao(Integer.parseInt(idEleicao)));
+			resultado = fachada.consultarResultadoEleicao((Eleicao)eleicao);
 		}
-		request.setAttribute(ID_REQ_ARRAY_LIST_RESULTADO, arrayResultado);
+		request.setAttribute(ID_REQ_RESULTADO, resultado);
 
-		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, listarEleicoesConcluidas());
+		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, listarEleicoesApuradas());
 		request.setAttribute(ID_REQ_ID_ELEICAO, idEleicao);
 		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consultaresultado.jsp");
@@ -85,7 +99,7 @@ public class ServletResultado extends HttpServlet implements InterfacePrincipal{
 
 	}
 	
-	private ArrayList<Eleicao> listarEleicoesConcluidas(){
+	private ArrayList<Eleicao> listarEleicoesApuradas(){
 		ArrayList<Eleicao> arrayEleicao = new ArrayList<Eleicao>();
 		ArrayList<EleicaoEscolhaUnica> arrayEleicaoEU = null;
 		ArrayList<EleicaoPontuacao> arrayEleicaoP = null;
@@ -103,14 +117,14 @@ public class ServletResultado extends HttpServlet implements InterfacePrincipal{
 		
 		if (arrayEleicaoEU != null)
 			for(Eleicao eleicao : arrayEleicaoEU){
-				if (eleicao.getEstado().equals(Eleicao.CONCLUIDA)){
+				if (eleicao.getEstado().equals(Eleicao.APURADA)){
 					arrayEleicao.add(eleicao);
 				}
 			}
 		
 		if (arrayEleicaoP != null)
 			for(Eleicao eleicao : arrayEleicaoP){
-				if (eleicao.getEstado().equals(Eleicao.CONCLUIDA)){
+				if (eleicao.getEstado().equals(Eleicao.APURADA)){
 					arrayEleicao.add(eleicao);
 				}
 			}
