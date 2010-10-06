@@ -2,6 +2,7 @@ package fbv.com.negocio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;
 import fbv.com.excecoes.ExcecaoRegistroNaoExistente;
@@ -161,8 +162,12 @@ public class Fachada {
 		return controladorEleicao.consultarVotoPorUsuarioEleicao(idUsuario, idEleicao);
 	}
 	
-	public ArrayList<ResultadoEleicao> consultarResultadoEleicao(int idEleicao) throws Exception{
-		return controladorEleicao.consultarResultadoEleicao(idEleicao);
+	public void processarResultadoEleicao(Eleicao eleicao) throws Exception{
+		controladorEleicao.processarResultadoEleicao(eleicao);
+	}
+	
+	public ResultadoEleicao consultarResultadoEleicao(Eleicao eleicao) throws Exception{
+		return controladorEleicao.consultarResultadoEleicao(eleicao);
 	}
 }
  

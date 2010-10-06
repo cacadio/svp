@@ -2,6 +2,9 @@ package fbv.com.negocio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 import fbv.com.dados.RepositorioEleicaoEscolhaUnica;
 import fbv.com.dados.RepositorioEleicaoPontuacao;
@@ -171,7 +174,56 @@ public class ControladorEleicao {
 		return arrRetornoVotos;
 	}
 	
-	public ArrayList<ResultadoEleicao> consultarResultadoEleicao(int idEleicao) throws Exception{
-		return cadastroResultado.consultar(idEleicao);
+	public ResultadoEleicao consultarResultadoEleicao(Eleicao eleicao) throws Exception{
+		ResultadoEleicao resultado = cadastroResultado.consultar(eleicao);
+		return resultado;
+	}
+	
+	public void processarResultadoEleicao(Eleicao eleicao) throws Exception{
+		ResultadoEleicao resultado = cadastroResultado.consultar(eleicao);
+		
+		Collections.sort(resultado.getResultadoOpcoes(), new Comparator<ResultadoOpcaoVoto>() {
+			public int compare(ResultadoOpcaoVoto res1, ResultadoOpcaoVoto res2){
+				return res1.getTotalVotos() > res2.getTotalVotos()? -1: res1.getTotalVotos() < res2.getTotalVotos()? 1: 0;
+			}
+		});
+		
+		if (eleicao instanceof EleicaoEscolhaUnica) {
+			EleicaoEscolhaUnica eleicaoEscUnica = (EleicaoEscolhaUnica)eleicao;
+			
+			if (eleicaoEscUnica.getEleicaoPai() == null){
+				//Pega o percentual do mais votado e compara com o percentual de vitoria da eleicao
+				if (resultado.getResultadoOpcoes().get(0).getPercentualVotos() < eleicaoEscUnica.getPercentualVitoria()){
+					EleicaoEscolhaUnica eleicaoNova = new EleicaoEscolhaUnica();
+					eleicaoNova.setDescricao("2o. Turno - " + eleicaoEscUnica.getDescricao());
+					eleicaoNova.setEleicaoPai(eleicaoEscUnica);
+					eleicaoNova.setCampoNulo(eleicaoEscUnica.isCampoNulo());
+					eleicaoNova.setMultiplosVotos(eleicaoEscUnica.isMultiplosVotos());
+					eleicaoNova.setPublica(eleicaoEscUnica.isPublica());
+					eleicaoNova.setVisibilidadeVoto(eleicaoEscUnica.isVisibilidadeVoto());
+					eleicaoNova.setEstado(Eleicao.NOVA);
+					incluirEleicao(eleicaoNova);
+					resultado.setEleicao2Turno(eleicaoNova);
+					
+					OpcaoVoto opcao1 = resultado.getResultadoOpcoes().get(0).getOpcaoVoto();
+					opcao1.setId(0);
+					opcao1.setIdEleicao(eleicaoNova.getId());
+					incluirOpcaoVoto(opcao1);
+					OpcaoVoto opcao2 = resultado.getResultadoOpcoes().get(1).getOpcaoVoto();
+					opcao2.setId(0);
+					opcao2.setIdEleicao(eleicaoNova.getId());
+					incluirOpcaoVoto(opcao2);
+				}
+			}
+			eleicaoEscUnica.setEstado(Eleicao.APURADA);
+			eleicaoEscUnica.setDataEncerramento(new Date());
+			cadastroEleicaoEscolhaUnica.alterar(eleicaoEscUnica);
+		}
+		else{
+			EleicaoPontuacao eleicaoPont = (EleicaoPontuacao)eleicao;
+			eleicaoPont.setEstado(Eleicao.APURADA);
+			eleicaoPont.setDataEncerramento(new Date());
+			cadastroEleicaoPontuacao.alterar(eleicaoPont);
+		}
 	}
 }
