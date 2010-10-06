@@ -80,7 +80,7 @@ public class RepositorioEleicao implements IRepositorioBD {
                 		+ "IN_VISIBILIDADE_ABERTA = " + (eleicao.isVisibilidadeVoto()? "1": "0") + ", " 
 						+ "IN_MAIS_DE_UM_VOTO = " + (eleicao.isMultiplosVotos()? "1": "0") + ", " 
 						+ "DT_FIM = " + (eleicao.getDataEncerramento() != null ? "'" + sdt.format(eleicao.getDataEncerramento()) + "'" : "null") + ", " 
-						+ "DT_INICIO = " + (eleicao.getDataAbertura() != null ? "'" + sdt.format(eleicao.getDataAbertura()) + "'" : "null") 
+						+ "DT_INICIO = " + (eleicao.getDataAbertura() != null ? "'" + sdt.format(eleicao.getDataAbertura()) + "'" : "null") + " " 
                 		+ "WHERE ID_ELEICAO = " + codigo + ";";
 	            		
 	            	statement.executeUpdate(sql);

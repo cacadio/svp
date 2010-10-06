@@ -203,7 +203,7 @@ public class RepositorioOpcaoVoto implements IRepositorioBD, IRepositorioGeneric
 				ResultSet rs = null;
 	            try
 	            {
-	            	String sql = "SELECT OPCAO_VOTO.ID_OPCAO_VOTO, OPCAO_VOTO.ELEICAO_ID_ELEICAO,OPCAO_VOTO.DESCRICAO,OPCAO_VOTO.CAMINHO_IMAGEM FROM svp.OPCAO_VOTO WHERE OPCAO_VOTO.ELEICAO_ID_ELEICAO = " + idEleicao;
+	            	String sql = "SELECT OPCAO_VOTO.ID_OPCAO_VOTO, OPCAO_VOTO.ELEICAO_ID_ELEICAO,OPCAO_VOTO.DESCRICAO,OPCAO_VOTO.CAMINHO_IMAGEM FROM OPCAO_VOTO WHERE OPCAO_VOTO.ELEICAO_ID_ELEICAO = " + idEleicao;
 	            	rs = statement.executeQuery(sql);
 	            	
 	                while (rs.next())
