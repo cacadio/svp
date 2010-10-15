@@ -13,6 +13,11 @@ package fbv.com.excecoes;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ExcecaoAtributoInvalido extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ExcecaoAtributoInvalido(String msg) {
 		super(msg);
 	}

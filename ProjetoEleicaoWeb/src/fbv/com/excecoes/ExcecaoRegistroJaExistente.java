@@ -15,6 +15,11 @@ package fbv.com.excecoes;
 public class ExcecaoRegistroJaExistente extends Exception {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1207402407344404265L;
+
 	public ExcecaoRegistroJaExistente(String arg0) {
 		super(arg0);
 		// TODO Auto-generated constructor stub
