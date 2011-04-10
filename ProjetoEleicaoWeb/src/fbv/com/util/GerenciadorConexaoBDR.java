@@ -15,7 +15,7 @@ public class GerenciadorConexaoBDR implements IBancoDeDados {
 	private static final String HOST_PADRAO = "localhost"; 
 	private static final String BD_NAME_PADRAO = "svp"; 
 	private static final String USUARIO_CONEXAO = "root"; 
-	private static final String SENHA_CONEXAO = ""; 
+	private static final String SENHA_CONEXAO = "root"; 
 	private static final String URL_CONEXAO = 
 		"jdbc:mysql://" + HOST_PADRAO + "/" + BD_NAME_PADRAO + "?user=" + USUARIO_CONEXAO + "&password=" + SENHA_CONEXAO;
 	private static final String IND_CONECTA_COM_USUARIO = "IND_CONECTA_COM_USUARIO";
@@ -28,7 +28,7 @@ public class GerenciadorConexaoBDR implements IBancoDeDados {
 	private String urlConexao;
 	private String usuarioConexao;
 	private String senhaConexao;
-	private Hashtable threadsConexoes;
+	private Hashtable<String, Connection> threadsConexoes;
 	private Connector myConnector;
 	
 	private abstract class Connector {
@@ -54,7 +54,7 @@ public class GerenciadorConexaoBDR implements IBancoDeDados {
 	}
 
 	private GerenciadorConexaoBDR() {
-		threadsConexoes = new Hashtable();
+		threadsConexoes = new Hashtable<String, Connection>();
 		carregaParametros();
 		try {
 			Class.forName(nomeDriver).newInstance ();
@@ -102,7 +102,7 @@ public class GerenciadorConexaoBDR implements IBancoDeDados {
 
 	public Connection getConexao(boolean emTransacao) throws ExcecaoAcessoRepositorio {
 		if (emTransacao) {
-			Connection con = (Connection)threadsConexoes.get(Thread.currentThread().getName());
+			Connection con = threadsConexoes.get(Thread.currentThread().getName());
 			if (con == null) {
 				throw new ExcecaoAcessoRepositorio("Transacao nao foi aberta");
 			} else {
