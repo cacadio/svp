@@ -63,16 +63,33 @@
 			</td>
 		</tr>
 		<tr>
-			<th class="td" width="22%">Eleição:</th>	
+			<th class="td" width="22%">Eleições apuradas:</th>	
 			<td>
-				<select id="<%=ServletVoto.ID_REQ_ID_ELEICAO%>" name="<%=ServletVoto.ID_REQ_ID_ELEICAO%>">
-					<option value="0"></option>
 				<%
-				for (Eleicao eleicao : arrayEleicao){
-					%>
-					<option value="<%= eleicao.getId() %>" <%= eleicao.getId() == Integer.parseInt(request.getAttribute(ServletEleicao.ID_REQ_ID_ELEICAO).toString())? "selected=\"selected\"": "" %>><%= eleicao.getDescricao() %></option>
+				
+					if(arrayEleicao != null && !arrayEleicao.isEmpty()){
+					
+				%>
+					<select id="<%=ServletVoto.ID_REQ_ID_ELEICAO%>" name="<%=ServletVoto.ID_REQ_ID_ELEICAO%>">
+					<option value="0"></option>
 					<%
-				}
+						int idEleicao;
+						String Descricao = "";
+						Integer idEleicaoSelecionada = (Integer)request.getAttribute(ServletEleicao.ID_REQ_ID_ELEICAO);
+						for (Eleicao eleicao : arrayEleicao){
+							idEleicao = eleicao.getId();
+							Descricao = eleicao.getDescricao();
+							if(idEleicaoSelecionada != null && idEleicao == idEleicaoSelecionada.intValue()){
+							%>
+								<option value="<%= idEleicao%>" selected> <%=eleicao.getDescricao()%> </option>
+							<%
+							} else {
+							%>
+								<option value="<%= idEleicao%>" > <%=eleicao.getDescricao()%> </option>
+							<%
+							}
+						}
+					}
 				%>
 				</select>
 				<input type="button"  id="botaoConsultar" name="botaoConsultar" onclick="eventoConsultar()" value="Localizar">
