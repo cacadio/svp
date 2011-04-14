@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fbv.com.audio.Som;
 import fbv.com.negocio.Eleicao;
 import fbv.com.negocio.EleicaoEscolhaUnica;
 import fbv.com.negocio.EleicaoPontuacao;
@@ -250,6 +251,7 @@ public class ServletVoto extends HttpServlet implements InterfacePrincipal {
 			}
 
 			fachada.incluirVoto(voto);
+			tocarSom();
 			mensagem = "Voto Cadastrado com Sucesso";
 
 		}else{
@@ -277,6 +279,7 @@ public class ServletVoto extends HttpServlet implements InterfacePrincipal {
 				}
 
 				fachada.incluirVoto(voto);
+				tocarSom();
 				mensagem = "Voto Cadastrado com Sucesso";
 			}
 		}
@@ -333,5 +336,9 @@ public class ServletVoto extends HttpServlet implements InterfacePrincipal {
 		return voto;
 	}
 
-
+	private void tocarSom(){      
+        try{  
+            Som.tocar();
+        }catch(Exception e){e.printStackTrace();}      
+	}
 }

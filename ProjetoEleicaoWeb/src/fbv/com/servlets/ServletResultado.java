@@ -92,7 +92,7 @@ public class ServletResultado extends HttpServlet implements InterfacePrincipal{
 		request.setAttribute(ID_REQ_RESULTADO, resultado);
 
 		request.setAttribute(ID_REQ_ARRAY_LIST_ELEICAO, listarEleicoesApuradas());
-		request.setAttribute(ID_REQ_ID_ELEICAO, idEleicao);
+		request.setAttribute(ID_REQ_ID_ELEICAO, new Integer(idEleicao));
 		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/consultaresultado.jsp");
 		requestDispatcher.forward(request, response);
