@@ -5,7 +5,9 @@
 
 //Usada para setar o foco no campo passado como parâmetro
 function setarFoco(pCampo){
-	pCampo.focus();
+	if (pCampo != null){
+		pCampo.focus();
+	}
 }
 
 //Seta o evento de ProcessarFiltroConsulta
