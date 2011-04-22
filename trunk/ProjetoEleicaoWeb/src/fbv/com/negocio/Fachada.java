@@ -135,6 +135,25 @@ public class Fachada {
 	}
 	
 	/*
+	 * Usuário por Eleição
+	 * **/
+	
+	public void incluirUsuarioPorEleicao(UsuarioPorEleicao pUsuarioPorEleicao) throws SQLException, ExcecaoRegistroJaExistente{
+		controladorEleicao.incluirUsuarioPorEleicao(pUsuarioPorEleicao);
+	}
+	public void excluirUsuarioPorEleicao(UsuarioPorEleicao pUsuarioPorEleicao) throws SQLException, ExcecaoAcessoRepositorio{
+		controladorEleicao.excluirUsuarioPorEleicao(pUsuarioPorEleicao);
+	}
+	
+	public UsuarioPorEleicao consultarUsuarioPorEleicaoPelaChave(UsuarioPorEleicao pUsuarioPorEleicao) throws SQLException, ExcecaoRegistroNaoExistente{
+		return controladorEleicao.consultarUsuarioPorEleicaoPelaChave(pUsuarioPorEleicao);
+	}
+	
+	public ArrayList<UsuarioPorEleicao> consultarTodosUsuarioPorEleicao() throws SQLException, ExcecaoRegistroNaoExistente{
+		return controladorEleicao.consultarTodosUsuarioPorEleicao();
+	}
+	
+	/*
 	 * Voto
 	 * **/
 	

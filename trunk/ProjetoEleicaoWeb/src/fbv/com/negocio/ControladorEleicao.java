@@ -10,25 +10,22 @@ import fbv.com.dados.RepositorioEleicaoEscolhaUnica;
 import fbv.com.dados.RepositorioEleicaoPontuacao;
 import fbv.com.dados.RepositorioOpcaoVoto;
 import fbv.com.dados.RepositorioResultado;
+import fbv.com.dados.RepositorioUsuarioPorEleicao;
 import fbv.com.dados.RepositorioVoto;
 import fbv.com.excecoes.ExcecaoAcessoRepositorio;
 import fbv.com.excecoes.ExcecaoRegistroJaExistente;
 import fbv.com.excecoes.ExcecaoRegistroNaoExistente;
 import fbv.com.util.TipoEleicao;
 
-
 public class ControladorEleicao {
- 
+	// Instância dos Cadastros
 	private CadastroEleicaoEscolhaUnica cadastroEleicaoEscolhaUnica;
-	
 	private CadastroEleicaoPontuacao cadastroEleicaoPontuacao;
-	 
-	private CadastroOpcaoVoto cadastroOpcaoVoto;
-	 
+	private CadastroOpcaoVoto cadastroOpcaoVoto; 
 	private CadastroVoto cadastroVoto;
-	
 	private CadastroResultadoEleicao cadastroResultado;
-	
+	private CadastroUsuarioPorEleicao cadastroUsuarioPorEleicao;
+	// Instância do Controlador
 	private static ControladorEleicao controladorEleicao = null;
 	
 	public static ControladorEleicao getInstancia() throws ExcecaoAcessoRepositorio, SQLException{
@@ -44,12 +41,12 @@ public class ControladorEleicao {
 		cadastroOpcaoVoto = new CadastroOpcaoVoto(new RepositorioOpcaoVoto() );
 		cadastroVoto = new CadastroVoto(new RepositorioVoto());
 		cadastroResultado = new CadastroResultadoEleicao(new RepositorioResultado());
+		cadastroUsuarioPorEleicao = new CadastroUsuarioPorEleicao(new RepositorioUsuarioPorEleicao());
 	}
 	
 	/*
 	 * Eleicao
-	 * **/
-	
+	 * **/	
 	public void incluirEleicao(Eleicao pEleicao) throws SQLException, ExcecaoRegistroJaExistente{
 		if (pEleicao instanceof EleicaoEscolhaUnica)
 			cadastroEleicaoEscolhaUnica.incluir((EleicaoEscolhaUnica)pEleicao);
@@ -160,6 +157,7 @@ public class ControladorEleicao {
 	public ArrayList<Voto> consultarTodosVoto() throws SQLException, ExcecaoRegistroNaoExistente{
 		return cadastroVoto.consultarTodos();
 	}
+
 	
 	public ArrayList<Voto> consultarVotoPorUsuarioEleicao(int idUsuario, int idEleicao) throws SQLException, ExcecaoRegistroNaoExistente{
 		ArrayList<Voto> arrRetornoVotos = new ArrayList<Voto>();
@@ -225,5 +223,29 @@ public class ControladorEleicao {
 			eleicaoPont.setDataEncerramento(new Date());
 			cadastroEleicaoPontuacao.alterar(eleicaoPont);
 		}
+	}
+	
+	/*
+	 * Usuário por Eleição
+	 * **/
+	
+	public void incluirUsuarioPorEleicao(UsuarioPorEleicao pUsuarioPorEleicao) throws SQLException, ExcecaoRegistroJaExistente{
+		cadastroUsuarioPorEleicao.incluir(pUsuarioPorEleicao);
+	}
+	/*
+	public void alterarUsuarioPorEleicao(UsuarioPorEleicao pUsuarioPorEleicao) throws SQLException, ExcecaoAcessoRepositorio{
+		cadastroUsuarioPorEleicao.alterar(pUsuarioPorEleicao);
+	} 
+	*/
+	public void excluirUsuarioPorEleicao(UsuarioPorEleicao pUsuarioPorEleicao) throws SQLException, ExcecaoAcessoRepositorio{
+		cadastroUsuarioPorEleicao.excluir(pUsuarioPorEleicao);
+	}
+	
+	public UsuarioPorEleicao consultarUsuarioPorEleicaoPelaChave(UsuarioPorEleicao pUsuarioPorEleicao) throws SQLException, ExcecaoRegistroNaoExistente{
+		return cadastroUsuarioPorEleicao.consultarPelaChave(pUsuarioPorEleicao);
+	}
+	
+	public ArrayList<UsuarioPorEleicao> consultarTodosUsuarioPorEleicao() throws SQLException, ExcecaoRegistroNaoExistente{
+		return cadastroUsuarioPorEleicao.consultarTodos();
 	}
 }
