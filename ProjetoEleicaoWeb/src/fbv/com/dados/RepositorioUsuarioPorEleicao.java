@@ -46,7 +46,8 @@ public class RepositorioUsuarioPorEleicao implements IRepositorioBD {
                 try
                 {
                 	//TODO: Alterar da maneira mais adequada
-                	statement.executeUpdate("INSERT INTO usuario_por_eleicao VALUES(" + codEleicao + "," + codUsuario + ");");
+                	String comando = "INSERT INTO usuario_por_eleicao(ELEICAO_ID_ELEICAO, USUARIO_ID_USUARIO) VALUES(" + codEleicao + "," + codUsuario + ");";
+                	statement.executeUpdate(comando);
                 }
                 catch (Exception e)
                 {
@@ -115,8 +116,9 @@ public class RepositorioUsuarioPorEleicao implements IRepositorioBD {
 				int codEleicao = usuarioPorEleicao.getIdEleicao();
 				int codUsuario = usuarioPorEleicao.getIdUsuario();	
 				
-            	rs = statement.executeQuery("SELECT  * from usuario_por_eleicao WHERE ELEICAO_ID_ELEICAO = "  + codEleicao + 
-					 "/n AND USUARIO_ID_USUARIO = " + codUsuario + ";");
+				String comando = "SELECT  * from usuario_por_eleicao WHERE ELEICAO_ID_ELEICAO = "  + codEleicao + 
+				 "\n AND USUARIO_ID_USUARIO = " + codUsuario + ";";
+            	rs = statement.executeQuery(comando);
                 
 				if (rs.next())
                 {

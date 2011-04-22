@@ -158,7 +158,12 @@ function validaCheckbox()
 					</td>
 				</tr>
 				<tr>
-					<td class="valordado" height="70%">&nbsp;&nbsp;&nbsp;&nbsp;<img src="<%=pathImage%>" width="120" height="60" border="1"></td>
+					<td class="valordado" height="70%">&nbsp;&nbsp;&nbsp;&nbsp;
+						<!-- img src="<%//=pathImage%>" width="120" height="60" border="1" -->
+						<% if(pathImage != null && !pathImage.trim().equals("")){%>
+							<img src="<%=pathImage%>" width="120" height="120" border="1" >
+						<% } %>
+					</td>
 				</tr>
 				<tr>
 					<td class="valordado" height="20%">
@@ -201,8 +206,12 @@ function validaCheckbox()
 				<tr>
 					<td class="valordado" height="20%"><input type="text" id="descOpcaoVoto" name="<%=ServletOpcaoVoto.ID_REQ_DESCRICAO_OPCAO_VOTO%>" value="<%=descricao%>" readonly="readonly"></td>
 				</tr>
-				<tr>
-					<td class="valordado" height="70%">&nbsp;<img src="<%=pathImage%>" width="120" height="60" border="1" ></td>
+				<tr> 
+					<td class="valordado" height="70%">&nbsp;
+						<% if(pathImage != null && !pathImage.trim().equals("")){%>
+							<img src="<%=pathImage%>" width="120" height="120" border="1" >
+						<% } %>
+					</td>
 				</tr>
 	 		<% }%>
 	 		</table>
@@ -218,7 +227,9 @@ function validaCheckbox()
 	 } 
 	 %>
 		<tr>
-			<td class="linhabotao"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarInclusao()" value="Confirmar"> </td>
+			<td class="">
+				<button id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarInclusao()"><img src="./estilo/btnConfirma.jpg"></button>
+			</td> 
 			<td class="linhabotao"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
 		</tr>
 	<div id="sidebar-bgbtm"></div>
