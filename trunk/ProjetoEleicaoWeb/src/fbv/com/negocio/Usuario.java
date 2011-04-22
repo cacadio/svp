@@ -2,7 +2,7 @@ package fbv.com.negocio;
 
 public class Usuario {
  
-	private int id;
+	private Integer id;
 	
 	private String login;
 	 
@@ -17,7 +17,7 @@ public class Usuario {
 	public Usuario(){
 	}
 	
-	public Usuario(int id){
+	public Usuario(Integer id){
 		this.id = id;
 	}
 
@@ -25,7 +25,7 @@ public class Usuario {
 		this.cpf = cpf;
 	}
 
-	public Usuario(int id, String login, String senha, String nome, String cpf, PerfilUsuario perfilUsuario) {
+	public Usuario(Integer id, String login, String senha, String nome, String cpf, PerfilUsuario perfilUsuario) {
 		super();
 		this.id = id;
 		this.login = login;
@@ -43,11 +43,11 @@ public class Usuario {
 		this.cpf = cpf;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

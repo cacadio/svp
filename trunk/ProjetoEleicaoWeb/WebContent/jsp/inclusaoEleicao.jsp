@@ -8,20 +8,22 @@
 <%@page import="fbv.com.negocio.EleicaoEscolhaUnica"%>
 <%@page import="fbv.com.util.EstadoEleicao"%>
 <%@page import="fbv.com.negocio.EstadoNova"%>
-<%@page import="fbv.com.negocio.EstadoConcluida"%><html>
+<%@page import="fbv.com.negocio.EstadoConcluida"%>
+<%@page import="fbv.com.negocio.Usuario"%><html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Inclusão Perfil Usuário</title>
 	<link rel="stylesheet" type="text/css" href="./estilo/estilo.css">
-	<script src="./js/jquery.js" type="text/javascript" language="javascript"></script>
-	<script type="text/javascript" language="JavaScript" src="./js/jquery.maskedinput.js"></script>
+	<script type="text/javascript" src="./js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="js/jquery.maskedinput.js"></script>
+	<script type="text/javascript" src="js/biblioteca_funcoes_eleicao.js" ></script>
 	<script type="text/javascript">
 		$(function(){
 			$('#<%=ServletEleicao.ID_REQ_DATA_INICIO_ELEICAO%>').mask('99/99/9999',{placeholder:' '});
 			$('#<%=ServletEleicao.ID_REQ_DATA_FIM_ELEICAO%>').mask('99/99/9999',{placeholder:' '});
 		});
 	</script>
-	<script type="text/javascript" src="js/biblioteca_funcoes_eleicao.js" ></script>
+	
 	<link rel="stylesheet" type="text/css" href="./estilo/style.css" media="screen" />
 	
 </head>
@@ -41,10 +43,9 @@
 	function eventoProcessarInclusao(){
 	
 		var msg = '';
-
-		$('input[obrigatorio]').each(function(){
-			if ($(this).val() == ''){
-				msg += ' - ' + $(this).attr('title') + '\n';
+		jQuery('input[obrigatorio]').each(function(){
+			if (jQuery(this).val() == ''){
+				msg += ' - ' + jQuery(this).attr('title') + '\n';
 			}
 		});
 	
@@ -58,23 +59,23 @@
 
 	function exibirCampos(tipo){
 		if (tipo == '1'){
-			$('#trEscolhaUnica').show();
-			$('#trPontuacao').hide();
-			$('input[pontuacao]').each(function(){
-				$(this).removeAttr('obrigatorio');
+			jQuery('#trEscolhaUnica').show();
+			jQuery('#trPontuacao').hide();
+			jQuery('input[pontuacao]').each(function(){
+				jQuery(this).removeAttr('obrigatorio');
 			});
-			$('input[escolhaunica]').each(function(){
-				$(this).attr('obrigatorio', '1');
+			jQuery('input[escolhaunica]').each(function(){
+				jQuery(this).attr('obrigatorio', '1');
 			});
 		}
 		else{
-			$('#trEscolhaUnica').hide();
-			$('#trPontuacao').show();
-			$('input[escolhaunica]').each(function(){
-				$(this).removeAttr('obrigatorio');
+			jQuery('#trEscolhaUnica').hide();
+			jQuery('#trPontuacao').show();
+			jQuery('input[escolhaunica]').each(function(){
+				jQuery(this).removeAttr('obrigatorio');
 			});
-			$('input[pontuacao]').each(function(){
-				$(this).attr('obrigatorio', '1');
+			jQuery('input[pontuacao]').each(function(){
+				jQuery(this).attr('obrigatorio', '1');
 			});
 		}
 	}
@@ -244,9 +245,35 @@
 				</td>
 			</tr>
 		</tbody>
+		
+		<tr>
+			<td class="td">Usuários:</td>
+			<td class="valordado">
+				<select id="<%=ServletEleicao.ID_REQ_ARRAY_LIST_USUARIO%>" name="<%=ServletEleicao.ID_REQ_ARRAY_LIST_USUARIO%>" multiple="true">
+						<option value="0"></option>
+					<%
+					ArrayList<Usuario> arrayUsuario = (ArrayList<Usuario>) request.getAttribute(ServletEleicao.ID_REQ_ARRAY_LIST_USUARIO);					
+					if(arrayUsuario != null && !arrayUsuario.isEmpty()){
+						int idUsuario;
+						String nome = "";
+						for (Usuario usuario : arrayUsuario){
+							idUsuario = usuario.getId();
+							nome = usuario.getNome();
+					%>
+					<option value="<%=idUsuario%>"> <%=nome%> </option>
+					<%
+						}
+					}
+	
+					%>
+				</select>
+			</td>
+		</tr>
+		
 		<tr>
 			<td class="linhabotao" align="center"><input type="button" id="botaoVoltar" name="botaoVoltar" onclick="history.back()" value="Voltar"></td>
 			<td class="linhabotao" align="center"><input type="button" id="botaoConfirmar" name="botaoConfirmar" onclick="eventoProcessarInclusao()" value="Confirmar"> </td>
+			
 		</tr>
 	
 	</div>

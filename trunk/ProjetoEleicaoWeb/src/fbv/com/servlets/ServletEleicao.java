@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +19,8 @@ import fbv.com.negocio.EstadoConcluida;
 import fbv.com.negocio.EstadoIniciada;
 import fbv.com.negocio.EstadoNova;
 import fbv.com.negocio.Fachada;
+import fbv.com.negocio.Usuario;
+import fbv.com.negocio.UsuarioPorEleicao;
 import fbv.com.util.InterfacePrincipal;
 import fbv.com.util.TipoEleicao;
 
@@ -142,11 +145,14 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 			}
 			request.setAttribute(ID_REQ_TIPO_ELEICAO, Integer.parseInt(request.getParameter(ID_REQ_TIPO_ELEICAO)));
 		} else {
-			request.setAttribute(ID_REQ_TIPO_ELEICAO, "");
+			request.setAttribute(ID_REQ_TIPO_ELEICAO, TipoEleicao.ESCOLHA_UNICA.value());
 		}
 
 		String nomeServlet = ID_REQ_NOME_SERVLET_ELEICAO;
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
+		// Monta um array com todos os usuários e e seta no request
+		carregarComboUsuarios(request);
+		// Redireciona para a tela de inclusão
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/inclusaoEleicao.jsp");
 		requestDispatcher.forward(request, response);
 	}
@@ -203,6 +209,9 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 		fachada.incluirEleicao(eleicao);
 		mensagem = "Eleição Cadastrada com Sucesso";
 
+		String[] usuariosDaEleicao = request.getParameterValues(ID_REQ_ARRAY_LIST_USUARIO);
+		incluirUsuariosPorEleicao(usuariosDaEleicao);
+		
 		request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
 		request.setAttribute(ID_REQ_MENSAGEM, mensagem);
 		request.setAttribute(ID_REQ_NOME_SERVLET, nomeServlet);
@@ -451,5 +460,55 @@ public class ServletEleicao extends HttpServlet implements InterfacePrincipal {
 			request.setAttribute(ID_REQ_TIPO_ELEICAO, tipoEleicao.value());
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param request
+	 * @throws Exception
+	 */
+	private void carregarComboUsuarios(HttpServletRequest request) throws Exception {
+		Fachada fachada = Fachada.getInstancia();
+		ArrayList<Usuario> arrayUsuarios = new ArrayList<Usuario>();
+		
+		// consulta todas as opções de voto
+		arrayUsuarios = fachada.consultarTodosUsuario();
+		
+		// Seta a coleção no request
+		request.setAttribute(ID_REQ_ARRAY_LIST_USUARIO, arrayUsuarios);
+	}
+	
+	private void incluirUsuariosPorEleicao(String[] usuarios) throws Exception{
+		Fachada fachada = Fachada.getInstancia();
+		ArrayList<EleicaoEscolhaUnica> arrayEleicaoEU = null;
+		ArrayList<EleicaoPontuacao> arrayEleicaoP = null;
+		UsuarioPorEleicao usuarioPorEleicao = null;
+		int idNovaEleicao = 0;
+		
+		arrayEleicaoEU = Fachada.getInstancia().consultarTodasEleicoes(TipoEleicao.ESCOLHA_UNICA);
+		for (Iterator<EleicaoEscolhaUnica> iterator = arrayEleicaoEU.iterator(); iterator.hasNext();) {
+			EleicaoEscolhaUnica eleicaoEscolhaUnica = iterator.next();
+			if (eleicaoEscolhaUnica.getId() > idNovaEleicao)
+				idNovaEleicao = eleicaoEscolhaUnica.getId();
+		}
+		
+		arrayEleicaoP = Fachada.getInstancia().consultarTodasEleicoes(TipoEleicao.PONTUACAO);
+		for (Iterator<EleicaoPontuacao> iterator = arrayEleicaoP.iterator(); iterator.hasNext();) {
+			EleicaoPontuacao eleicaoPontuacao = iterator.next();
+			if (eleicaoPontuacao.getId() > idNovaEleicao)
+				idNovaEleicao = eleicaoPontuacao.getId();
+		}
+		
+		if(usuarios != null && usuarios.length > 0){
+			for (int i = 0; i < usuarios.length; i++) {
+				if(usuarios[i] != null && !usuarios[i].equals("")){
+					int idUsuario = Integer.valueOf(usuarios[i]).intValue();
+					usuarioPorEleicao = new UsuarioPorEleicao(idNovaEleicao, idUsuario);
+					fachada.incluirUsuarioPorEleicao(usuarioPorEleicao);
+					System.out.println("Usuário de id = " + usuarios[i] + " incluido na eleição de id = " + idNovaEleicao);
+				}
+			}
+			
+		}
+	}
+	
 }
