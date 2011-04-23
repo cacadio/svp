@@ -52,7 +52,7 @@ public class ServletVoto extends HttpServlet implements InterfacePrincipal {
 				} 
 
 			} else {
-				processarFiltroConsulta(request, response);
+				exibirInclusao(request, response);
 			}
 
 		} catch (Exception e) {
@@ -279,9 +279,9 @@ public class ServletVoto extends HttpServlet implements InterfacePrincipal {
 				}
 
 				fachada.incluirVoto(voto);
-				tocarSom();
-				mensagem = "Voto Cadastrado com Sucesso";
 			}
+			tocarSom();
+			mensagem = "Voto Cadastrado com Sucesso";
 		}
 		
 		Eleicao eleicao = new Eleicao(Integer.parseInt(idEleicao));

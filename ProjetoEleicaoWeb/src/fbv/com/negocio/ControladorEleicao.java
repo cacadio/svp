@@ -28,6 +28,8 @@ public class ControladorEleicao {
 	// Instância do Controlador
 	private static ControladorEleicao controladorEleicao = null;
 	
+	private int qtdEleicoesPontuacaoEmpatadas = 1;
+	
 	public static ControladorEleicao getInstancia() throws ExcecaoAcessoRepositorio, SQLException{
 		if(controladorEleicao == null){
 			controladorEleicao = new ControladorEleicao();
@@ -219,12 +221,55 @@ public class ControladorEleicao {
 		}
 		else{
 			EleicaoPontuacao eleicaoPont = (EleicaoPontuacao)eleicao;
+			
+			if (houveEmpate(resultado)){
+				EleicaoPontuacao eleicaoNova = 
+					new EleicaoPontuacao(eleicaoPont.getPontuacaoMaxima(), eleicaoPont.getPontuacaoMinima(), eleicaoPont.getIntervaloPontuacao());
+				eleicaoNova.setDescricao("2o. Turno - " + eleicaoPont.getDescricao());
+				eleicaoNova.setPublica(eleicaoPont.isPublica());
+				eleicaoNova.setVisibilidadeVoto(eleicaoPont.isVisibilidadeVoto());
+				eleicaoNova.setEstado(Eleicao.NOVA);
+				incluirEleicao(eleicaoNova);
+				incluirOpcoesDeVoto(eleicaoNova, resultado);	
+			} 
+			
 			eleicaoPont.setEstado(Eleicao.APURADA);
 			eleicaoPont.setDataEncerramento(new Date());
-			cadastroEleicaoPontuacao.alterar(eleicaoPont);
+			cadastroEleicaoPontuacao.alterar(eleicaoPont);	
 		}
 	}
 	
+	private boolean houveEmpate(ResultadoEleicao resultado){
+		boolean retorno = false;
+		int maiorVotacao = 0;
+		ResultadoOpcaoVoto opcaoComMaiorPontuacao = null;
+		ArrayList<ResultadoOpcaoVoto> opcoes = resultado.getResultadoOpcoes();
+		// Armazena a opcao que teve a maior pontuação
+		for (ResultadoOpcaoVoto resultadoOpcaoVoto : opcoes) {
+			if(resultadoOpcaoVoto.getTotalVotos() > maiorVotacao){
+				maiorVotacao = resultadoOpcaoVoto.getTotalVotos();
+				opcaoComMaiorPontuacao = resultadoOpcaoVoto;
+			}
+		}
+		// Verifica se houve empate
+		for (ResultadoOpcaoVoto resultadoOpcaoVoto : opcoes) {
+			if(!resultadoOpcaoVoto.equals(opcaoComMaiorPontuacao) && resultadoOpcaoVoto.getTotalVotos() == maiorVotacao){
+				qtdEleicoesPontuacaoEmpatadas = qtdEleicoesPontuacaoEmpatadas + 1;
+				retorno = true;
+			}
+		}
+		
+		return retorno;
+	}
+	
+	private void incluirOpcoesDeVoto(EleicaoPontuacao eleicaoNova, ResultadoEleicao resultadoEleicaoAntiga) throws Exception{
+		for (int i = 0; i < qtdEleicoesPontuacaoEmpatadas; i++) {
+			OpcaoVoto opcao = resultadoEleicaoAntiga.getResultadoOpcoes().get(i).getOpcaoVoto();
+			opcao.setId(i);
+			opcao.setIdEleicao(eleicaoNova.getId());
+			incluirOpcaoVoto(opcao);
+		}
+	}
 	/*
 	 * Usuário por Eleição
 	 * **/
