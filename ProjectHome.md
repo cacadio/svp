@@ -1,0 +1,1 @@
+Este projeto será entregue como trabalho da disciplina técnicas de implementação da pós graduação FBV e têm como objetivo produzir um software para criar eleições customizáveis.
